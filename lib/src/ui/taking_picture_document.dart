@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 class TakingPictureDocument extends StatefulWidget {
   final CameraController controller;
   final List<Widget>? children;
-  final Function(File picture, BuildContext dialogContext) nextStep;
+  final Function(File picture, BuildContext? dialogContext) nextStep;
   final Widget? loadingWidgetWhenTakingPicture;
-
+  final Widget? childWidgetTakePicture;
+  final Function()? onLoadingTakingPicture;
 
   TakingPictureDocument({
     Key? key,
@@ -16,6 +17,8 @@ class TakingPictureDocument extends StatefulWidget {
     this.children,
     required this.nextStep,
     this.loadingWidgetWhenTakingPicture,
+    this.childWidgetTakePicture,
+    this.onLoadingTakingPicture,
   }) : super(key: key);
 
   @override
@@ -23,7 +26,7 @@ class TakingPictureDocument extends StatefulWidget {
 }
 
 class _TakingPictureDocumentState extends State<TakingPictureDocument> {
-  late BuildContext dialogContext;
+  BuildContext? dialogContext;
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +59,21 @@ class _TakingPictureDocumentState extends State<TakingPictureDocument> {
         ),
         child: FloatingActionButton(
           onPressed: () async {
-            loadingModal(
-              context: context,
-            );
+            if (widget.onLoadingTakingPicture != null) {
+              widget.onLoadingTakingPicture!();
+            } else {
+              loadingModal(
+                context: context,
+              );
+            }
 
             XFile picture = await widget.controller.takePicture();
             widget.nextStep(File(picture.path), dialogContext);
           },
-          child: Icon(
-            Icons.camera_alt,
-          ),
+          child: widget.childWidgetTakePicture ??
+              Icon(
+                Icons.camera_alt,
+              ),
         ),
       ),
     );

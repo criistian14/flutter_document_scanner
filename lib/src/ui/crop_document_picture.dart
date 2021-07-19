@@ -9,12 +9,12 @@ import 'bottom_navigation.dart';
 
 class CropDocumentPicture extends StatefulWidget {
   final File picture;
-  final Function(File document, Rect? selectedArea, BuildContext dialogContext)
+  final Function(File document, Rect? selectedArea, BuildContext? dialogContext)
       nextStep;
   final Function() backStep;
   final List<Widget>? children;
   final Rect? initialArea;
-  final Widget? loadingWidgetWhenCropPicture;
+  final Function()? onLoadingCroppingPicture;
 
   const CropDocumentPicture({
     Key? key,
@@ -23,7 +23,7 @@ class CropDocumentPicture extends StatefulWidget {
     required this.backStep,
     this.children,
     this.initialArea,
-    this.loadingWidgetWhenCropPicture,
+    this.onLoadingCroppingPicture,
   }) : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class _CropDocumentPictureState extends State<CropDocumentPicture> {
     MediaQuery.of(context).size.height - 10,
   );
   Rect? newArea;
-  late BuildContext dialogContext;
+  BuildContext? dialogContext;
 
   @override
   void initState() {
@@ -70,12 +70,14 @@ class _CropDocumentPictureState extends State<CropDocumentPicture> {
       child: Container(
         width: double.infinity,
         height: double.infinity,
+        color: Colors.black,
         child: Stack(
           fit: StackFit.expand,
           children: [
             Crop(
               controller: _cropController,
               image: widget.picture.readAsBytesSync(),
+              baseColor: Colors.black,
               onMoved: (Rect rect) {
                 newArea = rect;
               },
@@ -112,7 +114,14 @@ class _CropDocumentPictureState extends State<CropDocumentPicture> {
   }
 
   void _cropDocument() async {
-    loadingModal(context: context);
+    if (widget.onLoadingCroppingPicture != null) {
+      widget.onLoadingCroppingPicture!();
+    } else {
+      loadingModal(
+        context: context,
+      );
+    }
+
     _cropController.crop();
   }
 
@@ -124,9 +133,6 @@ class _CropDocumentPictureState extends State<CropDocumentPicture> {
       barrierDismissible: false,
       builder: (context) {
         dialogContext = context;
-        if (widget.loadingWidgetWhenCropPicture != null) {
-          return widget.loadingWidgetWhenCropPicture!;
-        }
 
         return AlertDialog(
           title: Text(

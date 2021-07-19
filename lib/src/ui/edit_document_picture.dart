@@ -13,15 +13,15 @@ import 'item_filter.dart';
 class EditDocumentPicture extends StatefulWidget {
   final File picture;
   final Function() backStep;
-  final Function(File document, BuildContext dialogContext) returnDocument;
-  final Widget? loadingWidgetWhenEditingPicture;
+  final Function(File document, BuildContext? dialogContext) returnDocument;
+  final Function()? onLoadingSavingDocument;
 
   const EditDocumentPicture({
     Key? key,
     required this.picture,
     required this.backStep,
     required this.returnDocument,
-    this.loadingWidgetWhenEditingPicture,
+    this.onLoadingSavingDocument,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class EditDocumentPicture extends StatefulWidget {
 
 class _EditDocumentPictureState extends State<EditDocumentPicture> {
   File? document;
-  late BuildContext dialogContext;
+  BuildContext? dialogContext;
   late Uint8List _imageBytes;
   FilterDocument _filterDocument = FilterDocument.original;
 
@@ -138,7 +138,13 @@ class _EditDocumentPictureState extends State<EditDocumentPicture> {
                   },
                   onNext: () async {
                     if (document != null) {
-                      loadingModal(context: context);
+                      if (widget.onLoadingSavingDocument != null) {
+                        widget.onLoadingSavingDocument!();
+                      } else {
+                        loadingModal(
+                          context: context,
+                        );
+                      }
 
                       imageCache!.clear();
                       final appDir = await getTemporaryDirectory();
@@ -165,9 +171,6 @@ class _EditDocumentPictureState extends State<EditDocumentPicture> {
       barrierDismissible: false,
       builder: (context) {
         dialogContext = context;
-        if (widget.loadingWidgetWhenEditingPicture != null) {
-          return widget.loadingWidgetWhenEditingPicture!;
-        }
 
         return AlertDialog(
           title: Text(

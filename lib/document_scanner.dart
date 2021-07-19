@@ -17,9 +17,12 @@ class DocumentScanner extends StatefulWidget {
   final Function(DocumentEvent)? sendEvents;
   final CameraController cameraController;
   final Function(File document) onSaveDocument;
-  final Widget? loadingWidgetWhenTakingPicture;
-  final Widget? loadingWidgetWhenCropPicture;
-  final Widget? loadingWidgetWhenEditingPicture;
+  final Widget? childWidgetTakePicture;
+  final Function()? onLoadingTakingPicture;
+  final Function()? onTakePicture;
+  final Function()? onLoadingCroppingPicture;
+  final Function()? onCroppedPicture;
+  final Function()? onLoadingSavingDocument;
 
   const DocumentScanner({
     Key? key,
@@ -28,9 +31,12 @@ class DocumentScanner extends StatefulWidget {
     this.sendEvents,
     required this.cameraController,
     required this.onSaveDocument,
-    this.loadingWidgetWhenTakingPicture,
-    this.loadingWidgetWhenCropPicture,
-    this.loadingWidgetWhenEditingPicture,
+    this.childWidgetTakePicture,
+    this.onLoadingTakingPicture,
+    this.onTakePicture,
+    this.onLoadingCroppingPicture,
+    this.onCroppedPicture,
+    this.onLoadingSavingDocument,
   }) : super(key: key);
 
   @override
@@ -60,15 +66,23 @@ class _DocumentScannerState extends State<DocumentScanner> {
         return TakingPictureDocument(
           controller: widget.cameraController,
           children: widget.childrenTakingPicture,
-          loadingWidgetWhenTakingPicture: widget.loadingWidgetWhenTakingPicture,
-          nextStep: (File picture, BuildContext dialogContext) async {
-            _selectedArea = await DocumentUtils.checkIsDocument(picture);
+          onLoadingTakingPicture: widget.onLoadingTakingPicture,
+          childWidgetTakePicture: widget.childWidgetTakePicture,
+          nextStep: (File picture, BuildContext? dialogContext) async {
+            // _selectedArea = await DocumentUtils.findContours(picture);
 
             setState(() {
               _picture = picture;
               _stateDocument = StateDocument.cropDocumentPicture;
-              Navigator.pop(dialogContext);
             });
+
+            if (dialogContext != null) {
+              Navigator.pop(dialogContext);
+            }
+
+            if (widget.onTakePicture != null) {
+              widget.onTakePicture!();
+            }
           },
         );
 
@@ -76,18 +90,25 @@ class _DocumentScannerState extends State<DocumentScanner> {
         return CropDocumentPicture(
           picture: _picture,
           initialArea: _selectedArea,
-          loadingWidgetWhenCropPicture: widget.loadingWidgetWhenCropPicture,
+          onLoadingCroppingPicture: widget.onLoadingCroppingPicture,
           nextStep: (
             File document,
             Rect? selectedArea,
-            BuildContext dialogContext,
+            BuildContext? dialogContext,
           ) {
             setState(() {
               _document = document;
               _selectedArea = selectedArea;
               _stateDocument = StateDocument.editingDocumentPicture;
-              Navigator.pop(dialogContext);
             });
+
+            if (dialogContext != null) {
+              Navigator.pop(dialogContext);
+            }
+
+            if (widget.onCroppedPicture != null) {
+              widget.onCroppedPicture!();
+            }
           },
           backStep: () {
             setState(() {
@@ -99,15 +120,17 @@ class _DocumentScannerState extends State<DocumentScanner> {
       case StateDocument.editingDocumentPicture:
         return EditDocumentPicture(
           picture: _document,
-          loadingWidgetWhenEditingPicture:
-              widget.loadingWidgetWhenEditingPicture,
+          onLoadingSavingDocument: widget.onLoadingSavingDocument,
           backStep: () {
             setState(() {
               _stateDocument = StateDocument.cropDocumentPicture;
             });
           },
-          returnDocument: (File document, BuildContext dialogContext) {
-            Navigator.pop(dialogContext);
+          returnDocument: (File document, BuildContext? dialogContext) {
+            if (dialogContext != null) {
+              Navigator.pop(dialogContext);
+            }
+
             widget.onSaveDocument(document);
           },
         );

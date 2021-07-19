@@ -7,7 +7,7 @@ import 'package:opencv/core/core.dart';
 import 'package:opencv/opencv.dart';
 
 class DocumentUtils {
-  static Future<Rect?> checkIsDocument(File picture) async {
+  static Future<Rect?> findContours(File picture) async {
     Rect? initialArea;
 
     ui.Image decodedImage = await decodeImageFromList(
