@@ -15,9 +15,8 @@ dependencies:
   crop_your_image: ^0.5.3
   path_provider: ^2.0.2
   opencv:
-    path: ../flutter_opencv
-#    git:
-#      url: git://github.com/criistian14/flutter_opencv.git
+    git:
+      url: git://github.com/criistian14/flutter_opencv.git
   tflite_flutter: ^0.9.0
   tflite_flutter_helper: ^0.2.1
 

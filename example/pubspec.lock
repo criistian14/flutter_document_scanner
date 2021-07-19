@@ -154,9 +154,11 @@ packages:
   opencv:
     dependency: transitive
     description:
-      path: "../../flutter_opencv"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "060614c9e798343c1d35ba5200fe8be5d3654bea"
+      url: "git://github.com/criistian14/flutter_opencv.git"
+    source: git
     version: "1.0.4"
   path:
     dependency: transitive
