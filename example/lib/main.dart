@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/document_scanner.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter/material.dart';
 
 void main() {
