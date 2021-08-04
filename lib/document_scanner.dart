@@ -3,18 +3,16 @@ library flutter_document_scanner;
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'src/ui/crop_document_picture.dart';
-import 'src/ui/edit_document_picture.dart';
-import 'src/utils/document.dart';
 import 'package:flutter/material.dart';
 
 import 'src/types/types.dart';
+import 'src/ui/crop_document_picture.dart';
+import 'src/ui/edit_document_picture.dart';
 import 'src/ui/taking_picture_document.dart';
 
 class DocumentScanner extends StatefulWidget {
   final CameraLensDirection initialCameraLensDirection;
   final List<Widget>? childrenTakingPicture;
-  final Function(DocumentEvent)? sendEvents;
   final CameraController cameraController;
   final Function(File document) onSaveDocument;
   final Widget? childWidgetTakePicture;
@@ -28,7 +26,6 @@ class DocumentScanner extends StatefulWidget {
     Key? key,
     this.initialCameraLensDirection = CameraLensDirection.back,
     this.childrenTakingPicture,
-    this.sendEvents,
     required this.cameraController,
     required this.onSaveDocument,
     this.childWidgetTakePicture,

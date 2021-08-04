@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:document_scanner/src/types/filter_document.dart';
-import 'package:document_scanner/src/utils/document.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../types/filter_document.dart';
+import '../utils/document.dart';
 import 'bottom_navigation.dart';
 import 'item_filter.dart';
 

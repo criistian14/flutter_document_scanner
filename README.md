@@ -14,7 +14,7 @@ Import libraries.
 
 ```dart
 import 'package:camera/camera.dart';
-import 'package:document_scanner/document_scanner.dart';
+import 'package:flutter_document_scanner/document_scanner.dart';
 ```
 
 Initialize the camera controller
