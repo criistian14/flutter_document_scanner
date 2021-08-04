@@ -1,11 +1,11 @@
-library document_scanner;
+library flutter_document_scanner;
 
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:document_scanner/src/ui/crop_document_picture.dart';
-import 'package:document_scanner/src/ui/edit_document_picture.dart';
-import 'package:document_scanner/src/utils/document.dart';
+import 'src/ui/crop_document_picture.dart';
+import 'src/ui/edit_document_picture.dart';
+import 'src/utils/document.dart';
 import 'package:flutter/material.dart';
 
 import 'src/types/types.dart';
