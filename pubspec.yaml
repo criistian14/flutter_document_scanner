@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  camera: ^0.8.1+5
+  camera: ^0.5.8+2
   crop_your_image: ^0.5.3
   path_provider: ^2.0.2
   opencv_4: ^1.0.0

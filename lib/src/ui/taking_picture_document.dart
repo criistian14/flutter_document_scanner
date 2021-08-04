@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TakingPictureDocument extends StatefulWidget {
   final CameraController controller;
@@ -67,8 +68,10 @@ class _TakingPictureDocumentState extends State<TakingPictureDocument> {
               );
             }
 
-            XFile picture = await widget.controller.takePicture();
-            widget.nextStep(File(picture.path), dialogContext);
+            final appDir = await getTemporaryDirectory();
+            File picture = File('${appDir.path}/picture_taken.jpg');
+            await widget.controller.takePicture(picture.path);
+            widget.nextStep(picture, dialogContext);
           },
           child: widget.childWidgetTakePicture ??
               Icon(

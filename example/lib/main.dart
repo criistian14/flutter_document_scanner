@@ -19,14 +19,14 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  CameraController? controller;
+  CameraController controller;
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       enableAudio: false,
     );
 
-    controller!.initialize().then((_) {
+    controller.initialize().then((_) {
       if (!mounted) {
         return;
       }
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: (controller != null)
               ? DocumentScanner(
             onSaveDocument: (File document) {},
-            cameraController: controller!,
+            cameraController: controller,
           )
               : Container(),
         ),
