@@ -69,7 +69,7 @@ class _TakingPictureDocumentState extends State<TakingPictureDocument> {
             }
 
             final appDir = await getTemporaryDirectory();
-            File picture = File('${appDir.path}/picture_taken.jpg');
+            File picture = File('${appDir.path}/${DateTime.now()}.jpg');
             await widget.controller.takePicture(picture.path);
             widget.nextStep(picture, dialogContext);
           },

@@ -148,7 +148,7 @@ class _EditDocumentPictureState extends State<EditDocumentPicture> {
 
                       imageCache!.clear();
                       final appDir = await getTemporaryDirectory();
-                      File file = File('${appDir.path}/document_edited.jpg');
+                      File file = File('${appDir.path}/${DateTime.now()}.jpg');
                       await file.writeAsBytes(_imageBytes);
 
                       widget.returnDocument(file, dialogContext);

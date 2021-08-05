@@ -85,7 +85,7 @@ class _CropDocumentPictureState extends State<CropDocumentPicture> {
               onCropped: (Uint8List bytes) async {
                 imageCache!.clear();
                 final appDir = await getTemporaryDirectory();
-                File file = File('${appDir.path}/document.jpg');
+                File file = File('${appDir.path}/${DateTime.now()}.jpg');
                 await file.writeAsBytes(bytes);
 
                 print("=================================================");

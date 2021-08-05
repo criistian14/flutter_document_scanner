@@ -18,7 +18,6 @@ class DocumentUtils {
     print("=================================================");
     await Future.delayed(Duration(seconds: 2));
 
-
     //
     // // var res = await ImgProc.cvtColor(
     // //   picture.readAsBytesSync(),
@@ -127,7 +126,7 @@ class DocumentUtils {
 
   static Future<Uint8List?> grayScale(Uint8List picture) async {
     final appDir = await getTemporaryDirectory();
-    File pictureFile = File('${appDir.path}/image_open_cv.jpg');
+    File pictureFile = File('${appDir.path}/${DateTime.now()}.jpg');
     await pictureFile.writeAsBytes(picture);
 
     var res = await Cv2.cvtColor(
@@ -146,7 +145,7 @@ class DocumentUtils {
 
   static Future<Uint8List?> eco(Uint8List picture) async {
     final appDir = await getTemporaryDirectory();
-    File pictureFile = File('${appDir.path}/image_open_cv.jpg');
+    File pictureFile = File('${appDir.path}/${DateTime.now()}.jpg');
     await pictureFile.writeAsBytes(picture);
 
     var res = await Cv2.gaussianBlur(
