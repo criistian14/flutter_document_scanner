@@ -1,7 +1,17 @@
 # Flutter Document Scanner
 
+
+<p align="center">
+<a href="https://pub.dev/packages/flutter_document_scanner"><img src="https://img.shields.io/pub/v/flutter_document_scanner.svg" alt="Pub"></a>
+<a href="https://github.com/criistian14/flutter_document_scanner/actions"><img src="https://github.com/criistian14/flutter_document_scanner/actions/workflows/main.yml/badge.svg" alt="build"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+</p>
+
+
+
 A Flutter plugin that allows the management of taking, cropping and applying filters to an image, using
 the [Camera](https://pub.dev/packages/camera) plugin.
+
 
 ## Usage
 
