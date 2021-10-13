@@ -118,7 +118,7 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   void _changeFilter(FilterDocument filter, Uint8List bytes) {
     bytesPictureWithFilter = bytes;
     _streamPictureWithFilter.add(bytes);
-    _streamFilterDocument.add(FilterDocument.original);
+    _streamFilterDocument.add(filter);
   }
 
   @override
