@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           width: double.infinity,
           height: double.infinity,
           child: DocumentScanner(
-            documentScannerController: _documentScannerCtrl,
+            controller: _documentScannerCtrl,
             showButtonTakePicture: false,
             showDefaultBottomNavigation: false,
             cropColorMask: Colors.white.withOpacity(0.5),

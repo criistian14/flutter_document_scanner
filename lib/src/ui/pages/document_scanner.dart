@@ -1,7 +1,7 @@
 part of '../../../flutter_document_scanner.dart';
 
 class DocumentScanner extends StatefulWidget {
-  final DocumentScannerControllerInterface documentScannerController;
+  final DocumentScannerControllerInterface controller;
 
   final bool showDefaultBottomNavigation;
   final bool showDefaultDialogs;
@@ -32,7 +32,7 @@ class DocumentScanner extends StatefulWidget {
 
   const DocumentScanner({
     Key key,
-    this.documentScannerController,
+    this.controller,
     this.showDefaultBottomNavigation = true,
     this.showDefaultDialogs = true,
     this.initialCameraLensDirection = CameraLensDirection.back,
@@ -78,9 +78,9 @@ class _DocumentScannerState extends State<DocumentScanner> {
   @override
   void initState() {
     super.initState();
-    // Replace controller with the widget.documentScannerController
-    if (widget.documentScannerController != null) {
-      _documentScannerCtrl = widget.documentScannerController;
+    // Replace controller with the widget.controller
+    if (widget.controller != null) {
+      _documentScannerCtrl = widget.controller;
     }
 
     _documentScannerCtrl.cropController = _cropController;
