@@ -1,4 +1,0 @@
-enum DocumentEvent {
-  ///
-  takePicture
-}

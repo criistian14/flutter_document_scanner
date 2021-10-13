@@ -8,10 +8,10 @@ class ItemFilter extends StatelessWidget {
   final Function() onTap;
 
   const ItemFilter({
-    Key? key,
-    required this.title,
+    Key key,
+    @required this.title,
     this.active = false,
-    required this.onTap,
+    @required this.onTap,
   }) : super(key: key);
 
   @override

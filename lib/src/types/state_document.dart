@@ -1,13 +1,22 @@
 enum StateDocument {
   /// Camera preview is displayed
-  takingPictureDocument,
+  takePictureDocument,
+
+  /// When the picture is being processed
+  loadingTakePictureDocument,
 
   /// View crop the document
   cropDocumentPicture,
 
-  /// View with options to edit the document
-  editingDocumentPicture,
+  /// When the document is being cropped
+  loadingCropDocumentPicture,
 
-  /// View validating if the document is OK
-  documentValidation,
+  /// View with options to edit the document
+  editDocumentPicture,
+
+  /// When applying the filter to the document
+  loadingEditDocumentPicture,
+
+  /// When complete save document
+  saveDocument,
 }

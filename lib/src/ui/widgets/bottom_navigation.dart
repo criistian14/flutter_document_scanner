@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui show ImageFilter;
 
 class BottomNavigation extends StatelessWidget {
-  final Function()? onBack;
-  final Function()? onNext;
-  final IconData? iconBack;
-  final IconData? iconNext;
+  final Function() onBack;
+  final Function() onNext;
+  final IconData iconBack;
+  final IconData iconNext;
 
   const BottomNavigation({
-    Key? key,
+    Key key,
     this.onBack,
     this.onNext,
     this.iconBack,
@@ -23,10 +23,10 @@ class BottomNavigation extends StatelessWidget {
         child: Container(
           height: 60,
           width: double.infinity,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
-          color: Color(0xFF040404).withOpacity(0.7),
+          color: const Color(0xFF040404).withOpacity(0.7),
           child: BackdropFilter(
             filter: ui.ImageFilter.blur(
               sigmaX: 4.0,
@@ -41,7 +41,7 @@ class BottomNavigation extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Icon(
                         iconBack ?? Icons.arrow_back,
                         color: Colors.white,
@@ -58,7 +58,7 @@ class BottomNavigation extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Icon(
                         iconNext ?? Icons.arrow_forward,
                         color: Colors.white,

@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: https://github.com/criistian14/flutter_document_scanner
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,9 +12,13 @@ dependencies:
     sdk: flutter
 
   camera: ^0.5.8+2
-  crop_your_image: ^0.5.3
-  path_provider: ^2.0.2
-  opencv_4: ^1.0.0
+  path_provider: ^2.0.4
+  crop_your_image:
+    git:
+      url: https://github.com/criistian14/crop_your_image.git
+  opencv_4:
+    git:
+      url: https://github.com/criistian14/opencv_4.git
 
 dev_dependencies:
   flutter_test:
@@ -22,5 +26,5 @@ dev_dependencies:
 
 flutter:
 
-   assets:
-     - assets/
+  assets:
+    - assets/

@@ -3,7 +3,7 @@ enum FilterDocument {
   original,
 
   /// Gray Scale
-  grayScale,
+  gray,
 
   /// Eco
   eco,
