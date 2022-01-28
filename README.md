@@ -1,128 +1,15 @@
-# Flutter Document Scanner
+# flutter_document_scanner
 
+A new flutter plugin project.
 
-<p align="center">
-<a href="https://pub.dev/packages/flutter_document_scanner"><img src="https://img.shields.io/pub/v/flutter_document_scanner.svg" alt="Pub"></a>
-<a href="https://github.com/criistian14/flutter_document_scanner/actions"><img src="https://github.com/criistian14/flutter_document_scanner/actions/workflows/main.yml/badge.svg" alt="build"></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
-</p>
+## Getting Started
 
+This project is a starting point for a Flutter
+[plug-in package](https://flutter.dev/developing-packages/),
+a specialized package that includes platform-specific implementation code for
+Android and/or iOS.
 
-
-A Flutter plugin that allows the management of taking, cropping and applying filters to an image, using
-the [Camera](https://pub.dev/packages/camera) plugin.
-
-
-## Usage
-
-First, add camera and flutter_document_scanner as
-a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).
-
-## Example
-
-Import libraries.
-
-```dart
-import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/flutter_document_scanner.dart';
-```
-
-Initialize the camera controller
-
-```dart
-  @override
-void initState() {
-  super.initState();
-
-  _initCamera();
-}
-
-void _initCamera() async {
-  List<CameraDescription> cameras = await availableCameras();
-  _cameraController = CameraController(
-    cameras.first,
-    ResolutionPreset.high,
-    enableAudio: false,
-  );
-
-  _cameraController.initialize().then((_) {
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {});
-  });
-}
-```
-
-Display widget full screen
-
-```dart
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(
-        "Document Scanner",
-      ),
-      centerTitle: true,
-      elevation: 0,
-    ),
-    body: SafeArea(
-      child: (_cameraController != null)
-          ? DocumentScanner(
-        cameraController: _cameraController,
-        childWidgetTakePicture: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.camera),
-        ),
-        onLoadingTakingPicture: _onLoadingTakingPicture,
-        onTakePicture: _onTakePicture,
-        onLoadingCroppingPicture: _onLoadingCroppingPicture,
-        onCroppedPicture: _onCroppedPicture,
-        onLoadingSavingDocument: _onLoadingSavingDocument,
-        onSaveDocument: _onSaveDocument,
-      )
-          : Container(),
-    ),
-  );
-}
-```
-
-Listen events, only required is onSaveDocument
-
-```dart
-void _onLoadingTakingPicture() {
-  // TODO: show modal when taking picture, or other function
-}
-
-void _onTakePicture() {
-  // TODO: hide modal when take picture, or other function
-}
-
-void _onLoadingCroppingPicture() {
-  // TODO: show modal when cropping picture, or other function
-}
-
-void _onCroppedPicture() {
-  // TODO: hide modal when crop picture, or other function
-}
-
-void _onLoadingSavingDocument() {
-  // TODO: show modal when saving document, or other function
-}
-
-void _onSaveDocument(File document) async {
-  // TODO: when save
-}
-```
-
-
-
-
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
 

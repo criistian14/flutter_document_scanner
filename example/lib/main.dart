@@ -1,82 +1,56 @@
-import 'dart:io';
-
-import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  CameraController? controller;
+class _MyAppState extends State<MyApp> {
+  final _controller = DocumentScannerController();
 
   @override
   void initState() {
     super.initState();
 
-    initCamera();
-  }
+    _controller.statusTakePhotoPage.listen((event) {
+      switch (event) {
+        case AppStatus.initial:
+          print("CURRENT STATUS: AppStatus.initial");
+          break;
 
-  void initCamera() async {
-    List<CameraDescription> cameras = await availableCameras();
+        case AppStatus.loading:
+          print("CURRENT STATUS: AppStatus.loading");
+          break;
 
-    CameraDescription camera = cameras.firstWhere(
-          (camera) => camera.lensDirection == CameraLensDirection.back,
-      orElse: () => cameras.first,
-    );
+        case AppStatus.success:
+          print("CURRENT STATUS: AppStatus.success");
+          break;
 
-    controller = CameraController(
-      camera,
-      ResolutionPreset.high,
-      enableAudio: false,
-    );
-
-    controller!.initialize().then((_) {
-      if (!mounted) {
-        return;
+        case AppStatus.failure:
+          print("CURRENT STATUS: AppStatus.failure");
+          break;
       }
-
-      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Scan Document",
-        ),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: (controller != null)
-              ? DocumentScanner(
-            onSaveDocument: (File document) {},
-            cameraController: controller!,
-          )
-              : Container(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: DocumentScanner(
+          controller: _controller,
+          generalStyles: const GeneralStyles(
+            baseColor: Colors.white,
+          ),
+          takePhotoDocumentStyle: TakePhotoDocumentStyle(),
         ),
       ),
     );
