@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  camera: ^0.5.8+2
+  camera: ^0.9.4+8
   path_provider: ^2.0.4
   crop_your_image:
     git:
