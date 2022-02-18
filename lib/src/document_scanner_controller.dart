@@ -16,6 +16,8 @@ abstract class DocumentScannerControllerInterface {
 
   Stream<Uint8List> get pictureWithFilter;
 
+  Stream<bool> get flash;
+
   void changeStateDocument(StateDocument state);
 
   Future<void> takePicture();
@@ -31,6 +33,8 @@ abstract class DocumentScannerControllerInterface {
   Future<void> applyEcoFilter();
 
   Future<void> save();
+
+  Future<void> toggleFlash();
 
   void backStep();
 
@@ -59,6 +63,8 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   StreamController<Uint8List> _streamPictureWithFilter =
       StreamController.broadcast();
 
+  StreamController<bool> _streamFlash = StreamController.broadcast();
+
   @override
   Stream<StateDocument> get stateDocument => _streamStateDocument.stream;
 
@@ -68,9 +74,20 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   @override
   Stream<Uint8List> get pictureWithFilter => _streamPictureWithFilter.stream;
 
+  @override
+  Stream<bool> get flash => _streamFlash.stream;
+
   File get picture => _picture;
 
   File get pictureCropped => _pictureCropped;
+
+  @override
+  void dispose() {
+    _streamStateDocument?.close();
+    _streamFilterDocument?.close();
+    _streamPictureWithFilter?.close();
+    _streamFlash?.close();
+  }
 
   @override
   void changeStateDocument(StateDocument state) {
@@ -187,9 +204,15 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   }
 
   @override
-  void dispose() {
-    _streamStateDocument?.close();
-    _streamFilterDocument?.close();
-    _streamPictureWithFilter?.close();
+  Future<void> toggleFlash() async {
+    assert(_cameraController != null);
+    if (_cameraController.value.flashMode == FlashMode.off) {
+      await _cameraController.setFlashMode(FlashMode.always);
+      _streamFlash.add(true);
+      return;
+    }
+
+    await _cameraController.setFlashMode(FlashMode.off);
+    _streamFlash.add(false);
   }
 }

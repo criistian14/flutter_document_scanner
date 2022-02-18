@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _documentScannerCtrl = DocumentScannerController();
+  bool _flashOn = false;
 
   @override
   void initState() {
@@ -58,6 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // TODO: When save document and call onSaveDocument
           break;
       }
+    });
+
+    _documentScannerCtrl.flash.listen((flash) {
+      setState(() {
+        _flashOn = flash;
+      });
     });
   }
 
@@ -90,6 +97,34 @@ class _MyHomePageState extends State<MyHomePage> {
             baseColor: const Color(0xFF303030),
             childBottomTakePicture: _CustomBottomTakePicture(
               documentScannerCtrl: _documentScannerCtrl,
+            ),
+            childTopTakePicture: Container(
+              color: const Color(0xFF303030),
+              width: double.infinity,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: 20,
+                    bottom: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _flashOn ? Colors.yellow : Colors.grey,
+                      width: 3,
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: _documentScannerCtrl.toggleFlash,
+                    child: Icon(
+                      _flashOn ? Icons.flash_on : Icons.flash_off,
+                      color: _flashOn ? Colors.yellow : Colors.grey,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
             ),
             childBottomCropPicture: _CustomBottomCropPicture(
               documentScannerCtrl: _documentScannerCtrl,
