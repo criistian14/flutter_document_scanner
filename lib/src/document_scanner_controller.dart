@@ -206,7 +206,7 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   @override
   Future<void> toggleFlash() async {
     assert(_cameraController != null);
-    if (_cameraController.value.flashMode == FlashMode.off) {
+    if (_cameraController.value.flashMode != FlashMode.always) {
       await _cameraController.setFlashMode(FlashMode.always);
       _streamFlash.add(true);
       return;
