@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 @immutable
 class GeneralStyles {
-  final bool showDefaultBottomNavigation;
-  final bool showDefaultDialogs;
+  final bool hideDefaultBottomNavigation;
+  final bool hideDefaultDialogs;
   final Color baseColor;
 
   const GeneralStyles({
-    this.showDefaultBottomNavigation = true,
-    this.showDefaultDialogs = true,
+    this.hideDefaultBottomNavigation = false,
+    this.hideDefaultDialogs = false,
     this.baseColor = Colors.white,
   });
 }

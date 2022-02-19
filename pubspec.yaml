@@ -11,9 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  camera: ^0.8.1+5
-  crop_your_image: ^0.5.3
-  path_provider: ^2.0.2
+  camera: ^0.9.4+8
+  path_provider: ^2.0.8
   bloc: ^8.0.2
   flutter_bloc: ^8.0.1
   equatable: ^2.0.3
@@ -21,7 +20,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^1.0.4
   bloc_test: ^9.0.2
 
 # The following section is specific to Flutter.
@@ -29,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.flutter_document_scanner
+        package: com.christian.flutter_document_scanner
         pluginClass: FlutterDocumentScannerPlugin
       ios:
         pluginClass: FlutterDocumentScannerPlugin

@@ -5,6 +5,8 @@ import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
+import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document.dart';
+import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/dialogs.dart';
 import 'package:flutter_document_scanner/src/utils/general_styles.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
@@ -16,7 +18,7 @@ class DocumentScanner extends StatelessWidget {
   final DocumentScannerController? controller;
 
   ///
-  final GeneralStyles? generalStyles;
+  final GeneralStyles generalStyles;
 
   ///
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
@@ -28,25 +30,31 @@ class DocumentScanner extends StatelessWidget {
   ///
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
+  ///
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
+
   const DocumentScanner({
     Key? key,
     this.controller,
-    this.generalStyles,
+    this.generalStyles = const GeneralStyles(),
     this.pageTransitionBuilder,
     this.initialCameraLensDirection = CameraLensDirection.back,
     this.resolutionCamera = ResolutionPreset.high,
     this.takePhotoDocumentStyle = const TakePhotoDocumentStyle(),
+    this.cropPhotoDocumentStyle = const CropPhotoDocumentStyle(),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Dialogs dialogs = Dialogs();
+
     DocumentScannerController _controller = DocumentScannerController();
     if (controller != null) {
       _controller = controller!;
     }
 
     return BlocProvider(
-      create: (BuildContext context) => AppBloc()
+      create: (BuildContext context) => _controller.bloc
         ..add(
           AppCameraInitialized(
             cameraLensDirection: initialCameraLensDirection,
@@ -57,12 +65,14 @@ class DocumentScanner extends StatelessWidget {
         create: (context) => _controller,
         child: MultiBlocListener(
           listeners: [
+            // ? Show default dialogs in Take Photo
             BlocListener<AppBloc, AppState>(
               listenWhen: (previous, current) =>
                   current.statusTakePhotoPage != previous.statusTakePhotoPage,
               listener: (context, state) {
+                if (generalStyles.hideDefaultDialogs) return;
+
                 if (state.statusTakePhotoPage == AppStatus.loading) {
-                  final Dialogs dialogs = Dialogs();
                   dialogs.defaultDialog(context, "Taking picture");
                 }
 
@@ -73,10 +83,11 @@ class DocumentScanner extends StatelessWidget {
             ),
           ],
           child: Container(
-            color: generalStyles?.baseColor,
+            color: generalStyles.baseColor,
             child: _View(
-              takePhotoDocumentStyle: takePhotoDocumentStyle,
               pageTransitionBuilder: pageTransitionBuilder,
+              takePhotoDocumentStyle: takePhotoDocumentStyle,
+              cropPhotoDocumentStyle: cropPhotoDocumentStyle,
             ),
           ),
         ),
@@ -86,19 +97,21 @@ class DocumentScanner extends StatelessWidget {
 }
 
 class _View extends StatelessWidget {
-  final TakePhotoDocumentStyle takePhotoDocumentStyle;
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
+  final TakePhotoDocumentStyle takePhotoDocumentStyle;
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   const _View({
     Key? key,
-    required this.takePhotoDocumentStyle,
     this.pageTransitionBuilder,
+    required this.takePhotoDocumentStyle,
+    required this.cropPhotoDocumentStyle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<DocumentScannerController>();
-    controller.bloc = context.read<AppBloc>();
+    // final controller = context.read<DocumentScannerController>();
+    // controller.bloc = context.read<AppBloc>();
 
     return BlocSelector<AppBloc, AppState, AppPages>(
       selector: (state) => state.currentPage,
@@ -115,13 +128,8 @@ class _View extends StatelessWidget {
             break;
 
           case AppPages.cropPhoto:
-            page = WillPopScope(
-              onWillPop: () => _onPop(context),
-              child: const Center(
-                child: Text(
-                  "Crop Photo",
-                ),
-              ),
+            page = CropPhotoDocument(
+              cropPhotoDocumentStyle: cropPhotoDocumentStyle,
             );
             break;
 
@@ -152,11 +160,5 @@ class _View extends StatelessWidget {
         );
       },
     );
-  }
-
-  ///
-  Future<bool> _onPop(BuildContext context) async {
-    context.read<DocumentScannerController>().changePage(AppPages.takePhoto);
-    return false;
   }
 }

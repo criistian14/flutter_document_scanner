@@ -35,3 +35,10 @@ class AppPageChanged extends AppEvent {
         newPage,
       ];
 }
+
+class AppPhotoCropped extends AppEvent {
+  AppPhotoCropped();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -50,7 +50,8 @@ class _MyAppState extends State<MyApp> {
           generalStyles: const GeneralStyles(
             baseColor: Colors.white,
           ),
-          takePhotoDocumentStyle: TakePhotoDocumentStyle(),
+          takePhotoDocumentStyle: const TakePhotoDocumentStyle(),
+          cropPhotoDocumentStyle: const CropPhotoDocumentStyle(),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-group 'com.example.flutter_document_scanner'
+group 'com.christian.flutter_document_scanner'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,8 +24,9 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,8 +44,12 @@ android {
     defaultConfig {
         minSdkVersion 21
     }
+    ndkVersion '22.1.7171670'
+    buildToolsVersion '30.0.2'
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.quickbirdstudios:opencv:4.5.1'
+    implementation 'com.android.support:support-annotations:28.0.0'
 }
