@@ -15,19 +15,14 @@ class OpenCVPlugin {
 
                 val documentContour = findBiggestContour(src)
 
-
                 // Scalar -> RGB(235, 228, 44)
                 Imgproc.drawContours(src, listOf(documentContour), -1, Scalar(44.0, 228.0, 235.0), 10)
-//                val imgWithPerspective = warpPerspective(src, documentContour)
-
 
                 // Instantiating an empty MatOfByte class
                 val matOfByte = MatOfByte()
 
                 // Converting the Mat object to MatOfByte
-//                Imgcodecs.imencode(".jpg", dstEnd, matOfByte)
                 Imgcodecs.imencode(".jpg", src, matOfByte)
-//                Imgcodecs.imencode(".jpg", imgWithPerspective, matOfByte)
                 val byteArray: ByteArray = matOfByte.toArray()
 
 
@@ -58,8 +53,8 @@ class OpenCVPlugin {
                 )
 
                 val resultEnd = mapOf(
-                    "height" to documentContour.height(),
-                    "width" to documentContour.width(),
+                    "height" to src.height(),
+                    "width" to src.width(),
                     "points" to points,
                     "image" to byteArray
                 )
@@ -150,15 +145,6 @@ class OpenCVPlugin {
                 val isLessCurrentArea = Imgproc.contourArea(approx) > maxArea
                 val isLessMaxArea = maxArea < maxContourArea
 
-                //
-                Log.i(FlutterDocumentScannerPlugin.TAG, "---------------------")
-                Log.i(FlutterDocumentScannerPlugin.TAG, "Max Area: $maxArea")
-                Log.i(FlutterDocumentScannerPlugin.TAG, "ESQUINAS: ${approx.total().toInt()}")
-                Log.i(FlutterDocumentScannerPlugin.TAG, "---------------------")
-
-
-
-
                 if (approx.total().toInt() == 4 && isContour && isLessCurrentArea && isLessMaxArea) {
                     maxArea = Imgproc.contourArea(approx)
                     documentContour = approx
@@ -168,6 +154,33 @@ class OpenCVPlugin {
             return documentContour
         }
 
+
+        fun adjustingPerspective(byteData: ByteArray, points: List<Map<String, Any>>, result: MethodChannel.Result) {
+            try {
+                val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
+                val documentContour = MatOfPoint(
+                    Point("${points[0]["x"]}".toDouble(), "${points[0]["y"]}".toDouble()),
+                    Point("${points[1]["x"]}".toDouble(), "${points[1]["y"]}".toDouble()),
+                    Point("${points[2]["x"]}".toDouble(), "${points[2]["y"]}".toDouble()),
+                    Point("${points[3]["x"]}".toDouble(), "${points[3]["y"]}".toDouble())
+                )
+
+                val imgWithPerspective = warpPerspective(src, documentContour)
+
+                // Instantiating an empty MatOfByte class
+                val matOfByte = MatOfByte()
+
+                // Converting the Mat object to MatOfByte
+                Imgcodecs.imencode(".jpg", imgWithPerspective, matOfByte)
+                val byteArray: ByteArray = matOfByte.toArray()
+
+                result.success(byteArray)
+
+            } catch (e: java.lang.Exception) {
+                result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
+            }
+        }
+
         private fun warpPerspective(src: Mat, documentContour: MatOfPoint): Mat {
             val srcContour = MatOfPoint2f(
                 Point(0.0, 0.0),
@@ -175,7 +188,6 @@ class OpenCVPlugin {
                 Point((src.width() - 1).toDouble(), (src.height() - 1).toDouble()),
                 Point(0.0, (src.height() - 1).toDouble())
             )
-
 
             val dstContour = MatOfPoint2f(
                 documentContour.toList()[0],

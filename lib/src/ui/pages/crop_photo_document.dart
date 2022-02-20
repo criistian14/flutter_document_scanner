@@ -43,7 +43,7 @@ class CropPhotoDocument extends StatelessWidget {
               dotUtils: DotUtils(),
               imageUtils: ImageUtils(),
             )..add(CropAreaInitialized(
-                area: context.read<AppBloc>().state.areaInitial,
+                contour: context.read<AppBloc>().state.contourInitial,
                 image: state,
                 screenSize: screenSize,
                 positionImage: Rect.fromLTRB(

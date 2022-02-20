@@ -45,63 +45,38 @@ class CropBloc extends Bloc<CropEvent, CropState> {
       event.image.readAsBytesSync(),
     );
 
-    _imageRect = _imageUtils.imageRect(
-      event.screenSize,
-      imageDecoded.width,
-      imageDecoded.height,
-    );
-
-    // Area area = Area(
-    //   topLeft: const Point(
-    //     90,
-    //     170,
-    //   ),
-    //   topRight: Point(
-    //     event.screenSize.width - 60,
-    //     120,
-    //   ),
-    //   bottomLeft: Point(
-    //     60,
-    //     event.screenSize.height - 100,
-    //   ),
-    //   bottomRight: Point(
-    //     event.screenSize.width - 170,
-    //     event.screenSize.height - 100,
-    //   ),
-    // );
+    final imageRatio = imageDecoded.width / imageDecoded.height;
+    _imageRect = _imageUtils.imageRect(event.screenSize, imageRatio);
 
     Area area = Area(
-      topLeft: const Point(0, 0),
-      topRight: Point(event.screenSize.width, 0),
-      bottomLeft: Point(0, event.screenSize.height),
-      bottomRight: Point(event.screenSize.width, event.screenSize.height),
+      topLeft: const Point(
+        90,
+        170,
+      ),
+      topRight: Point(
+        event.screenSize.width - 60,
+        120,
+      ),
+      bottomLeft: Point(
+        60,
+        event.screenSize.height - 100,
+      ),
+      bottomRight: Point(
+        event.screenSize.width - 170,
+        event.screenSize.height - 100,
+      ),
     );
 
-    if (event.area != null) {
-      final imageRatio = imageDecoded.width / imageDecoded.height;
-      final imageScreenWidth = event.screenSize.height * imageRatio;
-      final left = (event.screenSize.width - imageScreenWidth) / 2;
-      final right = left + imageScreenWidth;
+    if (event.contour != null) {
+      final scalingFactor = event.screenSize.width / imageDecoded.width;
 
-      // y = 4
-      // x =
-      print(left);
-      print(right);
-      print(imageScreenWidth);
-
-      // area = Area(
-      //   topLeft: null,
-      //   bottomRight: null,
-      //   bottomLeft: null,
-      //   topRight: null,
-      // );
+      area = Area(
+        topRight: event.contour!.points[0] * scalingFactor,
+        bottomRight: event.contour!.points[1] * scalingFactor,
+        bottomLeft: event.contour!.points[2] * scalingFactor,
+        topLeft: event.contour!.points[3] * scalingFactor,
+      );
     }
-
-    // final rect = imageRect(
-    //   screenSize,
-    //   imageDecoded.width,
-    //   imageDecoded.height,
-    // );
 
     emit(state.copyWith(
       area: area,

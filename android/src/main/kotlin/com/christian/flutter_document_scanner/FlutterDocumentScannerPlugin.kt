@@ -10,6 +10,8 @@ import org.opencv.android.OpenCVLoader
 
 /** FlutterDocumentScannerPlugin */
 class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
+    private var OpenCVFLag = false
+
     companion object {
         const val TAG = "com.christian.Log.Tag"
         const val PLUGIN_ID = "christian.com/flutter_document_scanner"
@@ -30,10 +32,14 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (!OpenCVLoader.initDebug())
-            Log.i(FlutterDocumentScannerPlugin.TAG, "Unable to load OpenCV")
-        else
-            Log.i(FlutterDocumentScannerPlugin.TAG, "OpenCV loaded Successfully")
+        if (!OpenCVFLag) {
+            if (!OpenCVLoader.initDebug()) {
+                Log.i(FlutterDocumentScannerPlugin.TAG, "Unable to load OpenCV")
+            } else {
+                OpenCVFLag = true
+                Log.i(FlutterDocumentScannerPlugin.TAG, "OpenCV loaded Successfully")
+            }
+        }
 
 
         when (call.method) {
@@ -48,6 +54,19 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
                 }
             }
 
+            "adjustingPerspective" -> {
+                try {
+                    OpenCVPlugin.adjustingPerspective(
+                        call.argument<ByteArray>("byteData") as ByteArray,
+                        call.argument<List<Map<String, Any>>>("points") as List<Map<String, Any>>,
+                        result
+                    )
+                } catch (e: Exception) {
+                    result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
+                }
+            }
+
+
             else -> result.notImplemented()
         }
     }
@@ -55,5 +74,4 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
     }
-
 }

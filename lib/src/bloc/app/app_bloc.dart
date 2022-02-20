@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/src/models/area.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 import 'app_event.dart';
@@ -77,27 +76,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final fileImage = File(_pictureTaken!.path);
 
-    Area? area;
-
-    if (response != null) {
-      fileImage.writeAsBytesSync(response.image);
-      area = Area(
-        topRight: response.points[0],
-        topLeft: response.points[1],
-        bottomLeft: response.points[2],
-        bottomRight: response.points[3],
-      );
-    }
-
-    // final imageDecoded = await decodeImageFromList(fileImage.readAsBytesSync());
-    //
-    // print("WIDTH = ${imageDecoded.width}");
-    // print("HEIGH = ${imageDecoded.height}");
-
     emit(state.copyWith(
       statusTakePhotoPage: AppStatus.success,
       pictureInitial: fileImage,
-      areaInitial: area,
+      contourInitial: response,
     ));
 
     emit(state.copyWith(

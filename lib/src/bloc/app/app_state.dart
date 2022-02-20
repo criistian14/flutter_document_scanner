@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_document_scanner/src/models/area.dart';
+import 'package:flutter_document_scanner/src/models/contour.dart';
 
 enum AppStatus {
   initial,
@@ -24,7 +24,7 @@ class AppState extends Equatable {
   final AppStatus statusTakePhotoPage;
   final File? pictureInitial;
   final AppStatus statusCropPhoto;
-  final Area? areaInitial;
+  final Contour? contourInitial;
 
   const AppState({
     this.currentPage = AppPages.takePhoto,
@@ -33,7 +33,7 @@ class AppState extends Equatable {
     this.statusTakePhotoPage = AppStatus.initial,
     this.pictureInitial,
     this.statusCropPhoto = AppStatus.initial,
-    this.areaInitial,
+    this.contourInitial,
   });
 
   factory AppState.init() {
@@ -47,7 +47,7 @@ class AppState extends Equatable {
         cameraController,
         statusTakePhotoPage,
         pictureInitial,
-        areaInitial,
+        contourInitial,
       ];
 
   AppState copyWith({
@@ -57,7 +57,7 @@ class AppState extends Equatable {
     AppStatus? statusTakePhotoPage,
     File? pictureInitial,
     AppStatus? statusCropPhoto,
-    Area? areaInitial,
+    Contour? contourInitial,
   }) {
     return AppState(
       currentPage: currentPage ?? this.currentPage,
@@ -66,7 +66,7 @@ class AppState extends Equatable {
       statusTakePhotoPage: statusTakePhotoPage ?? this.statusTakePhotoPage,
       pictureInitial: pictureInitial ?? this.pictureInitial,
       statusCropPhoto: statusCropPhoto ?? this.statusCropPhoto,
-      areaInitial: areaInitial ?? this.areaInitial,
+      contourInitial: contourInitial ?? this.contourInitial,
     );
   }
 }

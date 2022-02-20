@@ -9,24 +9,16 @@ class ImageUtils {
     "christian.com/flutter_document_scanner",
   );
 
-  // Rect imageRect(Size screenSize, double imageRatio) {
-  //   final imageScreenWidth = screenSize.height * imageRatio;
-  //   final left = (screenSize.width - imageScreenWidth) / 2;
-  //   final right = left + imageScreenWidth;
-  //
-  //   return Rect.fromLTWH(0, 0, right - left, screenSize.height);
-  // }
-
-  Rect imageRect(Size screenSize, int width, int height) {
-    final imageRatio = width / height;
-    // _isFitVertically = imageRatio < screenSize.aspectRatio;
-
+  ///
+  Rect imageRect(Size screenSize, double imageRatio) {
     final imageScreenWidth = screenSize.height * imageRatio;
     final left = (screenSize.width - imageScreenWidth) / 2;
     final right = left + imageScreenWidth;
+
     return Rect.fromLTWH(left, 0, right - left, screenSize.height);
   }
 
+  ///
   Future<Contour?> findContourPhoto(Uint8List byteData) async {
     try {
       final contour = await _methodChannel.invokeMethod("findContourPhoto", {
@@ -38,17 +30,29 @@ class ImageUtils {
       if (contourParsed.points.length != 4) return null;
 
       return contourParsed;
+    } catch (e) {
+      print(e);
+    }
+  }
 
-      // Area area;
-      //
-      // area = Area(
-      //   topRight: contourParsed.points[0],
-      //   bottomRight: contourParsed.points[1],
-      //   topLeft: contourParsed.points[3],
-      //   bottomLeft: contourParsed.points[2],
-      // );
-      //
-      // return area;
+  ///
+  Future<Uint8List?> adjustingPerspective(
+    Uint8List byteData,
+    Contour contour,
+  ) async {
+    try {
+      final newImage =
+          await _methodChannel.invokeMethod("adjustingPerspective", {
+        "byteData": byteData,
+        "points": contour.points
+            .map((e) => {
+                  "x": e.x,
+                  "y": e.y,
+                })
+            .toList(),
+      });
+
+      return newImage;
     } catch (e) {
       print(e);
     }
