@@ -108,10 +108,12 @@ class _DocumentScannerState extends State<DocumentScanner> {
         return;
       }
 
-      _documentScannerCtrl.cameraController = _cameraController;
-      _documentScannerCtrl.stateDocument.listen(_listenDocumentScannerCtrl);
+      _cameraController.setFlashMode(FlashMode.off).then((_) {
+        _documentScannerCtrl.cameraController = _cameraController;
+        _documentScannerCtrl.stateDocument.listen(_listenDocumentScannerCtrl);
 
-      setState(() {});
+        setState(() {});
+      });
     });
   }
 
