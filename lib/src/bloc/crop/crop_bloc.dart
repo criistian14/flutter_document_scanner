@@ -32,21 +32,16 @@ class CropBloc extends Bloc<CropEvent, CropState> {
     CropAreaInitialized event,
     Emitter<CropState> emit,
   ) async {
-    // _imageRect = Rect.fromLTWH(
-    //   event.positionImage.left,
-    //   event.positionImage.top,
-    //   event.screenSize.width -
-    //       (event.positionImage.left + event.positionImage.right),
-    //   event.screenSize.height -
-    //       (event.positionImage.top + event.positionImage.bottom),
-    // );
-
-    final imageDecoded = await decodeImageFromList(
-      event.image.readAsBytesSync(),
+    final newScreenSize = Size(
+      (event.screenSize.width - event.positionImage.left) -
+          event.positionImage.right,
+      (event.screenSize.height - event.positionImage.top) -
+          event.positionImage.bottom,
     );
 
-    final imageRatio = imageDecoded.width / imageDecoded.height;
-    _imageRect = _imageUtils.imageRect(event.screenSize, imageRatio);
+    _imageRect = _imageUtils.imageRect(
+      newScreenSize,
+    );
 
     Area area = Area(
       topLeft: const Point(
@@ -54,27 +49,44 @@ class CropBloc extends Bloc<CropEvent, CropState> {
         170,
       ),
       topRight: Point(
-        event.screenSize.width - 60,
+        newScreenSize.width - 60,
         120,
       ),
       bottomLeft: Point(
         60,
-        event.screenSize.height - 100,
+        newScreenSize.height - 100,
       ),
       bottomRight: Point(
-        event.screenSize.width - 170,
-        event.screenSize.height - 100,
+        newScreenSize.width - 170,
+        newScreenSize.height - 100,
       ),
     );
 
     if (event.contour != null) {
-      final scalingFactor = event.screenSize.width / imageDecoded.width;
+      final imageDecoded = await decodeImageFromList(
+        event.image.readAsBytesSync(),
+      );
+
+      final scalingFactorY = newScreenSize.height / imageDecoded.height;
+      final scalingFactorX = newScreenSize.width / imageDecoded.width;
 
       area = Area(
-        topRight: event.contour!.points[0] * scalingFactor,
-        bottomRight: event.contour!.points[1] * scalingFactor,
-        bottomLeft: event.contour!.points[2] * scalingFactor,
-        topLeft: event.contour!.points[3] * scalingFactor,
+        topRight: Point(
+          event.contour!.points[0].x * scalingFactorX,
+          event.contour!.points[0].y * scalingFactorY,
+        ),
+        topLeft: Point(
+          event.contour!.points[1].x * scalingFactorX,
+          event.contour!.points[1].y * scalingFactorY,
+        ),
+        bottomLeft: Point(
+          event.contour!.points[2].x * scalingFactorX,
+          event.contour!.points[2].y * scalingFactorY,
+        ),
+        bottomRight: Point(
+          event.contour!.points[3].x * scalingFactorX,
+          event.contour!.points[3].y * scalingFactorY,
+        ),
       );
     }
 

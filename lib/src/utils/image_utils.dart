@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,12 +11,13 @@ class ImageUtils {
   );
 
   ///
-  Rect imageRect(Size screenSize, double imageRatio) {
-    final imageScreenWidth = screenSize.height * imageRatio;
-    final left = (screenSize.width - imageScreenWidth) / 2;
-    final right = left + imageScreenWidth;
-
-    return Rect.fromLTWH(left, 0, right - left, screenSize.height);
+  Rect imageRect(Size screenSize) {
+    return Rect.fromLTWH(
+      0,
+      0,
+      screenSize.width,
+      screenSize.height,
+    );
   }
 
   ///
@@ -29,7 +31,84 @@ class ImageUtils {
       if (contourParsed.points.isEmpty) return null;
       if (contourParsed.points.length != 4) return null;
 
-      return contourParsed;
+      // Identify each side of the contour
+      int numTopFound = 0;
+      int numBottomFound = 0;
+
+      Point<double> top1 = const Point(0, 0);
+      Point<double> top2 = const Point(0, 0);
+
+      Point<double> bottom1 = const Point(0, 0);
+      Point<double> bottom2 = const Point(0, 0);
+
+      Point<double> lastTopFound = const Point(0, 1000000);
+      Point<double> lastBottomFound = const Point(0, 0);
+
+      for (int i = 0; i < 4; i++) {
+        for (final point in contourParsed.points) {
+          if (point.y > lastBottomFound.y) {
+            if (bottom1.y == 0 || point.y != bottom1.y) {
+              lastBottomFound = point;
+            }
+          }
+
+          if (point.y < lastTopFound.y) {
+            if (top1.y == 0 || point.y != top1.y) {
+              lastTopFound = point;
+            }
+          }
+        }
+
+        if (numTopFound <= 2) {
+          if (numTopFound == 0) {
+            top1 = lastTopFound;
+          } else {
+            top2 = lastTopFound;
+          }
+        }
+
+        if (numBottomFound <= 2) {
+          if (numBottomFound == 0) {
+            bottom1 = lastBottomFound;
+          } else {
+            bottom2 = lastBottomFound;
+          }
+        }
+
+        numTopFound++;
+        numBottomFound++;
+        lastTopFound = const Point(0, 1000000);
+        lastBottomFound = const Point(0, 0);
+      }
+
+      Point<double> topLeft = const Point(0, 0);
+      Point<double> topRight = const Point(0, 0);
+
+      Point<double> bottomLeft = const Point(0, 0);
+      Point<double> bottomRight = const Point(0, 0);
+
+      if (top1.x < top2.x) {
+        topLeft = top1;
+        topRight = top2;
+      } else {
+        topRight = top1;
+        topLeft = top2;
+      }
+
+      if (bottom1.x < bottom2.x) {
+        bottomLeft = bottom1;
+        bottomRight = bottom2;
+      } else {
+        bottomRight = bottom1;
+        bottomLeft = bottom2;
+      }
+
+      return contourParsed.copyWith(points: [
+        topRight,
+        topLeft,
+        bottomLeft,
+        bottomRight,
+      ]);
     } catch (e) {
       print(e);
     }

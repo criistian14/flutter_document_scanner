@@ -46,4 +46,18 @@ class Contour extends Equatable {
       image: map['image'] as Uint8List,
     );
   }
+
+  Contour copyWith({
+    int? height,
+    int? width,
+    List<Point<double>>? points,
+    Uint8List? image,
+  }) {
+    return Contour(
+      height: height ?? this.height,
+      width: width ?? this.width,
+      points: points ?? this.points,
+      image: image ?? this.image,
+    );
+  }
 }

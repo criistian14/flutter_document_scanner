@@ -44,15 +44,24 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: DocumentScanner(
-          controller: _controller,
-          generalStyles: const GeneralStyles(
-            baseColor: Colors.white,
-          ),
-          takePhotoDocumentStyle: const TakePhotoDocumentStyle(),
-          cropPhotoDocumentStyle: const CropPhotoDocumentStyle(),
-        ),
+      home: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: DocumentScanner(
+              controller: _controller,
+              generalStyles: const GeneralStyles(
+                baseColor: Colors.white,
+              ),
+              takePhotoDocumentStyle: const TakePhotoDocumentStyle(),
+              cropPhotoDocumentStyle: CropPhotoDocumentStyle(
+                top: MediaQuery.of(context).padding.top,
+                // left: 40,
+                // right: 40,
+                // bottom: 40,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
