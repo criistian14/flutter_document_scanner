@@ -5,13 +5,13 @@ import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
-import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document.dart';
 import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/dialogs.dart';
 import 'package:flutter_document_scanner/src/utils/general_styles.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
-import 'take_photo_document.dart';
+import 'crop_photo_document_page.dart';
+import 'take_photo_document_page.dart';
 
 class DocumentScanner extends StatelessWidget {
   ///
@@ -116,19 +116,19 @@ class _View extends StatelessWidget {
     return BlocSelector<AppBloc, AppState, AppPages>(
       selector: (state) => state.currentPage,
       builder: (context, state) {
-        Widget page = TakePhotoDocument(
+        Widget page = TakePhotoDocumentPage(
           takePhotoDocumentStyle: takePhotoDocumentStyle,
         );
 
         switch (state) {
           case AppPages.takePhoto:
-            page = TakePhotoDocument(
+            page = TakePhotoDocumentPage(
               takePhotoDocumentStyle: takePhotoDocumentStyle,
             );
             break;
 
           case AppPages.cropPhoto:
-            page = CropPhotoDocument(
+            page = CropPhotoDocumentPage(
               cropPhotoDocumentStyle: cropPhotoDocumentStyle,
             );
             break;

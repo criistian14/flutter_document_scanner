@@ -14,10 +14,10 @@ import 'package:flutter_document_scanner/src/utils/border_crop_area_painter.dart
 import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
-class CropPhotoDocument extends StatelessWidget {
+class CropPhotoDocumentPage extends StatelessWidget {
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
-  const CropPhotoDocument({
+  const CropPhotoDocumentPage({
     Key? key,
     required this.cropPhotoDocumentStyle,
   }) : super(key: key);
