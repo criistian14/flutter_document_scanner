@@ -24,7 +24,6 @@ class CropPhotoDocument extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paddingSafeArea = MediaQuery.of(context).padding;
     final screenSize = MediaQuery.of(context).size;
 
     return WillPopScope(
@@ -128,6 +127,33 @@ class _CropView extends StatelessWidget {
                         area: state,
                       ),
                       child: const SizedBox.expand(),
+                    );
+                  },
+                ),
+
+                // * Dot - All
+                BlocSelector<CropBloc, CropState, Area>(
+                  selector: (state) => state.area,
+                  builder: (context, state) {
+                    return Positioned(
+                      left: state.topLeft.x,
+                      top: state.topLeft.y,
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          context.read<CropBloc>().add(
+                                CropDotMoved(
+                                  deltaX: details.delta.dx,
+                                  deltaY: details.delta.dy,
+                                  dotPosition: DotPosition.all,
+                                ),
+                              );
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width: state.topLeft.x + state.topRight.x,
+                          height: state.topLeft.y + state.topRight.y,
+                        ),
+                      ),
                     );
                   },
                 ),

@@ -10,7 +10,7 @@ class ImageUtils {
     "christian.com/flutter_document_scanner",
   );
 
-  ///
+  /// Calculates the rect of the image
   Rect imageRect(Size screenSize) {
     return Rect.fromLTWH(
       0,
@@ -20,7 +20,11 @@ class ImageUtils {
     );
   }
 
+  /// Apply filters to the image with opencv
+  /// Then get the contours and return only the largest one that has four sides
+  /// (this is done from native code)
   ///
+  /// The [Contour.points] are sorted and returned
   Future<Contour?> findContourPhoto(Uint8List byteData) async {
     try {
       final contour = await _methodChannel.invokeMethod("findContourPhoto", {
@@ -114,7 +118,8 @@ class ImageUtils {
     }
   }
 
-  ///
+  /// Based on the given [Contour.points], the perspective is created
+  /// and a new image is returned [Uint8List]
   Future<Uint8List?> adjustingPerspective(
     Uint8List byteData,
     Contour contour,

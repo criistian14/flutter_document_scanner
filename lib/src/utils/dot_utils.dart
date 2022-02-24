@@ -1,8 +1,37 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_document_scanner/src/models/area.dart';
 
 class DotUtils {
+  Area moveArea({
+    required Area original,
+    required double deltaX,
+    required double deltaY,
+    required Rect imageRect,
+  }) {
+    final newArea = Area(
+      topRight: Point<double>(
+        original.topRight.x + deltaX,
+        original.topRight.y + deltaY,
+      ),
+      topLeft: Point<double>(
+        original.topLeft.x + deltaX,
+        original.topLeft.y + deltaY,
+      ),
+      bottomLeft: Point<double>(
+        original.bottomLeft.x + deltaX,
+        original.bottomLeft.y + deltaY,
+      ),
+      bottomRight: Point<double>(
+        original.bottomRight.x + deltaX,
+        original.bottomRight.y + deltaY,
+      ),
+    );
+
+    return newArea;
+  }
+
   Point<double> moveTopLeft({
     required Point<double> original,
     required double deltaX,

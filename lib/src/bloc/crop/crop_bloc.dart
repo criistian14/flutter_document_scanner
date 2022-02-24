@@ -154,6 +154,16 @@ class CropBloc extends Bloc<CropEvent, CropState> {
           bottomLeft: result,
         );
         break;
+
+      case DotPosition.all:
+        newArea = _dotUtils.moveArea(
+          original: state.area,
+          deltaX: event.deltaX,
+          deltaY: event.deltaY,
+          imageRect: _imageRect,
+        );
+
+        break;
     }
 
     emit(

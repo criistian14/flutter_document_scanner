@@ -33,6 +33,7 @@ enum DotPosition {
   topLeft,
   bottomRight,
   bottomLeft,
+  all,
 }
 
 class CropDotMoved extends CropEvent {
