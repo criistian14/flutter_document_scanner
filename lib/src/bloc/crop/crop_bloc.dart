@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
+import 'package:flutter_document_scanner/src/models/contour.dart';
 import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
@@ -26,13 +27,14 @@ class CropBloc extends Bloc<CropEvent, CropState> {
   }
 
   late Rect _imageRect;
+  late Size newScreenSize;
 
   ///
   Future<void> _areaInitialized(
     CropAreaInitialized event,
     Emitter<CropState> emit,
   ) async {
-    final newScreenSize = Size(
+    newScreenSize = Size(
       (event.screenSize.width - event.positionImage.left) -
           event.positionImage.right,
       (event.screenSize.height - event.positionImage.top) -
@@ -62,7 +64,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
       ),
     );
 
-    if (event.contour != null) {
+    if (event.areaInitial != null) {
       final imageDecoded = await decodeImageFromList(
         event.image.readAsBytesSync(),
       );
@@ -72,20 +74,20 @@ class CropBloc extends Bloc<CropEvent, CropState> {
 
       area = Area(
         topRight: Point(
-          event.contour!.points[0].x * scalingFactorX,
-          event.contour!.points[0].y * scalingFactorY,
+          event.areaInitial!.topRight.x * scalingFactorX,
+          event.areaInitial!.topRight.y * scalingFactorY,
         ),
         topLeft: Point(
-          event.contour!.points[1].x * scalingFactorX,
-          event.contour!.points[1].y * scalingFactorY,
+          event.areaInitial!.topLeft.x * scalingFactorX,
+          event.areaInitial!.topLeft.y * scalingFactorY,
         ),
         bottomLeft: Point(
-          event.contour!.points[2].x * scalingFactorX,
-          event.contour!.points[2].y * scalingFactorY,
+          event.areaInitial!.bottomLeft.x * scalingFactorX,
+          event.areaInitial!.bottomLeft.y * scalingFactorY,
         ),
         bottomRight: Point(
-          event.contour!.points[3].x * scalingFactorX,
-          event.contour!.points[3].y * scalingFactorY,
+          event.areaInitial!.bottomRight.x * scalingFactorX,
+          event.areaInitial!.bottomRight.y * scalingFactorY,
         ),
       );
     }
@@ -177,5 +179,50 @@ class CropBloc extends Bloc<CropEvent, CropState> {
   Future<void> _photoByAreaCropped(
     CropPhotoByAreaCropped event,
     Emitter<CropState> emit,
-  ) async {}
+  ) async {
+    final imageDecoded = await decodeImageFromList(
+      event.image.readAsBytesSync(),
+    );
+
+    final scalingFactorY = imageDecoded.height / newScreenSize.height;
+    final scalingFactorX = imageDecoded.width / newScreenSize.width;
+
+    final area = Area(
+      topRight: Point(
+        state.area.topRight.x * scalingFactorX,
+        state.area.topRight.y * scalingFactorY,
+      ),
+      topLeft: Point(
+        state.area.topLeft.x * scalingFactorX,
+        state.area.topLeft.y * scalingFactorY,
+      ),
+      bottomLeft: Point(
+        state.area.bottomLeft.x * scalingFactorX,
+        state.area.bottomLeft.y * scalingFactorY,
+      ),
+      bottomRight: Point(
+        state.area.bottomRight.x * scalingFactorX,
+        state.area.bottomRight.y * scalingFactorY,
+      ),
+    );
+
+    final contour = Contour(
+      points: [
+        area.topRight,
+        area.topLeft,
+        area.bottomLeft,
+        area.bottomRight,
+      ],
+    );
+
+    final response = await _imageUtils.adjustingPerspective(
+      event.image.readAsBytesSync(),
+      contour,
+    );
+
+    emit(state.copyWith(
+      imageCropped: response,
+      areaParsed: area,
+    ));
+  }
 }

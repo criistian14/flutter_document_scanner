@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter_document_scanner/src/models/contour.dart';
 
 class ImageUtils {
@@ -24,8 +25,8 @@ class ImageUtils {
   /// Then get the contours and return only the largest one that has four sides
   /// (this is done from native code)
   ///
-  /// The [Contour.points] are sorted and returned
-  Future<Contour?> findContourPhoto(Uint8List byteData) async {
+  /// The [Contour.points] are sorted and returned [Area]
+  Future<Area?> findContourPhoto(Uint8List byteData) async {
     try {
       final contour = await _methodChannel.invokeMethod("findContourPhoto", {
         "byteData": byteData,
@@ -107,12 +108,12 @@ class ImageUtils {
         bottomLeft = bottom2;
       }
 
-      return contourParsed.copyWith(points: [
-        topRight,
-        topLeft,
-        bottomLeft,
-        bottomRight,
-      ]);
+      return Area(
+        topRight: topRight,
+        topLeft: topLeft,
+        bottomLeft: bottomLeft,
+        bottomRight: bottomRight,
+      );
     } catch (e) {
       print(e);
     }

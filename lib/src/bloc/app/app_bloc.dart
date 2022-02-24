@@ -19,10 +19,24 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppPhotoTaken>(_photoTaken);
     on<AppPageChanged>(_pageChanged);
     on<AppPhotoCropped>(_photoCropped);
+    on<AppLoadCroppedPhoto>(_loadCroppedPhoto);
   }
 
   CameraController? _cameraController;
   XFile? _pictureTaken;
+
+  @override
+  Future<void> close() {
+    print("CLOSE APP BLOC");
+    return super.close();
+  }
+
+  @override
+  void onChange(Change<AppState> change) {
+    print(change.nextState.statusCropPhoto);
+    print(change.nextState.pictureCropped);
+    super.onChange(change);
+  }
 
   ///
   void _cameraInitialized(
@@ -95,6 +109,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     emit(state.copyWith(
       currentPage: event.newPage,
       statusTakePhotoPage: AppStatus.initial,
+      statusCropPhoto: AppStatus.initial,
     ));
   }
 
@@ -105,6 +120,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   ) async {
     emit(state.copyWith(
       statusCropPhoto: AppStatus.loading,
+    ));
+  }
+
+  ///
+  Future<void> _loadCroppedPhoto(
+    AppLoadCroppedPhoto event,
+    Emitter<AppState> emit,
+  ) async {
+    emit(state.copyWith(
+      statusCropPhoto: AppStatus.success,
+      pictureCropped: event.image,
+      contourInitial: event.area,
+    ));
+
+    emit(state.copyWith(
+      currentPage: AppPages.editDocument,
     ));
   }
 }

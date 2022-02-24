@@ -5,22 +5,22 @@ import 'package:equatable/equatable.dart';
 
 class Contour extends Equatable {
   /// image [height]
-  final int height;
+  final int? height;
 
   /// image [width]
-  final int width;
+  final int? width;
 
   /// list of contour points (coordinates)
   final List<Point<double>> points;
 
   /// bytes of the returned image (maybe eliminated in the future)
-  final Uint8List image;
+  final Uint8List? image;
 
   const Contour({
-    required this.height,
-    required this.width,
+    this.height,
+    this.width,
     required this.points,
-    required this.image,
+    this.image,
   });
 
   @override

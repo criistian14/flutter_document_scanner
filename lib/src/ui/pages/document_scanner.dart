@@ -7,10 +7,12 @@ import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
 import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/dialogs.dart';
+import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/general_styles.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
 import 'crop_photo_document_page.dart';
+import 'edit_document_photo_page.dart';
 import 'take_photo_document_page.dart';
 
 class DocumentScanner extends StatelessWidget {
@@ -33,6 +35,9 @@ class DocumentScanner extends StatelessWidget {
   ///
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
+  ///
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
+
   const DocumentScanner({
     Key? key,
     this.controller,
@@ -42,6 +47,7 @@ class DocumentScanner extends StatelessWidget {
     this.resolutionCamera = ResolutionPreset.high,
     this.takePhotoDocumentStyle = const TakePhotoDocumentStyle(),
     this.cropPhotoDocumentStyle = const CropPhotoDocumentStyle(),
+    this.editPhotoDocumentStyle = const EditPhotoDocumentStyle(),
   }) : super(key: key);
 
   @override
@@ -81,6 +87,25 @@ class DocumentScanner extends StatelessWidget {
                 }
               },
             ),
+
+            // ? Show default dialogs in Crop Photo
+            BlocListener<AppBloc, AppState>(
+              listenWhen: (previous, current) =>
+                  current.statusCropPhoto != previous.statusCropPhoto,
+              listener: (context, state) {
+                print(state);
+
+                if (generalStyles.hideDefaultDialogs) return;
+
+                if (state.statusCropPhoto == AppStatus.loading) {
+                  dialogs.defaultDialog(context, "Cropping picture");
+                }
+
+                if (state.statusCropPhoto == AppStatus.success) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
           ],
           child: Container(
             color: generalStyles.baseColor,
@@ -88,6 +113,7 @@ class DocumentScanner extends StatelessWidget {
               pageTransitionBuilder: pageTransitionBuilder,
               takePhotoDocumentStyle: takePhotoDocumentStyle,
               cropPhotoDocumentStyle: cropPhotoDocumentStyle,
+              editPhotoDocumentStyle: editPhotoDocumentStyle,
             ),
           ),
         ),
@@ -100,19 +126,18 @@ class _View extends StatelessWidget {
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
   const _View({
     Key? key,
     this.pageTransitionBuilder,
     required this.takePhotoDocumentStyle,
     required this.cropPhotoDocumentStyle,
+    required this.editPhotoDocumentStyle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final controller = context.read<DocumentScannerController>();
-    // controller.bloc = context.read<AppBloc>();
-
     return BlocSelector<AppBloc, AppState, AppPages>(
       selector: (state) => state.currentPage,
       builder: (context, state) {
@@ -134,7 +159,9 @@ class _View extends StatelessWidget {
             break;
 
           case AppPages.editDocument:
-            page = Container();
+            page = EditDocumentPhotoPage(
+              editPhotoDocumentStyle: editPhotoDocumentStyle,
+            );
             break;
         }
 

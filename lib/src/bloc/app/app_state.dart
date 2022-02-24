@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_document_scanner/src/models/contour.dart';
+import 'package:flutter_document_scanner/src/models/area.dart';
 
 enum AppStatus {
   initial,
@@ -24,7 +25,8 @@ class AppState extends Equatable {
   final AppStatus statusTakePhotoPage;
   final File? pictureInitial;
   final AppStatus statusCropPhoto;
-  final Contour? contourInitial;
+  final Area? contourInitial;
+  final Uint8List? pictureCropped;
 
   const AppState({
     this.currentPage = AppPages.takePhoto,
@@ -34,6 +36,7 @@ class AppState extends Equatable {
     this.pictureInitial,
     this.statusCropPhoto = AppStatus.initial,
     this.contourInitial,
+    this.pictureCropped,
   });
 
   factory AppState.init() {
@@ -47,7 +50,9 @@ class AppState extends Equatable {
         cameraController,
         statusTakePhotoPage,
         pictureInitial,
+        statusCropPhoto,
         contourInitial,
+        pictureCropped,
       ];
 
   AppState copyWith({
@@ -57,7 +62,8 @@ class AppState extends Equatable {
     AppStatus? statusTakePhotoPage,
     File? pictureInitial,
     AppStatus? statusCropPhoto,
-    Contour? contourInitial,
+    Area? contourInitial,
+    Uint8List? pictureCropped,
   }) {
     return AppState(
       currentPage: currentPage ?? this.currentPage,
@@ -67,6 +73,7 @@ class AppState extends Equatable {
       pictureInitial: pictureInitial ?? this.pictureInitial,
       statusCropPhoto: statusCropPhoto ?? this.statusCropPhoto,
       contourInitial: contourInitial ?? this.contourInitial,
+      pictureCropped: pictureCropped ?? this.pictureCropped,
     );
   }
 }

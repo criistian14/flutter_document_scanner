@@ -22,6 +22,14 @@ class DocumentScannerController {
     );
   }
 
+  Stream<AppStatus> get statusCropPhoto {
+    return _appBloc.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) => sink.add(data.statusCropPhoto),
+      ),
+    );
+  }
+
   ///
   Future<void> takePhoto() async {
     _appBloc.add(AppPhotoTaken());

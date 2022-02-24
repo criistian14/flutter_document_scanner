@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
+import 'package:flutter_document_scanner/src/models/area.dart';
 
 abstract class AppEvent extends Equatable {}
 
@@ -41,4 +44,20 @@ class AppPhotoCropped extends AppEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class AppLoadCroppedPhoto extends AppEvent {
+  final Uint8List image;
+  final Area area;
+
+  AppLoadCroppedPhoto({
+    required this.image,
+    required this.area,
+  });
+
+  @override
+  List<Object?> get props => [
+        image,
+        area,
+      ];
 }

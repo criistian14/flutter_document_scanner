@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
+import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
 import 'package:flutter_document_scanner/src/bloc/crop/crop_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/crop/crop_event.dart';
 import 'package:flutter_document_scanner/src/bloc/crop/crop_state.dart';
@@ -42,7 +43,7 @@ class CropPhotoDocumentPage extends StatelessWidget {
               dotUtils: DotUtils(),
               imageUtils: ImageUtils(),
             )..add(CropAreaInitialized(
-                contour: context.read<AppBloc>().state.contourInitial,
+                areaInitial: context.read<AppBloc>().state.contourInitial,
                 image: state,
                 screenSize: screenSize,
                 positionImage: Rect.fromLTRB(
@@ -80,14 +81,30 @@ class _CropView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AppBloc, AppState>(
-      listenWhen: (previous, current) =>
-          current.statusCropPhoto != previous.statusCropPhoto,
-      listener: (context, state) {
-        if (state.statusCropPhoto == AppStatus.loading) {
-          context.read<CropBloc>().add(CropPhotoByAreaCropped());
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AppBloc, AppState>(
+          listenWhen: (previous, current) =>
+              current.statusCropPhoto != previous.statusCropPhoto,
+          listener: (context, state) {
+            if (state.statusCropPhoto == AppStatus.loading) {
+              context.read<CropBloc>().add(CropPhotoByAreaCropped(image));
+            }
+          },
+        ),
+        BlocListener<CropBloc, CropState>(
+          listenWhen: (previous, current) =>
+              current.imageCropped != previous.imageCropped,
+          listener: (context, state) {
+            if (state.imageCropped != null) {
+              context.read<AppBloc>().add(AppLoadCroppedPhoto(
+                    image: state.imageCropped!,
+                    area: state.areaParsed!,
+                  ));
+            }
+          },
+        ),
+      ],
       child: Stack(
         fit: StackFit.expand,
         children: [

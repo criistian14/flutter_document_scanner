@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_document_scanner/src/models/contour.dart';
+import 'package:flutter_document_scanner/src/models/area.dart';
 
 abstract class CropEvent extends Equatable {}
 
 class CropAreaInitialized extends CropEvent {
-  final Contour? contour;
+  final Area? areaInitial;
   final File image;
   final Size screenSize;
   final Rect positionImage;
 
   CropAreaInitialized({
-    this.contour,
+    this.areaInitial,
     required this.image,
     required this.screenSize,
     required this.positionImage,
@@ -21,7 +21,7 @@ class CropAreaInitialized extends CropEvent {
 
   @override
   List<Object?> get props => [
-        contour,
+        areaInitial,
         image,
         screenSize,
         positionImage,
@@ -56,6 +56,10 @@ class CropDotMoved extends CropEvent {
 }
 
 class CropPhotoByAreaCropped extends CropEvent {
+  final File image;
+
+  CropPhotoByAreaCropped(this.image);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [image];
 }

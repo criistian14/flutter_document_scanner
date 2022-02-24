@@ -38,6 +38,26 @@ class _MyAppState extends State<MyApp> {
           break;
       }
     });
+
+    _controller.statusCropPhoto.listen((event) {
+      switch (event) {
+        case AppStatus.initial:
+          print("CURRENT STATUS: AppStatus.initial");
+          break;
+
+        case AppStatus.loading:
+          print("CURRENT STATUS: AppStatus.loading");
+          break;
+
+        case AppStatus.success:
+          print("CURRENT STATUS: AppStatus.success");
+          break;
+
+        case AppStatus.failure:
+          print("CURRENT STATUS: AppStatus.failure");
+          break;
+      }
+    });
   }
 
   @override
