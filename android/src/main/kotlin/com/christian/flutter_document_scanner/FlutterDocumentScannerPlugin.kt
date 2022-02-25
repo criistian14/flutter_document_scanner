@@ -46,8 +46,9 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
             "findContourPhoto" -> {
                 try {
                     OpenCVPlugin.findContourPhoto(
+                        result,
                         call.argument<ByteArray>("byteData") as ByteArray,
-                        result
+                        call.argument<ByteArray>("minContourArea") as Double
                     )
                 } catch (e: Exception) {
                     result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)

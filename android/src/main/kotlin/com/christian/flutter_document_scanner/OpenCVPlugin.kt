@@ -9,14 +9,15 @@ import org.opencv.imgproc.Imgproc
 
 class OpenCVPlugin {
     companion object {
-        fun findContourPhoto(byteData: ByteArray, result: MethodChannel.Result) {
+        fun findContourPhoto(result: MethodChannel.Result, byteData: ByteArray, minContourArea: Double) {
             try {
                 val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
 
-                val documentContour = findBiggestContour(src)
+                val documentContour = findBiggestContour(src, minContourArea)
 
+                // TODO: Use for when to use real time transmission
                 // Scalar -> RGB(235, 228, 44)
-                Imgproc.drawContours(src, listOf(documentContour), -1, Scalar(44.0, 228.0, 235.0), 10)
+                // Imgproc.drawContours(src, listOf(documentContour), -1, Scalar(44.0, 228.0, 235.0), 10)
 
                 // Instantiating an empty MatOfByte class
                 val matOfByte = MatOfByte()
@@ -27,30 +28,33 @@ class OpenCVPlugin {
 
 
                 val points = mutableListOf<Map<String, Any>>()
-                points.add(
-                    mapOf(
-                        "x" to documentContour.toList()[0].x,
-                        "y" to documentContour.toList()[0].y
+
+                if (documentContour != null) {
+                    points.add(
+                        mapOf(
+                            "x" to documentContour.toList()[0].x,
+                            "y" to documentContour.toList()[0].y
+                        )
                     )
-                )
-                points.add(
-                    mapOf(
-                        "x" to documentContour.toList()[3].x,
-                        "y" to documentContour.toList()[3].y
+                    points.add(
+                        mapOf(
+                            "x" to documentContour.toList()[3].x,
+                            "y" to documentContour.toList()[3].y
+                        )
                     )
-                )
-                points.add(
-                    mapOf(
-                        "x" to documentContour.toList()[2].x,
-                        "y" to documentContour.toList()[2].y
+                    points.add(
+                        mapOf(
+                            "x" to documentContour.toList()[2].x,
+                            "y" to documentContour.toList()[2].y
+                        )
                     )
-                )
-                points.add(
-                    mapOf(
-                        "x" to documentContour.toList()[1].x,
-                        "y" to documentContour.toList()[1].y
+                    points.add(
+                        mapOf(
+                            "x" to documentContour.toList()[1].x,
+                            "y" to documentContour.toList()[1].y
+                        )
                     )
-                )
+                }
 
                 val resultEnd = mapOf(
                     "height" to src.height(),
@@ -66,7 +70,7 @@ class OpenCVPlugin {
             }
         }
 
-        private fun findBiggestContour(src: Mat): MatOfPoint {
+        private fun findBiggestContour(src: Mat, minContourArea: Double): MatOfPoint? {
             // Converting to RGB from BGR
             val dstColor = Mat()
             Imgproc.cvtColor(src, dstColor, Imgproc.COLOR_BGR2RGB)
@@ -149,6 +153,10 @@ class OpenCVPlugin {
                     maxArea = Imgproc.contourArea(approx)
                     documentContour = approx
                 }
+            }
+
+            if (Imgproc.contourArea(documentContour) < minContourArea) {
+                return null
             }
 
             return documentContour

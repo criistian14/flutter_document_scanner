@@ -8,6 +8,7 @@ abstract class CropEvent extends Equatable {}
 
 class CropAreaInitialized extends CropEvent {
   final Area? areaInitial;
+  final Area defaultAreaInitial;
   final File image;
   final Size screenSize;
   final Rect positionImage;
@@ -17,6 +18,7 @@ class CropAreaInitialized extends CropEvent {
     required this.image,
     required this.screenSize,
     required this.positionImage,
+    required this.defaultAreaInitial,
   });
 
   @override

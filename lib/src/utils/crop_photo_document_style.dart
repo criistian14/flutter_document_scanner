@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_document_scanner/src/models/area.dart';
 
 @immutable
 class CropPhotoDocumentStyle {
@@ -29,6 +31,9 @@ class CropPhotoDocumentStyle {
   final double dotSize;
   final double dotRadius;
 
+  ///
+  final Area defaultAreaInitial;
+
   const CropPhotoDocumentStyle({
     this.hideAppBarDefault = false,
     this.textButtonSave = "CROP",
@@ -41,5 +46,11 @@ class CropPhotoDocumentStyle {
     this.maskFilter,
     this.dotSize = 18,
     this.dotRadius = 30,
+    this.defaultAreaInitial = const Area(
+      topRight: Point(300.0, 80.0),
+      topLeft: Point(40.0, 80.0),
+      bottomLeft: Point(40.0, 450.0),
+      bottomRight: Point(300.0, 450.0),
+    ),
   });
 }

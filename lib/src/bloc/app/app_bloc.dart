@@ -86,7 +86,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _pictureTaken = await _cameraController!.takePicture();
 
     final byteData = await _pictureTaken!.readAsBytes();
-    final response = await _imageUtils.findContourPhoto(byteData);
+    final response = await _imageUtils.findContourPhoto(
+      byteData,
+      minContourArea: event.minContourArea,
+    );
 
     final fileImage = File(_pictureTaken!.path);
 
@@ -106,11 +109,28 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppPageChanged event,
     Emitter<AppState> emit,
   ) async {
-    emit(state.copyWith(
-      currentPage: event.newPage,
-      statusTakePhotoPage: AppStatus.initial,
-      statusCropPhoto: AppStatus.initial,
-    ));
+    switch (event.newPage) {
+      case AppPages.takePhoto:
+        emit(state.copyWith(
+          currentPage: event.newPage,
+          statusTakePhotoPage: AppStatus.initial,
+          statusCropPhoto: AppStatus.initial,
+          contourInitial: null,
+        ));
+        break;
+
+      case AppPages.cropPhoto:
+        emit(state.copyWith(
+          currentPage: event.newPage,
+        ));
+        break;
+
+      case AppPages.editDocument:
+        emit(state.copyWith(
+          currentPage: event.newPage,
+        ));
+        break;
+    }
   }
 
   ///

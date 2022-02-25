@@ -45,24 +45,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
       newScreenSize,
     );
 
-    Area area = Area(
-      topLeft: const Point(
-        90,
-        170,
-      ),
-      topRight: Point(
-        newScreenSize.width - 60,
-        120,
-      ),
-      bottomLeft: Point(
-        60,
-        newScreenSize.height - 100,
-      ),
-      bottomRight: Point(
-        newScreenSize.width - 170,
-        newScreenSize.height - 100,
-      ),
-    );
+    Area area = event.defaultAreaInitial;
 
     if (event.areaInitial != null) {
       final imageDecoded = await decodeImageFromList(

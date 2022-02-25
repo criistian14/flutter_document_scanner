@@ -24,8 +24,16 @@ class AppCameraInitialized extends AppEvent {
 }
 
 class AppPhotoTaken extends AppEvent {
+  final double? minContourArea;
+
+  AppPhotoTaken({
+    this.minContourArea,
+  });
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        minContourArea,
+      ];
 }
 
 class AppPageChanged extends AppEvent {

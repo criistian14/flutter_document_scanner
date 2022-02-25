@@ -30,9 +30,17 @@ class DocumentScannerController {
     );
   }
 
+  /// Taking the photo
   ///
-  Future<void> takePhoto() async {
-    _appBloc.add(AppPhotoTaken());
+  /// Then find  the contour with the largest area only when it exceeds [minContourArea]
+  ///
+  /// [minContourArea] is default 80000.0
+  Future<void> takePhoto({
+    double? minContourArea,
+  }) async {
+    _appBloc.add(AppPhotoTaken(
+      minContourArea: minContourArea,
+    ));
   }
 
   ///

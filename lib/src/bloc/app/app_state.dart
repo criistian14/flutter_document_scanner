@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
+import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 
 enum AppStatus {
   initial,
@@ -62,7 +63,7 @@ class AppState extends Equatable {
     AppStatus? statusTakePhotoPage,
     File? pictureInitial,
     AppStatus? statusCropPhoto,
-    Area? contourInitial,
+    Object? contourInitial = valueNull,
     Uint8List? pictureCropped,
   }) {
     return AppState(
@@ -72,7 +73,9 @@ class AppState extends Equatable {
       statusTakePhotoPage: statusTakePhotoPage ?? this.statusTakePhotoPage,
       pictureInitial: pictureInitial ?? this.pictureInitial,
       statusCropPhoto: statusCropPhoto ?? this.statusCropPhoto,
-      contourInitial: contourInitial ?? this.contourInitial,
+      contourInitial: contourInitial == valueNull
+          ? this.contourInitial
+          : contourInitial as Area?,
       pictureCropped: pictureCropped ?? this.pictureCropped,
     );
   }

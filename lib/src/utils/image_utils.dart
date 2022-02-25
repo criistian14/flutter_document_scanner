@@ -26,10 +26,14 @@ class ImageUtils {
   /// (this is done from native code)
   ///
   /// The [Contour.points] are sorted and returned [Area]
-  Future<Area?> findContourPhoto(Uint8List byteData) async {
+  Future<Area?> findContourPhoto(
+    Uint8List byteData, {
+    double? minContourArea,
+  }) async {
     try {
       final contour = await _methodChannel.invokeMethod("findContourPhoto", {
         "byteData": byteData,
+        "minContourArea": minContourArea ?? 80000.0,
       });
 
       final contourParsed = Contour.fromMap(Map<String, dynamic>.from(contour));
@@ -106,6 +110,16 @@ class ImageUtils {
       } else {
         bottomRight = bottom1;
         bottomLeft = bottom2;
+      }
+
+      final anyEqualPoints = topRight == topLeft ||
+          topRight == bottomLeft ||
+          topRight == bottomRight ||
+          topLeft == bottomLeft ||
+          topLeft == bottomRight ||
+          bottomLeft == bottomRight;
+      if (anyEqualPoints) {
+        return null;
       }
 
       return Area(
