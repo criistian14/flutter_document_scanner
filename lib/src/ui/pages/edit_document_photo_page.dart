@@ -48,16 +48,14 @@ class EditDocumentPhotoPage extends StatelessWidget {
           //   ),
           // );
 
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-              Positioned.fill(
-                child: Image.memory(
-                  state,
-                  fit: BoxFit.fill,
-                ),
+          return Container(
+            padding: EdgeInsets.all(28),
+            child: Center(
+              child: Image.memory(
+                state,
+                // fit: BoxFit.contain,
               ),
-            ],
+            ),
           );
         },
       ),

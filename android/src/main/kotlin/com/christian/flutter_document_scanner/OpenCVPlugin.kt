@@ -191,9 +191,9 @@ class OpenCVPlugin {
 
             val dstContour = MatOfPoint2f(
                 documentContour.toList()[0],
-                documentContour.toList()[3],
+                documentContour.toList()[1],
                 documentContour.toList()[2],
-                documentContour.toList()[1]
+                documentContour.toList()[3]
             )
             val warpMat = Imgproc.getPerspectiveTransform(dstContour, srcContour)
 

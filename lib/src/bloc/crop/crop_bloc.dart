@@ -208,10 +208,10 @@ class CropBloc extends Bloc<CropEvent, CropState> {
 
     final contour = Contour(
       points: [
-        area.topRight,
         area.topLeft,
-        area.bottomLeft,
+        area.topRight,
         area.bottomRight,
+        area.bottomLeft,
       ],
     );
 
