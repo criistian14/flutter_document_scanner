@@ -12,20 +12,20 @@ class DotUtils {
   }) {
     final newArea = Area(
       topRight: Point<double>(
-        original.topRight.x + deltaX,
-        original.topRight.y + deltaY,
+        min(original.topRight.x + deltaX, imageRect.right),
+        max(original.topRight.y + deltaY, imageRect.top),
       ),
       topLeft: Point<double>(
-        original.topLeft.x + deltaX,
-        original.topLeft.y + deltaY,
+        max(original.topLeft.x + deltaX, imageRect.left),
+        max(original.topLeft.y + deltaY, imageRect.top),
       ),
       bottomLeft: Point<double>(
-        original.bottomLeft.x + deltaX,
-        original.bottomLeft.y + deltaY,
+        max(original.bottomLeft.x + deltaX, imageRect.left),
+        min(original.bottomLeft.y + deltaY, imageRect.bottom),
       ),
       bottomRight: Point<double>(
-        original.bottomRight.x + deltaX,
-        original.bottomRight.y + deltaY,
+        min(original.bottomRight.x + deltaX, imageRect.right),
+        min(original.bottomRight.y + deltaY, imageRect.bottom),
       ),
     );
 
