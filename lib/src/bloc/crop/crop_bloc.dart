@@ -94,6 +94,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
           deltaX: event.deltaX,
           deltaY: event.deltaY,
           imageRect: _imageRect,
+          originalArea: state.area,
         );
 
         newArea = state.area.copyWith(
@@ -107,6 +108,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
           deltaX: event.deltaX,
           deltaY: event.deltaY,
           imageRect: _imageRect,
+          originalArea: state.area,
         );
 
         newArea = state.area.copyWith(
@@ -120,6 +122,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
           deltaX: event.deltaX,
           deltaY: event.deltaY,
           imageRect: _imageRect,
+          originalArea: state.area,
         );
 
         newArea = state.area.copyWith(
@@ -133,6 +136,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
           deltaX: event.deltaX,
           deltaY: event.deltaY,
           imageRect: _imageRect,
+          originalArea: state.area,
         );
 
         newArea = state.area.copyWith(

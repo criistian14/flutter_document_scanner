@@ -37,10 +37,16 @@ class DotUtils {
     required double deltaX,
     required double deltaY,
     required Rect imageRect,
-    double? aspectRatio,
+    required Area originalArea,
   }) {
-    final newX = max(imageRect.left, original.x + deltaX);
-    final newY = max(original.y + deltaY, imageRect.top);
+    final newX = min(
+      max(imageRect.left, original.x + deltaX),
+      originalArea.topRight.x - 30,
+    );
+    final newY = min(
+      max(original.y + deltaY, imageRect.top),
+      originalArea.bottomLeft.y - 30,
+    );
 
     return Point(newX, newY);
   }
@@ -50,9 +56,16 @@ class DotUtils {
     required double deltaX,
     required double deltaY,
     required Rect imageRect,
+    required Area originalArea,
   }) {
-    final newX = min(imageRect.right, original.x + deltaX);
-    final newY = max(original.y + deltaY, imageRect.top);
+    final newX = max(
+      min(imageRect.right, original.x + deltaX),
+      originalArea.topLeft.x + 30,
+    );
+    final newY = min(
+      max(original.y + deltaY, imageRect.top),
+      originalArea.bottomLeft.y - 30,
+    );
 
     return Point(newX, newY);
   }
@@ -62,9 +75,16 @@ class DotUtils {
     required double deltaX,
     required double deltaY,
     required Rect imageRect,
+    required Area originalArea,
   }) {
-    final newX = max(imageRect.left, original.x + deltaX);
-    final newY = min(original.y + deltaY, imageRect.bottom);
+    final newX = min(
+      max(imageRect.left, original.x + deltaX),
+      originalArea.bottomRight.x - 30,
+    );
+    final newY = max(
+      min(original.y + deltaY, imageRect.bottom),
+      originalArea.topLeft.y + 30,
+    );
 
     return Point(newX, newY);
   }
@@ -74,9 +94,16 @@ class DotUtils {
     required double deltaX,
     required double deltaY,
     required Rect imageRect,
+    required Area originalArea,
   }) {
-    final newX = min(imageRect.right, original.x + deltaX);
-    final newY = min(original.y + deltaY, imageRect.bottom);
+    final newX = max(
+      min(imageRect.right, original.x + deltaX),
+      originalArea.bottomLeft.x + 30,
+    );
+    final newY = max(
+      min(original.y + deltaY, imageRect.bottom),
+      originalArea.topRight.y + 30,
+    );
 
     return Point(newX, newY);
   }
