@@ -12,20 +12,44 @@ class DotUtils {
   }) {
     final newArea = Area(
       topRight: Point<double>(
-        min(original.topRight.x + deltaX, imageRect.right),
-        max(original.topRight.y + deltaY, imageRect.top),
+        max(
+          min(original.topRight.x + deltaX, imageRect.right),
+          original.topLeft.x + 30,
+        ),
+        min(
+          max(original.topRight.y + deltaY, imageRect.top),
+          original.bottomLeft.y - 30,
+        ),
       ),
       topLeft: Point<double>(
-        max(original.topLeft.x + deltaX, imageRect.left),
-        max(original.topLeft.y + deltaY, imageRect.top),
+        min(
+          max(original.topLeft.x + deltaX, imageRect.left),
+          original.topRight.x - 30,
+        ),
+        min(
+          max(original.topLeft.y + deltaY, imageRect.top),
+          original.bottomLeft.y - 30,
+        ),
       ),
       bottomLeft: Point<double>(
-        max(original.bottomLeft.x + deltaX, imageRect.left),
-        min(original.bottomLeft.y + deltaY, imageRect.bottom),
+        min(
+          max(original.bottomLeft.x + deltaX, imageRect.left),
+          original.bottomRight.x - 30,
+        ),
+        max(
+          min(original.bottomLeft.y + deltaY, imageRect.bottom),
+          original.topLeft.y + 30,
+        ),
       ),
       bottomRight: Point<double>(
-        min(original.bottomRight.x + deltaX, imageRect.right),
-        min(original.bottomRight.y + deltaY, imageRect.bottom),
+        max(
+          min(original.bottomRight.x + deltaX, imageRect.right),
+          original.bottomLeft.x + 30,
+        ),
+        max(
+          min(original.bottomRight.y + deltaY, imageRect.bottom),
+          original.topRight.y + 30,
+        ),
       ),
     );
 
