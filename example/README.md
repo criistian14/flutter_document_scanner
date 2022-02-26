@@ -1,6 +1,6 @@
-# example
+# flutter_document_scanner_example
 
-A new Flutter project.
+Demonstrates how to use the flutter_document_scanner plugin.
 
 ## Getting Started
 

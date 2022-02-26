@@ -1,83 +1,46 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _controller = DocumentScannerController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  CameraController? controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    initCamera();
-  }
-
-  void initCamera() async {
-    List<CameraDescription> cameras = await availableCameras();
-
-    CameraDescription camera = cameras.firstWhere(
-          (camera) => camera.lensDirection == CameraLensDirection.back,
-      orElse: () => cameras.first,
-    );
-
-    controller = CameraController(
-      camera,
-      ResolutionPreset.high,
-      enableAudio: false,
-    );
-
-    controller!.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Scan Document",
-        ),
-        centerTitle: true,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.teal,
       ),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: (controller != null)
-              ? DocumentScanner(
-            onSaveDocument: (File document) {},
-            cameraController: controller!,
-          )
-              : Container(),
-        ),
+      home: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: DocumentScanner(
+              controller: _controller,
+              generalStyles: const GeneralStyles(
+                baseColor: Colors.white,
+              ),
+              cropPhotoDocumentStyle: CropPhotoDocumentStyle(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              onSave: (Uint8List imageBytes) {
+                print("image bytes: $imageBytes");
+              },
+            ),
+          );
+        },
       ),
     );
   }
