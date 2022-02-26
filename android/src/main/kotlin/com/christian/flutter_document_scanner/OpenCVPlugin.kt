@@ -210,5 +210,61 @@ class OpenCVPlugin {
 
             return dstWarPerspective
         }
+
+
+        fun applyFilter(result: MethodChannel.Result, byteData: ByteArray, filter: String) {
+            try {
+                val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
+
+                var dstEnd = Mat()
+
+                when (filter) {
+                    "natural" -> {
+                        dstEnd = src
+                    }
+
+                    "gray" -> {
+                        Imgproc.cvtColor(src, dstEnd, Imgproc.COLOR_BGR2GRAY)
+                    }
+
+                    "eco" -> {
+                        val dstColor = Mat()
+                        Imgproc.cvtColor(src, dstColor, Imgproc.COLOR_BGR2GRAY)
+
+                        val dstGaussian = Mat()
+                        Imgproc.GaussianBlur(dstColor, dstGaussian, Size(3.0, 3.0), 0.0)
+
+                        val dstThreshold = Mat()
+                        Imgproc.adaptiveThreshold(
+                            dstGaussian,
+                            dstThreshold,
+                            255.0,
+                            Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
+                            Imgproc.THRESH_BINARY,
+                            7,
+                            2.0
+                        )
+
+                        Imgproc.medianBlur(dstThreshold, dstEnd, 3)
+                    }
+
+
+                    else -> result.notImplemented()
+                }
+
+
+                // Instantiating an empty MatOfByte class
+                val matOfByte = MatOfByte()
+
+                // Converting the Mat object to MatOfByte
+                Imgcodecs.imencode(".jpg", dstEnd, matOfByte)
+                val byteArray: ByteArray = matOfByte.toArray()
+
+                result.success(byteArray)
+
+            } catch (e: java.lang.Exception) {
+                result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
+            }
+        }
     }
 }

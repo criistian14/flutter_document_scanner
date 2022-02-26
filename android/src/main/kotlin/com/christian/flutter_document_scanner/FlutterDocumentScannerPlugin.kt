@@ -67,6 +67,18 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
                 }
             }
 
+            "applyFilter" -> {
+                try {
+                    OpenCVPlugin.applyFilter(
+                        result,
+                        call.argument<ByteArray>("byteData") as ByteArray,
+                        call.argument<List<Map<String, Any>>>("filter") as String
+                    )
+                } catch (e: Exception) {
+                    result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
+                }
+            }
+
 
             else -> result.notImplemented()
         }

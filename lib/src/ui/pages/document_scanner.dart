@@ -9,6 +9,7 @@ import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dar
 import 'package:flutter_document_scanner/src/utils/dialogs.dart';
 import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/general_styles.dart';
+import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
 import 'crop_photo_document_page.dart';
@@ -38,6 +39,9 @@ class DocumentScanner extends StatelessWidget {
   ///
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
+  ///
+  final OnSave onSave;
+
   const DocumentScanner({
     Key? key,
     this.controller,
@@ -48,6 +52,7 @@ class DocumentScanner extends StatelessWidget {
     this.takePhotoDocumentStyle = const TakePhotoDocumentStyle(),
     this.cropPhotoDocumentStyle = const CropPhotoDocumentStyle(),
     this.editPhotoDocumentStyle = const EditPhotoDocumentStyle(),
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -93,8 +98,6 @@ class DocumentScanner extends StatelessWidget {
               listenWhen: (previous, current) =>
                   current.statusCropPhoto != previous.statusCropPhoto,
               listener: (context, state) {
-                print(state);
-
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusCropPhoto == AppStatus.loading) {
@@ -106,6 +109,42 @@ class DocumentScanner extends StatelessWidget {
                 }
               },
             ),
+
+            // ? Show default dialogs in Edit Photo
+            BlocListener<AppBloc, AppState>(
+              listenWhen: (previous, current) =>
+                  current.statusEditPhoto != previous.statusEditPhoto,
+              listener: (context, state) {
+                if (generalStyles.hideDefaultDialogs) return;
+
+                if (state.statusEditPhoto == AppStatus.loading) {
+                  dialogs.defaultDialog(context, "Editting picture");
+                }
+
+                if (state.statusEditPhoto == AppStatus.success) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+
+            // ? Show default dialogs in Save Photo Document
+            BlocListener<AppBloc, AppState>(
+              listenWhen: (previous, current) =>
+                  current.statusSavePhotoDocument !=
+                  previous.statusSavePhotoDocument,
+              listener: (context, state) {
+                if (generalStyles.hideDefaultDialogs) return;
+
+                if (state.statusSavePhotoDocument == AppStatus.loading) {
+                  dialogs.defaultDialog(context, "Saving Document");
+                }
+
+                if (state.statusSavePhotoDocument == AppStatus.success) {
+                  Navigator.pop(context);
+                  dialogs.defaultDialog(context, "Saved Document");
+                }
+              },
+            ),
           ],
           child: Container(
             color: generalStyles.baseColor,
@@ -114,6 +153,7 @@ class DocumentScanner extends StatelessWidget {
               takePhotoDocumentStyle: takePhotoDocumentStyle,
               cropPhotoDocumentStyle: cropPhotoDocumentStyle,
               editPhotoDocumentStyle: editPhotoDocumentStyle,
+              onSave: onSave,
             ),
           ),
         ),
@@ -127,6 +167,7 @@ class _View extends StatelessWidget {
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
+  final OnSave onSave;
 
   const _View({
     Key? key,
@@ -134,6 +175,7 @@ class _View extends StatelessWidget {
     required this.takePhotoDocumentStyle,
     required this.cropPhotoDocumentStyle,
     required this.editPhotoDocumentStyle,
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -161,6 +203,7 @@ class _View extends StatelessWidget {
           case AppPages.editDocument:
             page = EditDocumentPhotoPage(
               editPhotoDocumentStyle: editPhotoDocumentStyle,
+              onSave: onSave,
             );
             break;
         }

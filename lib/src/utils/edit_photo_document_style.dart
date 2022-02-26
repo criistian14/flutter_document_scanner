@@ -6,6 +6,9 @@ class EditPhotoDocumentStyle {
   final bool hideAppBarDefault;
 
   ///
+  final bool hideBottomBarDefault;
+
+  ///
   final String textButtonSave;
 
   ///
@@ -19,6 +22,7 @@ class EditPhotoDocumentStyle {
 
   const EditPhotoDocumentStyle({
     this.hideAppBarDefault = false,
+    this.hideBottomBarDefault = false,
     this.textButtonSave = "SAVE",
     this.children,
     this.top = 0,

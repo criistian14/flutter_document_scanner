@@ -156,4 +156,26 @@ class ImageUtils {
       print(e);
     }
   }
+
+  /// Apply the selected [filter] with the opencv library
+  Future<Uint8List> applyFilter(
+    Uint8List byteData,
+    FilterType filter,
+  ) async {
+    try {
+      final newImage = await _methodChannel.invokeMethod("applyFilter", {
+        "byteData": byteData,
+        "filter": filter.name,
+      });
+
+      if (newImage == null) {
+        return byteData;
+      }
+
+      return newImage;
+    } catch (e) {
+      print(e);
+      return byteData;
+    }
+  }
 }

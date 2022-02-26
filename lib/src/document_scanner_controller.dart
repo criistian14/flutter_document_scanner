@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 import 'bloc/app/app_bloc.dart';
@@ -30,6 +30,30 @@ class DocumentScannerController {
     );
   }
 
+  Stream<AppStatus> get statusEditPhoto {
+    return _appBloc.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) => sink.add(data.statusEditPhoto),
+      ),
+    );
+  }
+
+  Stream<FilterType> get currentFilterType {
+    return _appBloc.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) => sink.add(data.currentFilterType),
+      ),
+    );
+  }
+
+  Stream<AppStatus> get statusSavePhotoDocument {
+    return _appBloc.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) => sink.add(data.statusSavePhotoDocument),
+      ),
+    );
+  }
+
   /// Taking the photo
   ///
   /// Then find  the contour with the largest area only when it exceeds [minContourArea]
@@ -51,5 +75,15 @@ class DocumentScannerController {
   ///
   Future<void> cropPhoto() async {
     _appBloc.add(AppPhotoCropped());
+  }
+
+  ///
+  Future<void> applyFilter(FilterType type) async {
+    _appBloc.add(AppFilterApplied(filter: type));
+  }
+
+  ///
+  Future<void> savePhotoDocument() async {
+    _appBloc.add(AppStartedSavingDocument());
   }
 }

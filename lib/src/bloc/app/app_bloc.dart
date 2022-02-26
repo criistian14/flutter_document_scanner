@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_document_scanner/src/models/filter_type.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 import 'app_event.dart';
@@ -20,23 +21,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppPageChanged>(_pageChanged);
     on<AppPhotoCropped>(_photoCropped);
     on<AppLoadCroppedPhoto>(_loadCroppedPhoto);
+    on<AppFilterApplied>(_filterApplied);
+    on<AppNewEditedImageLoaded>(_newEditedImageLoaded);
+    on<AppStartedSavingDocument>(_startedSavingDocument);
+    on<AppDocumentSaved>(_documentSaved);
   }
 
   CameraController? _cameraController;
   XFile? _pictureTaken;
-
-  @override
-  Future<void> close() {
-    print("CLOSE APP BLOC");
-    return super.close();
-  }
-
-  @override
-  void onChange(Change<AppState> change) {
-    print(change.nextState.statusCropPhoto);
-    print(change.nextState.pictureCropped);
-    super.onChange(change);
-  }
 
   ///
   void _cameraInitialized(
@@ -60,8 +52,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     );
 
     await _cameraController!.initialize();
-
-    await Future.delayed(const Duration(seconds: 3)); // TODO: Remover
 
     emit(state.copyWith(
       statusCamera: AppStatus.success,
@@ -122,12 +112,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       case AppPages.cropPhoto:
         emit(state.copyWith(
           currentPage: event.newPage,
+          currentFilterType: FilterType.natural,
         ));
         break;
 
       case AppPages.editDocument:
         emit(state.copyWith(
           currentPage: event.newPage,
+          statusEditPhoto: AppStatus.initial,
+          statusSavePhotoDocument: AppStatus.initial,
         ));
         break;
     }
@@ -156,6 +149,48 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     emit(state.copyWith(
       currentPage: AppPages.editDocument,
+    ));
+  }
+
+  ///
+  Future<void> _filterApplied(
+    AppFilterApplied event,
+    Emitter<AppState> emit,
+  ) async {
+    emit(state.copyWith(
+      currentFilterType: event.filter,
+      statusEditPhoto: AppStatus.loading,
+    ));
+  }
+
+  ///
+  Future<void> _newEditedImageLoaded(
+    AppNewEditedImageLoaded event,
+    Emitter<AppState> emit,
+  ) async {
+    emit(state.copyWith(
+      statusEditPhoto: event.isSucces ? AppStatus.success : AppStatus.failure,
+    ));
+  }
+
+  ///
+  Future<void> _startedSavingDocument(
+    AppStartedSavingDocument event,
+    Emitter<AppState> emit,
+  ) async {
+    emit(state.copyWith(
+      statusSavePhotoDocument: AppStatus.loading,
+    ));
+  }
+
+  ///
+  Future<void> _documentSaved(
+    AppDocumentSaved event,
+    Emitter<AppState> emit,
+  ) async {
+    emit(state.copyWith(
+      statusSavePhotoDocument:
+          event.isSucces ? AppStatus.success : AppStatus.failure,
     ));
   }
 }

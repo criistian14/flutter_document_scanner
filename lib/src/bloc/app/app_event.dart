@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
+import 'package:flutter_document_scanner/src/models/filter_type.dart';
 
 abstract class AppEvent extends Equatable {}
 
@@ -67,5 +68,51 @@ class AppLoadCroppedPhoto extends AppEvent {
   List<Object?> get props => [
         image,
         area,
+      ];
+}
+
+class AppFilterApplied extends AppEvent {
+  final FilterType filter;
+
+  AppFilterApplied({
+    required this.filter,
+  });
+
+  @override
+  List<Object?> get props => [
+        filter,
+      ];
+}
+
+class AppNewEditedImageLoaded extends AppEvent {
+  final bool isSucces;
+
+  AppNewEditedImageLoaded({
+    required this.isSucces,
+  });
+
+  @override
+  List<Object?> get props => [
+        isSucces,
+      ];
+}
+
+class AppStartedSavingDocument extends AppEvent {
+  AppStartedSavingDocument();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class AppDocumentSaved extends AppEvent {
+  final bool isSucces;
+
+  AppDocumentSaved({
+    required this.isSucces,
+  });
+
+  @override
+  List<Object?> get props => [
+        isSucces,
       ];
 }
