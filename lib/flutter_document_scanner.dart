@@ -1,5 +1,7 @@
 library flutter_document_scanner;
 
+export 'package:camera/camera.dart';
+
 export 'src/bloc/app/app_state.dart';
 export 'src/document_scanner_controller.dart';
 export 'src/models/area.dart';
