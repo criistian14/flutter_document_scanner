@@ -19,6 +19,7 @@ jobs:
 
       - name: Install Dependencies
         run: flutter pub get -v
+        working-directory: code
 
       - name: Format
         run: flutter format --set-exit-if-changed .
