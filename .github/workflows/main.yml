@@ -8,17 +8,11 @@ on:
 
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: /
-
     runs-on: ubuntu-latest
 
     steps:      
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '2.x'
           
       - name: Install Dependencies
         run: flutter packages get
