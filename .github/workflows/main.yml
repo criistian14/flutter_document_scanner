@@ -7,10 +7,14 @@ on:
     branches: [master]
 
 jobs:
-  tests:
+  build:
+    defaults:
+      run:
+        working-directory: /
+
     runs-on: ubuntu-latest
 
-    steps:        
+    steps:      
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v1
         with:
