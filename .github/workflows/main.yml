@@ -1,4 +1,4 @@
-name: Flutter_Tests
+name: build
 
 on:
   push:
