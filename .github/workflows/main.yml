@@ -10,16 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:      
+    steps:
+      - uses: actions/checkout@master
+    
       - name: Install and set Flutter version
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@master
         with:
           channel: master
-      - run: "ls -la"
 
       - name: Install Dependencies
-        run: flutter pub get -v
-        working-directory: ./
+        run: flutter pub get
 
       - name: Format
         run: flutter format --set-exit-if-changed .
@@ -31,7 +31,7 @@ jobs:
         run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
         
       - name: Upload coverage to codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@master
         with: 
          token: ${{ secrets.CODECOV_TOKEN }} 
          file: coverage/lcov.info
