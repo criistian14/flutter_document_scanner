@@ -129,7 +129,8 @@ class ImageUtils {
         bottomRight: bottomRight,
       );
     } catch (e) {
-      print(e);
+      // TODO: add error handler
+      // print(e);
     }
   }
 
@@ -153,7 +154,8 @@ class ImageUtils {
 
       return newImage;
     } catch (e) {
-      print(e);
+      // TODO: add error handler
+      // print(e);
     }
   }
 
@@ -174,7 +176,8 @@ class ImageUtils {
 
       return newImage;
     } catch (e) {
-      print(e);
+      // TODO: add error handler
+      // print(e);
       return byteData;
     }
   }

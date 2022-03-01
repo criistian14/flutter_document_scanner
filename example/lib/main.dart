@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
                 top: MediaQuery.of(context).padding.top,
               ),
               onSave: (Uint8List imageBytes) {
-                print("image bytes: $imageBytes");
+                // ? Bytes of the document/image already processed
               },
             ),
           );
