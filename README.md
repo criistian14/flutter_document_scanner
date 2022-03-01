@@ -3,6 +3,9 @@
 <p align="center">
 <a href="https://pub.dev/packages/flutter_document_scanner"><img src="https://img.shields.io/pub/v/flutter_document_scanner.svg" alt="Pub"></a>
 <a href="https://github.com/criistian14/flutter_document_scanner/actions"><img src="https://github.com/criistian14/flutter_document_scanner/actions/workflows/main.yml/badge.svg" alt="build"></a>
+<a href="https://codecov.io/gh/criistian14/flutter_document_scanner">
+  <img src="https://codecov.io/gh/criistian14/flutter_document_scanner/branch/master/graph/badge.svg?token=2U7891NVMO"/>
+</a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
 </p>
 
@@ -46,7 +49,25 @@ DocumentScanner(
 );
 ```
 
+---
 
+## Controller Document uses
+
+### Actions 
+
+```dart
+_controller.takePhoto(
+  minContourArea: 80000.0,
+);
+
+_controller.cropPhoto();
+
+_controller.applyFilter(FilterType.gray);
+
+_controller.savePhotoDocument();
+
+_controller.changePage(AppPages.cropPhoto);
+```
 
 ### Can listen to the changes
 
