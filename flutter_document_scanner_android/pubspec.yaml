@@ -1,0 +1,29 @@
+name: flutter_document_scanner_android
+description: Android implementation of the flutter_document_scanner plugin
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=3.0.0"
+
+flutter:
+  plugin:
+    implements: flutter_document_scanner
+    platforms:
+      android:
+        package: com.christian.flutterDocumentScanner
+        pluginClass: FlutterDocumentScannerPlugin
+        dartPluginClass: FlutterDocumentScannerAndroid
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_document_scanner_platform_interface:
+    path: ../flutter_document_scanner_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.0
+  very_good_analysis: ^3.0.1
