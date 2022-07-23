@@ -5,22 +5,15 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_document_scanner/flutter_document_scanner.dart';
+import 'package:flutter_document_scanner_example/pages/home_page.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  final _controller = DocumentScannerController();
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +22,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.teal,
       ),
-      home: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: DocumentScanner(
-              controller: _controller,
-              cropPhotoDocumentStyle: CropPhotoDocumentStyle(
-                top: MediaQuery.of(context).padding.top,
-              ),
-              onSave: (Uint8List imageBytes) {
-                // ? Bytes of the document/image already processed
-              },
-            ),
-          );
-        },
-      ),
+      title: 'Flutter Document Scanner',
+      home: const HomePage(),
     );
   }
 }

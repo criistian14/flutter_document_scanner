@@ -12,6 +12,9 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
 import 'package:flutter_document_scanner/src/models/filter_type.dart';
+import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document_page.dart';
+import 'package:flutter_document_scanner/src/ui/pages/edit_document_photo_page.dart';
+import 'package:flutter_document_scanner/src/ui/pages/take_photo_document_page.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 
 enum AppStatus {
@@ -21,9 +24,15 @@ enum AppStatus {
   failure,
 }
 
+/// Pages of the app
 enum AppPages {
+  /// Reference to the page [TakePhotoDocumentPage]
   takePhoto,
+
+  /// Reference to the page [CropPhotoDocumentPage]
   cropPhoto,
+
+  /// Reference to the page [EditDocumentPhotoPage]
   editDocument,
 }
 

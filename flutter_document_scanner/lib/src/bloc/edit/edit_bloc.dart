@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 import 'edit_event.dart';
@@ -27,7 +28,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
   late Uint8List imageBase;
 
-  ///
+  /// Load cropped image from previous page
   Future<void> _started(
     EditStarted event,
     Emitter<EditState> emit,
@@ -39,7 +40,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     ));
   }
 
-  ///
+  /// Apply [FilterType] with OpenCV library
   Future<void> _filterChanged(
     EditFilterChanged event,
     Emitter<EditState> emit,

@@ -36,7 +36,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
   late Rect _imageRect;
   late Size newScreenSize;
 
-  ///
+  /// Position the dots according to the sent contour [CropAreaInitialized.areaInitial]
   Future<void> _areaInitialized(
     CropAreaInitialized event,
     Emitter<CropState> emit,
@@ -87,7 +87,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
     ));
   }
 
-  ///
+  /// Move dot and update cutting area
   Future<void> _dotMoved(
     CropDotMoved event,
     Emitter<CropState> emit,
@@ -169,7 +169,9 @@ class CropBloc extends Bloc<CropEvent, CropState> {
     );
   }
 
+  /// Crop the image and then adjust the perspective
   ///
+  /// lastly change the page
   Future<void> _photoByAreaCropped(
     CropPhotoByAreaCropped event,
     Emitter<CropState> emit,

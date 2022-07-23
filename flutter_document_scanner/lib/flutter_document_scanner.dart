@@ -15,5 +15,6 @@ export 'src/models/area.dart';
 export 'src/models/filter_type.dart';
 export 'src/ui/pages/document_scanner.dart';
 export 'src/utils/crop_photo_document_style.dart';
+export 'src/utils/edit_photo_document_style.dart';
 export 'src/utils/general_styles.dart';
 export 'src/utils/take_photo_document_style.dart';

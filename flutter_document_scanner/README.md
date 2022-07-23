@@ -20,6 +20,18 @@ the [Camera][camera_link] plugin and [OpenCV][opencv_link]
 
 ---
 
+## TODO
+
+| Feature                        | Android | iOS |
+|--------------------------------|---------| --- |
+| Apply filters with OpenCV      | ✅       | ❌ |
+| Select image from gallery      | ❌       | ❌ |
+| Find contours in real time     | ❌       | ❌ |
+| Taking multiple photos at once | ❌       | ❌ |
+| Share photos taken             | ❌       | ❌ |
+| Generate PDF                   | ❌       | ❌ |
+
+
 
 ## Usage
 

@@ -37,8 +37,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   CameraController? _cameraController;
   XFile? _pictureTaken;
 
+  /// Initialize [CameraController]
+  /// based on the parameters sent by [AppCameraInitialized]
   ///
-  void _cameraInitialized(
+  /// [AppCameraInitialized.cameraLensDirection] for [CameraLensDirection]
+  /// [AppCameraInitialized.resolutionCamera] for the [ResolutionPreset] camera
+  Future<void> _cameraInitialized(
     AppCameraInitialized event,
     Emitter<AppState> emit,
   ) async {
@@ -66,7 +70,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
+  /// Take a photo with the [CameraController.takePicture]
   ///
+  /// Then [ImageUtils.findContourPhoto] with the largest area by [AppPhotoTaken.minContourArea] in the image
   Future<void> _photoTaken(
     AppPhotoTaken event,
     Emitter<AppState> emit,
@@ -101,7 +107,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// When changing the page, the state will be initialized.
   Future<void> _pageChanged(
     AppPageChanged event,
     Emitter<AppState> emit,
@@ -133,7 +139,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  ///
+  /// It will change the state and
+  /// execute the event [CropPhotoByAreaCropped] to crop the image that is in the [CropBloc].
   Future<void> _photoCropped(
     AppPhotoCropped event,
     Emitter<AppState> emit,
@@ -143,7 +150,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// It will change the state and then change page to [AppPages.editDocument]
   Future<void> _loadCroppedPhoto(
     AppLoadCroppedPhoto event,
     Emitter<AppState> emit,
@@ -159,7 +166,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// It will change the state and
+  /// execute the event [EditFilterChanged] to crop the image that is in the [EditBloc].
   Future<void> _filterApplied(
     AppFilterApplied event,
     Emitter<AppState> emit,
@@ -170,7 +178,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// It is called when the image filter changes
   Future<void> _newEditedImageLoaded(
     AppNewEditedImageLoaded event,
     Emitter<AppState> emit,
@@ -180,7 +188,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// It will change the state and
+  /// validate if image edited is valid.
   Future<void> _startedSavingDocument(
     AppStartedSavingDocument event,
     Emitter<AppState> emit,
@@ -190,7 +199,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
-  ///
+  /// Change state after saved the document
   Future<void> _documentSaved(
     AppDocumentSaved event,
     Emitter<AppState> emit,

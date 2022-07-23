@@ -24,29 +24,35 @@ import 'edit_document_photo_page.dart';
 import 'take_photo_document_page.dart';
 
 class DocumentScanner extends StatelessWidget {
-  ///
+  /// Controller to execute the different functionalities using the [DocumentScannerController]
   final DocumentScannerController? controller;
 
-  ///
+  /// [generalStyles] is the [GeneralStyles] that will be used to style the
+  /// [DocumentScanner] widget.
   final GeneralStyles generalStyles;
 
-  ///
+  /// To change the animation performed when switching between screens
+  /// by using the [AnimatedSwitcherTransitionBuilder]
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
 
   /// Config Camera
   final CameraLensDirection initialCameraLensDirection;
   final ResolutionPreset resolutionCamera;
 
-  ///
+  /// It is used to change the style of the [TakePhotoDocumentPage] page
+  /// using the [TakePhotoDocumentStyle] class.
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
-  ///
+  /// It is used to change the style of the [CropPhotoDocumentPage] page
+  /// using the [CropPhotoDocumentStyle] class.
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
-  ///
+  /// It is used to change the style of the [EditDocumentPhotoPage] page
+  /// using the [EditPhotoDocumentStyle] class.
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
-  ///
+  /// After performing the whole process of capturing the document
+  /// It will return it as [Uint8List].
   final OnSave onSave;
 
   const DocumentScanner({
