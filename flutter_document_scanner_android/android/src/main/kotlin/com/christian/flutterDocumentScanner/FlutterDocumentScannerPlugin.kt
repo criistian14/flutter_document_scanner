@@ -15,7 +15,7 @@ import org.opencv.android.OpenCVLoader
 class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
     private var context: Context? = null
-    private var OpenCVFLag = false
+    private var openCVFLag = false
 
     companion object {
         const val TAG = "com.christian.Log.Tag"
@@ -23,18 +23,18 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, FlutterDocumentScannerPlugin.PLUGIN_ID)
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, PLUGIN_ID)
         channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        if (!OpenCVFLag) {
+        if (!openCVFLag) {
             if (!OpenCVLoader.initDebug()) {
-                Log.i(FlutterDocumentScannerPlugin.TAG, "Unable to load OpenCV")
+                Log.i(TAG, "Unable to load OpenCV")
             } else {
-                OpenCVFLag = true
-                Log.i(FlutterDocumentScannerPlugin.TAG, "OpenCV loaded Successfully")
+                openCVFLag = true
+                Log.i(TAG, "OpenCV loaded Successfully")
             }
         }
 
@@ -45,7 +45,7 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
                     OpenCVPlugin.findContourPhoto(
                         result,
                         call.argument<ByteArray>("byteData") as ByteArray,
-                        call.argument<ByteArray>("minContourArea") as Double
+                        call.argument<Double>("minContourArea") as Double
                     )
                 } catch (e: Exception) {
                     result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
@@ -69,7 +69,7 @@ class FlutterDocumentScannerPlugin : FlutterPlugin, MethodCallHandler {
                     OpenCVPlugin.applyFilter(
                         result,
                         call.argument<ByteArray>("byteData") as ByteArray,
-                        call.argument<List<Map<String, Any>>>("filter") as String
+                        call.argument<Int>("filter") as Int
                     )
                 } catch (e: Exception) {
                     result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)

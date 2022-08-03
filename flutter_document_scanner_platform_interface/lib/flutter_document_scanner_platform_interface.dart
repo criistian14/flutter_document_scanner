@@ -7,8 +7,13 @@
 
 import 'dart:typed_data';
 
+import 'package:flutter_document_scanner_platform_interface/src/contour.dart';
+import 'package:flutter_document_scanner_platform_interface/src/filter_type.dart';
 import 'package:flutter_document_scanner_platform_interface/src/method_channel_flutter_document_scanner.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+export 'package:flutter_document_scanner_platform_interface/src/contour.dart';
+export 'package:flutter_document_scanner_platform_interface/src/filter_type.dart';
 
 /// The interface that implementations of flutter_document_scanner must implement.
 ///
@@ -38,18 +43,26 @@ abstract class FlutterDocumentScannerPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<Map<String, dynamic>?> findContourPhoto({
+  Future<Contour?> findContourPhoto({
     required Uint8List byteData,
     required double minContourArea,
-  });
+  }) {
+    throw UnimplementedError('findContourPhoto() has not been implemented.');
+  }
 
   Future<Uint8List?> adjustingPerspective({
     required Uint8List byteData,
-    required List<Map<String, double>> points,
-  });
+    required Contour contour,
+  }) {
+    throw UnimplementedError(
+      'adjustingPerspective() has not been implemented.',
+    );
+  }
 
   Future<Uint8List?> applyFilter({
     required Uint8List byteData,
-    required String filter,
-  });
+    required FilterType filter,
+  }) {
+    throw UnimplementedError('applyFilter() has not been implemented.');
+  }
 }

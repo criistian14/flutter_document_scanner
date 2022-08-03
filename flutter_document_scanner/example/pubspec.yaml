@@ -1,6 +1,6 @@
 name: flutter_document_scanner_example
 description: Demonstrates how to use the flutter_document_scanner plugin.
-version: 0.1.0+1
+version: 0.5.0
 publish_to: none
 
 environment:

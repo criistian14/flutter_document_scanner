@@ -10,34 +10,7 @@ import 'dart:typed_data';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class FlutterDocumentScannerMock extends FlutterDocumentScannerPlatform {
-  @override
-  Future<Uint8List?> adjustingPerspective({
-    required Uint8List byteData,
-    required List<Map<String, double>> points,
-  }) {
-    // TODO: implement adjustingPerspective
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Uint8List?> applyFilter({
-    required Uint8List byteData,
-    required String filter,
-  }) {
-    // TODO: implement applyFilter
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Map<String, dynamic>?> findContourPhoto({
-    required Uint8List byteData,
-    required double minContourArea,
-  }) {
-    // TODO: implement findContourPhoto
-    throw UnimplementedError();
-  }
-}
+class FlutterDocumentScannerMock extends FlutterDocumentScannerPlatform {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

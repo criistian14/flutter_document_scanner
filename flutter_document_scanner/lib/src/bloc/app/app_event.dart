@@ -11,7 +11,7 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
-import 'package:flutter_document_scanner/src/models/filter_type.dart';
+import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
 abstract class AppEvent extends Equatable {}
 

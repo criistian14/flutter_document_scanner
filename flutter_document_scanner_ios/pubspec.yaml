@@ -1,6 +1,6 @@
 name: flutter_document_scanner_ios
 description: iOS implementation of the flutter_document_scanner plugin
-version: 0.1.0+1
+version: 0.5.0
 publish_to: none
 
 environment:

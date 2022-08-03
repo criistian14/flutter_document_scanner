@@ -10,9 +10,7 @@ import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 
-///
 class Contour extends Equatable {
-  ///
   const Contour({
     this.height,
     this.width,
@@ -20,7 +18,6 @@ class Contour extends Equatable {
     this.image,
   });
 
-  ///
   factory Contour.fromMap(Map<String, dynamic> map) {
     return Contour(
       height: map['height'] as int,

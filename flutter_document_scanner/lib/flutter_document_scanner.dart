@@ -9,10 +9,10 @@ library flutter_document_scanner;
 
 export 'package:camera/camera.dart';
 
+export 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 export 'src/bloc/app/app_state.dart';
 export 'src/document_scanner_controller.dart';
 export 'src/models/area.dart';
-export 'src/models/filter_type.dart';
 export 'src/ui/pages/document_scanner.dart';
 export 'src/utils/crop_photo_document_style.dart';
 export 'src/utils/edit_photo_document_style.dart';

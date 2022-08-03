@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
-import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
+import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
 class BottomBarEditPhoto extends StatelessWidget {
   final EditPhotoDocumentStyle editPhotoDocumentStyle;

@@ -10,13 +10,12 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_document_scanner/src/bloc/crop/crop_event.dart';
+import 'package:flutter_document_scanner/src/bloc/crop/crop_state.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
-import 'package:flutter_document_scanner/src/models/contour.dart';
 import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
-
-import 'crop_event.dart';
-import 'crop_state.dart';
+import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
 class CropBloc extends Bloc<CropEvent, CropState> {
   final DotUtils _dotUtils;

@@ -10,9 +10,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
-import 'package:flutter_document_scanner/src/models/contour.dart';
-import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
+/// ImageUtils class
 class ImageUtils {
   FlutterDocumentScannerPlatform get _platform =>
       FlutterDocumentScannerPlatform.instance;
@@ -43,9 +42,9 @@ class ImageUtils {
       );
       if (contour == null) return null;
 
-      final contourParsed = Contour.fromMap(contour);
-      if (contourParsed.points.isEmpty) return null;
-      if (contourParsed.points.length != 4) return null;
+      // final contourParsed = Contour.fromMap(contour);
+      if (contour.points.isEmpty) return null;
+      if (contour.points.length != 4) return null;
 
       // Identify each side of the contour
       int numTopFound = 0;
@@ -61,7 +60,7 @@ class ImageUtils {
       Point<double> lastBottomFound = const Point(0, 0);
 
       for (int i = 0; i < 4; i++) {
-        for (final point in contourParsed.points) {
+        for (final point in contour.points) {
           if (point.y > lastBottomFound.y) {
             if (bottom1.y == 0 || point.y != bottom1.y) {
               lastBottomFound = point;
@@ -151,14 +150,7 @@ class ImageUtils {
     try {
       final newImage = await _platform.adjustingPerspective(
         byteData: byteData,
-        points: contour.points
-            .map(
-              (e) => {
-                'x': e.x,
-                'y': e.y,
-              },
-            )
-            .toList(),
+        contour: contour,
       );
 
       return newImage;
@@ -177,7 +169,7 @@ class ImageUtils {
     try {
       final newImage = await _platform.applyFilter(
         byteData: byteData,
-        filter: filter.name,
+        filter: filter,
       );
 
       if (newImage == null) {

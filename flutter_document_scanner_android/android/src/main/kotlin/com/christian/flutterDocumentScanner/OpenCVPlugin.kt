@@ -1,6 +1,5 @@
 package com.christian.flutterDocumentScanner
 
-import android.util.Log
 import io.flutter.plugin.common.MethodChannel
 import org.opencv.core.*
 import org.opencv.imgcodecs.Imgcodecs
@@ -9,7 +8,11 @@ import org.opencv.imgproc.Imgproc
 
 class OpenCVPlugin {
     companion object {
-        fun findContourPhoto(result: MethodChannel.Result, byteData: ByteArray, minContourArea: Double) {
+        fun findContourPhoto(
+            result: MethodChannel.Result,
+            byteData: ByteArray,
+            minContourArea: Double
+        ) {
             try {
                 val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
 
@@ -149,7 +152,9 @@ class OpenCVPlugin {
                 val isLessCurrentArea = Imgproc.contourArea(approx) > maxArea
                 val isLessMaxArea = maxArea < maxContourArea
 
-                if (approx.total().toInt() == 4 && isContour && isLessCurrentArea && isLessMaxArea) {
+                if (approx.total()
+                        .toInt() == 4 && isContour && isLessCurrentArea && isLessMaxArea
+                ) {
                     maxArea = Imgproc.contourArea(approx)
                     documentContour = approx
                 }
@@ -163,7 +168,11 @@ class OpenCVPlugin {
         }
 
 
-        fun adjustingPerspective(byteData: ByteArray, points: List<Map<String, Any>>, result: MethodChannel.Result) {
+        fun adjustingPerspective(
+            byteData: ByteArray,
+            points: List<Map<String, Any>>,
+            result: MethodChannel.Result
+        ) {
             try {
                 val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
                 val documentContour = MatOfPoint(
@@ -212,22 +221,25 @@ class OpenCVPlugin {
         }
 
 
-        fun applyFilter(result: MethodChannel.Result, byteData: ByteArray, filter: String) {
+        fun applyFilter(result: MethodChannel.Result, byteData: ByteArray, filter: Int) {
             try {
+                val filterType: FilterType = when (filter) {
+                    1 -> FilterType.Natural
+                    2 -> FilterType.Gray
+                    3 -> FilterType.Eco
+
+                    else -> FilterType.Natural
+                }
                 val src = Imgcodecs.imdecode(MatOfByte(*byteData), Imgcodecs.IMREAD_UNCHANGED)
 
                 var dstEnd = Mat()
 
-                when (filter) {
-                    "natural" -> {
-                        dstEnd = src
-                    }
+                when (filterType) {
+                    FilterType.Natural -> dstEnd = src
 
-                    "gray" -> {
-                        Imgproc.cvtColor(src, dstEnd, Imgproc.COLOR_BGR2GRAY)
-                    }
+                    FilterType.Gray -> Imgproc.cvtColor(src, dstEnd, Imgproc.COLOR_BGR2GRAY)
 
-                    "eco" -> {
+                    FilterType.Eco -> {
                         val dstColor = Mat()
                         Imgproc.cvtColor(src, dstColor, Imgproc.COLOR_BGR2GRAY)
 
@@ -247,9 +259,6 @@ class OpenCVPlugin {
 
                         Imgproc.medianBlur(dstThreshold, dstEnd, 3)
                     }
-
-
-                    else -> result.notImplemented()
                 }
 
 
@@ -266,5 +275,11 @@ class OpenCVPlugin {
                 result.error("FlutterDocumentScanner-Error", "Android: " + e.message, e)
             }
         }
+    }
+
+    private enum class FilterType {
+        Natural,
+        Gray,
+        Eco,
     }
 }

@@ -1,6 +1,6 @@
 name: flutter_document_scanner
 description: A Flutter plugin that allows the management of taking, cropping and applying filters to an image, using the camera plugin
-version: 0.1.0
+version: 0.5.0
 repository: https://github.com/criistian14/flutter_document_scanner/tree/master/flutter_document_scanner
 
 environment:

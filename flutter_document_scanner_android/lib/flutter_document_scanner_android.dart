@@ -23,17 +23,20 @@ class FlutterDocumentScannerAndroid extends FlutterDocumentScannerPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>?> findContourPhoto({
+  Future<Contour?> findContourPhoto({
     required Uint8List byteData,
     required double minContourArea,
   }) async {
-    final contour = await methodChannel.invokeMethod('findContourPhoto', {
-      'byteData': byteData,
-      'minContourArea': minContourArea,
-    });
+    final contour = await methodChannel.invokeMapMethod<String, dynamic>(
+      'findContourPhoto',
+      <String, Object>{
+        'byteData': byteData,
+        'minContourArea': minContourArea,
+      },
+    );
 
-    if (contour is Map) {
-      return Map<String, dynamic>.from(contour);
+    if (contour != null) {
+      return Contour.fromMap(contour);
     }
 
     return null;
@@ -42,34 +45,35 @@ class FlutterDocumentScannerAndroid extends FlutterDocumentScannerPlatform {
   @override
   Future<Uint8List?> adjustingPerspective({
     required Uint8List byteData,
-    required List<Map<String, double>> points,
+    required Contour contour,
   }) async {
-    final newImage = await methodChannel.invokeMethod('adjustingPerspective', {
-      'byteData': byteData,
-      'points': points,
-    });
-
-    if (newImage is Uint8List) {
-      return newImage;
-    }
-
-    return null;
+    return methodChannel.invokeMethod<Uint8List>(
+      'adjustingPerspective',
+      <String, Object>{
+        'byteData': byteData,
+        'points': contour.points
+            .map(
+              (e) => {
+                'x': e.x,
+                'y': e.y,
+              },
+            )
+            .toList(),
+      },
+    ).then((value) => value);
   }
 
   @override
   Future<Uint8List?> applyFilter({
     required Uint8List byteData,
-    required String filter,
+    required FilterType filter,
   }) async {
-    final newImage = await methodChannel.invokeMethod('applyFilter', {
-      'byteData': byteData,
-      'filter': filter,
-    });
-
-    if (newImage is Uint8List) {
-      return newImage;
-    }
-
-    return null;
+    return methodChannel.invokeMethod<Uint8List>(
+      'applyFilter',
+      <String, Object>{
+        'byteData': byteData,
+        'filter': filter.value,
+      },
+    ).then((value) => value);
   }
 }

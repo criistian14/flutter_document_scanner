@@ -10,3 +10,18 @@ enum FilterType {
   gray,
   eco,
 }
+
+extension FilterTypeExt on FilterType {
+  int get value {
+    switch (this) {
+      case FilterType.natural:
+        return 1;
+
+      case FilterType.gray:
+        return 2;
+
+      case FilterType.eco:
+        return 3;
+    }
+  }
+}

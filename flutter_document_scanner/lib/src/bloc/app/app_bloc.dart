@@ -10,7 +10,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_document_scanner/src/models/filter_type.dart';
+import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 import 'app_event.dart';

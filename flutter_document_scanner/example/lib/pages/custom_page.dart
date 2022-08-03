@@ -15,6 +15,21 @@ class _CustomPageState extends State<CustomPage> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.currentFilterType.listen((filterType) {
+      switch (filterType) {
+        case FilterType.natural:
+          // TODO: Handle this case.
+          break;
+        case FilterType.gray:
+          // TODO: Handle this case.
+          break;
+        case FilterType.eco:
+          // TODO: Handle this case.
+          break;
+      }
+      print('Filter Type: ${filterType}');
+    });
+
     return Scaffold(
       body: DocumentScanner(
         controller: _controller,
