@@ -11,8 +11,8 @@ class Dialogs {
   void defaultDialog(
     BuildContext context,
     String message,
-  ) async {
-    showDialog(
+  ) {
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) {

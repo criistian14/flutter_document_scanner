@@ -17,10 +17,9 @@ import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
+/// Control everything related to image cropping and perspective adjustment
 class CropBloc extends Bloc<CropEvent, CropState> {
-  final DotUtils _dotUtils;
-  final ImageUtils _imageUtils;
-
+  /// Create an instance of the bloc
   CropBloc({
     required DotUtils dotUtils,
     required ImageUtils imageUtils,
@@ -32,10 +31,16 @@ class CropBloc extends Bloc<CropEvent, CropState> {
     on<CropPhotoByAreaCropped>(_photoByAreaCropped);
   }
 
+  final DotUtils _dotUtils;
+  final ImageUtils _imageUtils;
+
   late Rect _imageRect;
+
+  /// Screen size by adjusting the screen image position
   late Size newScreenSize;
 
-  /// Position the dots according to the sent contour [CropAreaInitialized.areaInitial]
+  /// Position the dots according to the
+  /// sent contour [CropAreaInitialized.areaInitial]
   Future<void> _areaInitialized(
     CropAreaInitialized event,
     Emitter<CropState> emit,
@@ -81,9 +86,11 @@ class CropBloc extends Bloc<CropEvent, CropState> {
       );
     }
 
-    emit(state.copyWith(
-      area: area,
-    ));
+    emit(
+      state.copyWith(
+        area: area,
+      ),
+    );
   }
 
   /// Move dot and update cutting area
@@ -215,9 +222,11 @@ class CropBloc extends Bloc<CropEvent, CropState> {
       contour,
     );
 
-    emit(state.copyWith(
-      imageCropped: response,
-      areaParsed: area,
-    ));
+    emit(
+      state.copyWith(
+        imageCropped: response,
+        areaParsed: area,
+      ),
+    );
   }
 }

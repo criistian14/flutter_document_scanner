@@ -10,12 +10,14 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
+/// Class to create events
 abstract class EditEvent extends Equatable {}
 
 class EditStarted extends EditEvent {
-  final Uint8List image;
-
+  /// Create an event instance
   EditStarted(this.image);
+
+  final Uint8List image;
 
   @override
   List<Object?> get props => [
@@ -24,9 +26,10 @@ class EditStarted extends EditEvent {
 }
 
 class EditFilterChanged extends EditEvent {
-  final FilterType filter;
-
+  /// Create an event instance
   EditFilterChanged(this.filter);
+
+  final FilterType filter;
 
   @override
   List<Object?> get props => [

@@ -37,18 +37,6 @@ enum AppPages {
 }
 
 class AppState extends Equatable {
-  final AppPages currentPage;
-  final AppStatus statusCamera;
-  final CameraController? cameraController;
-  final AppStatus statusTakePhotoPage;
-  final File? pictureInitial;
-  final AppStatus statusCropPhoto;
-  final Area? contourInitial;
-  final Uint8List? pictureCropped;
-  final AppStatus statusEditPhoto;
-  final FilterType currentFilterType;
-  final AppStatus statusSavePhotoDocument;
-
   const AppState({
     this.currentPage = AppPages.takePhoto,
     this.statusCamera = AppStatus.initial,
@@ -67,6 +55,18 @@ class AppState extends Equatable {
     return const AppState();
   }
 
+  final AppPages currentPage;
+  final AppStatus statusCamera;
+  final CameraController? cameraController;
+  final AppStatus statusTakePhotoPage;
+  final File? pictureInitial;
+  final AppStatus statusCropPhoto;
+  final Area? contourInitial;
+  final Uint8List? pictureCropped;
+  final AppStatus statusEditPhoto;
+  final FilterType currentFilterType;
+  final AppStatus statusSavePhotoDocument;
+
   @override
   List<Object?> get props => [
         currentPage,
@@ -82,6 +82,8 @@ class AppState extends Equatable {
         statusSavePhotoDocument,
       ];
 
+  /// Creates a copy of this state but with the given fields replaced with
+  /// the new values.
   AppState copyWith({
     AppPages? currentPage,
     AppStatus? statusCamera,

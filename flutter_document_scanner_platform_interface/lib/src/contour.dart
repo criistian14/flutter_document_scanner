@@ -54,8 +54,8 @@ class Contour extends Equatable {
         image,
       ];
 
-  /// Creates a copy of this Contour but with the given fields replaced with the
-  /// new values.
+  /// Creates a copy of this Contour but with the given fields replaced with
+  /// the new values.
   Contour copyWith({
     int? height,
     int? width,

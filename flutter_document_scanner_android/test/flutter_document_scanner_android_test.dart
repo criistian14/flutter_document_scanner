@@ -37,8 +37,10 @@ void main() {
 
     test('can be registered', () {
       FlutterDocumentScannerAndroid.registerWith();
-      expect(FlutterDocumentScannerPlatform.instance,
-          isA<FlutterDocumentScannerAndroid>());
+      expect(
+        FlutterDocumentScannerPlatform.instance,
+        isA<FlutterDocumentScannerAndroid>(),
+      );
     });
 
     test('getPlatformName returns correct name', () async {

@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const kPlatformName = 'platformName';
+  // const kPlatformName = 'platformName';
 
   // group('$MethodChannelFlutterDocumentScanner', () {
   //   late MethodChannelFlutterDocumentScanner

@@ -24,6 +24,19 @@ import 'edit_document_photo_page.dart';
 import 'take_photo_document_page.dart';
 
 class DocumentScanner extends StatelessWidget {
+  const DocumentScanner({
+    super.key,
+    this.controller,
+    this.generalStyles = const GeneralStyles(),
+    this.pageTransitionBuilder,
+    this.initialCameraLensDirection = CameraLensDirection.back,
+    this.resolutionCamera = ResolutionPreset.high,
+    this.takePhotoDocumentStyle = const TakePhotoDocumentStyle(),
+    this.cropPhotoDocumentStyle = const CropPhotoDocumentStyle(),
+    this.editPhotoDocumentStyle = const EditPhotoDocumentStyle(),
+    required this.onSave,
+  });
+
   /// Controller to execute the different functionalities using the [DocumentScannerController]
   final DocumentScannerController? controller;
 
@@ -55,19 +68,6 @@ class DocumentScanner extends StatelessWidget {
   /// It will return it as [Uint8List].
   final OnSave onSave;
 
-  const DocumentScanner({
-    Key? key,
-    this.controller,
-    this.generalStyles = const GeneralStyles(),
-    this.pageTransitionBuilder,
-    this.initialCameraLensDirection = CameraLensDirection.back,
-    this.resolutionCamera = ResolutionPreset.high,
-    this.takePhotoDocumentStyle = const TakePhotoDocumentStyle(),
-    this.cropPhotoDocumentStyle = const CropPhotoDocumentStyle(),
-    this.editPhotoDocumentStyle = const EditPhotoDocumentStyle(),
-    required this.onSave,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final Dialogs dialogs = Dialogs();
@@ -97,7 +97,7 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusTakePhotoPage == AppStatus.loading) {
-                  dialogs.defaultDialog(context, "Taking picture");
+                  dialogs.defaultDialog(context, 'Taking picture');
                 }
 
                 if (state.statusTakePhotoPage == AppStatus.success) {
@@ -114,7 +114,7 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusCropPhoto == AppStatus.loading) {
-                  dialogs.defaultDialog(context, "Cropping picture");
+                  dialogs.defaultDialog(context, 'Cropping picture');
                 }
 
                 if (state.statusCropPhoto == AppStatus.success) {
@@ -131,7 +131,7 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusEditPhoto == AppStatus.loading) {
-                  dialogs.defaultDialog(context, "Editting picture");
+                  dialogs.defaultDialog(context, 'Editing picture');
                 }
 
                 if (state.statusEditPhoto == AppStatus.success) {
@@ -149,17 +149,17 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusSavePhotoDocument == AppStatus.loading) {
-                  dialogs.defaultDialog(context, "Saving Document");
+                  dialogs.defaultDialog(context, 'Saving Document');
                 }
 
                 if (state.statusSavePhotoDocument == AppStatus.success) {
                   Navigator.pop(context);
-                  dialogs.defaultDialog(context, "Saved Document");
+                  dialogs.defaultDialog(context, 'Saved Document');
                 }
               },
             ),
           ],
-          child: Container(
+          child: ColoredBox(
             color: generalStyles.baseColor,
             child: _View(
               pageTransitionBuilder: pageTransitionBuilder,
@@ -176,20 +176,20 @@ class DocumentScanner extends StatelessWidget {
 }
 
 class _View extends StatelessWidget {
-  final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
-  final TakePhotoDocumentStyle takePhotoDocumentStyle;
-  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
-  final EditPhotoDocumentStyle editPhotoDocumentStyle;
-  final OnSave onSave;
-
   const _View({
-    Key? key,
+    super.key,
     this.pageTransitionBuilder,
     required this.takePhotoDocumentStyle,
     required this.cropPhotoDocumentStyle,
     required this.editPhotoDocumentStyle,
     required this.onSave,
-  }) : super(key: key);
+  });
+
+  final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
+  final TakePhotoDocumentStyle takePhotoDocumentStyle;
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
+  final OnSave onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +225,7 @@ class _View extends StatelessWidget {
           duration: const Duration(milliseconds: 400),
           transitionBuilder: pageTransitionBuilder ??
               (child, animation) {
-                const begin = Offset(-1.0, 0.0);
+                const begin = Offset(-1, 0);
                 const end = Offset.zero;
                 final tween = Tween(begin: begin, end: end);
 

@@ -37,8 +37,10 @@ void main() {
 
     test('can be registered', () {
       FlutterDocumentScannerIOS.registerWith();
-      expect(FlutterDocumentScannerPlatform.instance,
-          isA<FlutterDocumentScannerIOS>());
+      expect(
+        FlutterDocumentScannerPlatform.instance,
+        isA<FlutterDocumentScannerIOS>(),
+      );
     });
 
     test('getPlatformName returns correct name', () async {

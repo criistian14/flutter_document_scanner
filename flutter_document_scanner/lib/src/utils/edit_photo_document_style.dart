@@ -9,6 +9,17 @@ import 'package:flutter/material.dart';
 
 @immutable
 class EditPhotoDocumentStyle {
+  const EditPhotoDocumentStyle({
+    this.hideAppBarDefault = false,
+    this.hideBottomBarDefault = false,
+    this.textButtonSave = 'SAVE',
+    this.children,
+    this.top = 0,
+    this.bottom = 0,
+    this.left = 0,
+    this.right = 0,
+  });
+
   ///
   final bool hideAppBarDefault;
 
@@ -26,15 +37,4 @@ class EditPhotoDocumentStyle {
   final double bottom;
   final double left;
   final double right;
-
-  const EditPhotoDocumentStyle({
-    this.hideAppBarDefault = false,
-    this.hideBottomBarDefault = false,
-    this.textButtonSave = "SAVE",
-    this.children,
-    this.top = 0,
-    this.bottom = 0,
-    this.left = 0,
-    this.right = 0,
-  });
 }

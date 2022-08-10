@@ -10,12 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
 class AppBarCropPhoto extends StatelessWidget {
-  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
-
   const AppBarCropPhoto({
-    Key? key,
+    super.key,
     required this.cropPhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class AppBarCropPhoto extends StatelessWidget {
             TextButton(
               onPressed: () =>
                   context.read<DocumentScannerController>().cropPhoto(),
-              child: Text(
-                cropPhotoDocumentStyle.textButtonSave,
-              ),
               style: TextButton.styleFrom(
                 primary: Colors.white,
+              ),
+              child: Text(
+                cropPhotoDocumentStyle.textButtonSave,
               ),
             ),
           ],

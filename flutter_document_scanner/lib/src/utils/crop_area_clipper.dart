@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
 
 class CropAreaClipper extends CustomClipper<Path> {
-  final Area area;
-
   const CropAreaClipper(this.area);
+
+  final Area area;
 
   @override
   Path getClip(Size size) {
@@ -25,7 +25,7 @@ class CropAreaClipper extends CustomClipper<Path> {
           ..close(),
         Offset.zero,
       )
-      ..addRect(Rect.fromLTWH(0.0, 0.0, size.width, size.height))
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
       ..fillType = PathFillType.evenOdd;
   }
 

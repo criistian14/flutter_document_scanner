@@ -8,15 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
-import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
 class BottomBarEditPhoto extends StatelessWidget {
-  final EditPhotoDocumentStyle editPhotoDocumentStyle;
-
   const BottomBarEditPhoto({
-    Key? key,
+    super.key,
     required this.editPhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class BottomBarEditPhoto extends StatelessWidget {
       bottom: MediaQuery.of(context).padding.bottom,
       left: 0,
       right: 0,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
         ),
@@ -39,11 +38,11 @@ class BottomBarEditPhoto extends StatelessWidget {
                   context.read<DocumentScannerController>().applyFilter(
                         FilterType.natural,
                       ),
-              child: const Text(
-                "Natural",
-              ),
               style: TextButton.styleFrom(
                 primary: Colors.white,
+              ),
+              child: const Text(
+                'Natural',
               ),
             ),
 
@@ -53,11 +52,11 @@ class BottomBarEditPhoto extends StatelessWidget {
                   context.read<DocumentScannerController>().applyFilter(
                         FilterType.gray,
                       ),
-              child: const Text(
-                "GRAY",
-              ),
               style: TextButton.styleFrom(
                 primary: Colors.white,
+              ),
+              child: const Text(
+                'GRAY',
               ),
             ),
 
@@ -67,11 +66,11 @@ class BottomBarEditPhoto extends StatelessWidget {
                   context.read<DocumentScannerController>().applyFilter(
                         FilterType.eco,
                       ),
-              child: const Text(
-                "ECO",
-              ),
               style: TextButton.styleFrom(
                 primary: Colors.white,
+              ),
+              child: const Text(
+                'ECO',
               ),
             ),
           ],

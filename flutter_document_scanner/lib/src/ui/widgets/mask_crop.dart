@@ -13,14 +13,14 @@ import 'package:flutter_document_scanner/src/utils/crop_area_clipper.dart';
 import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 
 class MaskCrop extends StatelessWidget {
-  final Area area;
-  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
-
   const MaskCrop({
-    Key? key,
+    super.key,
     required this.area,
     required this.cropPhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final Area area;
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MaskCrop extends StatelessWidget {
               sigmaX: 5,
               sigmaY: 5,
             ),
-        child: Container(
+        child: ColoredBox(
           color: cropPhotoDocumentStyle.maskColor ??
               const Color(0xffb9c2d5).withOpacity(0.1),
         ),

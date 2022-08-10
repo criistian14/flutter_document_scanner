@@ -11,24 +11,16 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
 
+/// Controls the status when cropping the image
 class CropState extends Equatable {
-  final Area area;
-  final Uint8List? imageCropped;
-  final Area? areaParsed;
-
+  /// Create an state instance
   const CropState({
     required this.area,
     this.imageCropped,
     this.areaParsed,
   });
 
-  @override
-  List<Object?> get props => [
-        area,
-        imageCropped,
-        areaParsed,
-      ];
-
+  /// Initial state
   factory CropState.init() {
     return const CropState(
       area: Area(
@@ -40,6 +32,24 @@ class CropState extends Equatable {
     );
   }
 
+  /// The area to crop the image
+  final Area area;
+
+  /// The cropped image
+  final Uint8List? imageCropped;
+
+  /// The area is parsed based on the resolution of the original image
+  final Area? areaParsed;
+
+  @override
+  List<Object?> get props => [
+        area,
+        imageCropped,
+        areaParsed,
+      ];
+
+  /// Creates a copy of this state but with the given fields replaced with
+  /// the new values.
   CropState copyWith({
     Area? area,
     Uint8List? imageCropped,

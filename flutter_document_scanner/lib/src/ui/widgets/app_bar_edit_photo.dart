@@ -8,15 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
-import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
 
 class AppBarEditPhoto extends StatelessWidget {
-  final EditPhotoDocumentStyle editPhotoDocumentStyle;
-
   const AppBarEditPhoto({
-    Key? key,
+    super.key,
     required this.editPhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +48,11 @@ class AppBarEditPhoto extends StatelessWidget {
             TextButton(
               onPressed: () =>
                   context.read<DocumentScannerController>().savePhotoDocument(),
-              child: Text(
-                editPhotoDocumentStyle.textButtonSave,
-              ),
               style: TextButton.styleFrom(
                 primary: Colors.white,
+              ),
+              child: Text(
+                editPhotoDocumentStyle.textButtonSave,
               ),
             ),
           ],

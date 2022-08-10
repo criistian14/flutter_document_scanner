@@ -16,8 +16,6 @@ import 'edit_event.dart';
 import 'edit_state.dart';
 
 class EditBloc extends Bloc<EditEvent, EditState> {
-  final ImageUtils _imageUtils;
-
   EditBloc({
     required ImageUtils imageUtils,
   })  : _imageUtils = imageUtils,
@@ -25,6 +23,8 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     on<EditStarted>(_started);
     on<EditFilterChanged>(_filterChanged);
   }
+
+  final ImageUtils _imageUtils;
 
   late Uint8List imageBase;
 
@@ -35,9 +35,11 @@ class EditBloc extends Bloc<EditEvent, EditState> {
   ) async {
     imageBase = event.image;
 
-    emit(state.copyWith(
-      image: event.image,
-    ));
+    emit(
+      state.copyWith(
+        image: event.image,
+      ),
+    );
   }
 
   /// Apply [FilterType] with OpenCV library
@@ -47,8 +49,10 @@ class EditBloc extends Bloc<EditEvent, EditState> {
   ) async {
     final newImage = await _imageUtils.applyFilter(imageBase, event.filter);
 
-    emit(state.copyWith(
-      image: newImage,
-    ));
+    emit(
+      state.copyWith(
+        image: newImage,
+      ),
+    );
   }
 }

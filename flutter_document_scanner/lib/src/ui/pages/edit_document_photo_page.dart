@@ -17,19 +17,18 @@ import 'package:flutter_document_scanner/src/bloc/edit/edit_event.dart';
 import 'package:flutter_document_scanner/src/bloc/edit/edit_state.dart';
 import 'package:flutter_document_scanner/src/ui/widgets/app_bar_edit_photo.dart';
 import 'package:flutter_document_scanner/src/ui/widgets/bottom_bar_edit_photo.dart';
-import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 
 class EditDocumentPhotoPage extends StatelessWidget {
-  final EditPhotoDocumentStyle editPhotoDocumentStyle;
-  final OnSave onSave;
-
   const EditDocumentPhotoPage({
-    Key? key,
+    super.key,
     required this.editPhotoDocumentStyle,
     required this.onSave,
-  }) : super(key: key);
+  });
+
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
+  final OnSave onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class EditDocumentPhotoPage extends StatelessWidget {
         builder: (context, state) {
           if (state == null) {
             return const Center(
-              child: Text("NO IMAGE"),
+              child: Text('NO IMAGE'),
             );
           }
 
@@ -59,20 +58,22 @@ class EditDocumentPhotoPage extends StatelessWidget {
   }
 
   Future<bool> _onPop(BuildContext context) async {
-    context.read<DocumentScannerController>().changePage(AppPages.cropPhoto);
+    await context
+        .read<DocumentScannerController>()
+        .changePage(AppPages.cropPhoto);
     return false;
   }
 }
 
 class _EditView extends StatelessWidget {
-  final EditPhotoDocumentStyle editPhotoDocumentStyle;
-  final OnSave onSave;
-
   const _EditView({
-    Key? key,
+    super.key,
     required this.editPhotoDocumentStyle,
     required this.onSave,
-  }) : super(key: key);
+  });
+
+  final EditPhotoDocumentStyle editPhotoDocumentStyle;
+  final OnSave onSave;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +120,7 @@ class _EditView extends StatelessWidget {
             if (state.image != null) {
               context.read<AppBloc>().add(
                     AppNewEditedImageLoaded(
-                      isSucces: true,
+                      isSuccess: true,
                     ),
                   );
             }

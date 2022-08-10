@@ -10,21 +10,23 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 
 class EditState extends Equatable {
-  final Uint8List? image;
-
   const EditState({
     this.image,
   });
+
+  factory EditState.init() {
+    return const EditState();
+  }
+
+  final Uint8List? image;
 
   @override
   List<Object?> get props => [
         image,
       ];
 
-  factory EditState.init() {
-    return const EditState();
-  }
-
+  /// Creates a copy of this state but with the given fields replaced with
+  /// the new values.
   EditState copyWith({
     Uint8List? image,
   }) {

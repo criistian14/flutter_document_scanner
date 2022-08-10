@@ -14,12 +14,12 @@ import 'package:flutter_document_scanner/src/ui/widgets/button_take_photo.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
 class TakePhotoDocumentPage extends StatelessWidget {
-  final TakePhotoDocumentStyle takePhotoDocumentStyle;
-
   const TakePhotoDocumentPage({
-    Key? key,
+    super.key,
     required this.takePhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +47,12 @@ class TakePhotoDocumentPage extends StatelessWidget {
 }
 
 class _CameraPreview extends StatelessWidget {
-  final TakePhotoDocumentStyle takePhotoDocumentStyle;
-
   const _CameraPreview({
-    Key? key,
+    super.key,
     required this.takePhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _CameraPreview extends StatelessWidget {
         if (state == null) {
           return const Center(
             child: Text(
-              "No Camera",
+              'No Camera',
             ),
           );
         }

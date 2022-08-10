@@ -13,16 +13,22 @@ import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
+/// Class to create events
 abstract class AppEvent extends Equatable {}
 
+/// Event to initialize the app
 class AppCameraInitialized extends AppEvent {
-  final CameraLensDirection cameraLensDirection;
-  final ResolutionPreset resolutionCamera;
-
+  /// Create an event instance
   AppCameraInitialized({
     required this.cameraLensDirection,
     required this.resolutionCamera,
   });
+
+  /// Camera library [CameraLensDirection]
+  final CameraLensDirection cameraLensDirection;
+
+  /// Camera library [ResolutionPreset]
+  final ResolutionPreset resolutionCamera;
 
   @override
   List<Object?> get props => [
@@ -31,12 +37,15 @@ class AppCameraInitialized extends AppEvent {
       ];
 }
 
+/// Event to take a photo
 class AppPhotoTaken extends AppEvent {
-  final double? minContourArea;
-
+  /// Create an event instance
   AppPhotoTaken({
     this.minContourArea,
   });
+
+  /// Minimum area to detect a contour
+  final double? minContourArea;
 
   @override
   List<Object?> get props => [
@@ -44,10 +53,13 @@ class AppPhotoTaken extends AppEvent {
       ];
 }
 
+/// Event to change the page
 class AppPageChanged extends AppEvent {
-  final AppPages newPage;
-
+  /// Create an event instance
   AppPageChanged(this.newPage);
+
+  /// New page to show
+  final AppPages newPage;
 
   @override
   List<Object?> get props => [
@@ -55,21 +67,27 @@ class AppPageChanged extends AppEvent {
       ];
 }
 
+/// Event to crop the photo
 class AppPhotoCropped extends AppEvent {
+  /// Create an event instance
   AppPhotoCropped();
 
   @override
   List<Object?> get props => [];
 }
 
+/// Event to load the cropped photo in page [AppPages.editDocument]
 class AppLoadCroppedPhoto extends AppEvent {
-  final Uint8List image;
-  final Area area;
-
+  /// Create an event instance
   AppLoadCroppedPhoto({
     required this.image,
     required this.area,
   });
+
+  /// Image to load
+  final Uint8List image;
+
+  final Area area;
 
   @override
   List<Object?> get props => [
@@ -78,12 +96,17 @@ class AppLoadCroppedPhoto extends AppEvent {
       ];
 }
 
+/// Event to change the filter type in page [AppPages.editDocument]
 class AppFilterApplied extends AppEvent {
-  final FilterType filter;
-
+  /// Create an event instance
   AppFilterApplied({
     required this.filter,
   });
+
+  /// Filter type to apply
+  ///
+  /// default: [FilterType.natural]
+  final FilterType filter;
 
   @override
   List<Object?> get props => [
@@ -92,19 +115,21 @@ class AppFilterApplied extends AppEvent {
 }
 
 class AppNewEditedImageLoaded extends AppEvent {
-  final bool isSucces;
-
+  /// Create an event instance
   AppNewEditedImageLoaded({
-    required this.isSucces,
+    required this.isSuccess,
   });
+
+  final bool isSuccess;
 
   @override
   List<Object?> get props => [
-        isSucces,
+        isSuccess,
       ];
 }
 
 class AppStartedSavingDocument extends AppEvent {
+  /// Create an event instance
   AppStartedSavingDocument();
 
   @override
@@ -112,11 +137,12 @@ class AppStartedSavingDocument extends AppEvent {
 }
 
 class AppDocumentSaved extends AppEvent {
-  final bool isSucces;
-
+  /// Create an event instance
   AppDocumentSaved({
     required this.isSucces,
   });
+
+  final bool isSucces;
 
   @override
   List<Object?> get props => [

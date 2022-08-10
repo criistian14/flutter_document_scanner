@@ -9,6 +9,17 @@ import 'package:flutter/material.dart';
 
 @immutable
 class TakePhotoDocumentStyle {
+  const TakePhotoDocumentStyle({
+    this.onLoading = const Center(
+      child: CircularProgressIndicator(),
+    ),
+    this.children,
+    this.top,
+    this.bottom,
+    this.left,
+    this.right,
+  });
+
   ///
   final Widget onLoading;
 
@@ -20,15 +31,4 @@ class TakePhotoDocumentStyle {
   final double? bottom;
   final double? left;
   final double? right;
-
-  const TakePhotoDocumentStyle({
-    this.onLoading = const Center(
-      child: CircularProgressIndicator(),
-    ),
-    this.children,
-    this.top,
-    this.bottom,
-    this.left,
-    this.right,
-  });
 }

@@ -10,12 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
 
 class ButtonTakePhoto extends StatelessWidget {
-  final bool hide;
-
   const ButtonTakePhoto({
-    Key? key,
+    super.key,
     this.hide = false,
-  }) : super(key: key);
+  });
+
+  final bool hide;
 
   @override
   Widget build(BuildContext context) {

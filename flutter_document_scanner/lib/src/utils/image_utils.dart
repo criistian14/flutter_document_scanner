@@ -50,14 +50,14 @@ class ImageUtils {
       int numTopFound = 0;
       int numBottomFound = 0;
 
-      Point<double> top1 = const Point(0, 0);
-      Point<double> top2 = const Point(0, 0);
+      Point<double> top1 = const Point<double>(0, 0);
+      Point<double> top2 = const Point<double>(0, 0);
 
-      Point<double> bottom1 = const Point(0, 0);
-      Point<double> bottom2 = const Point(0, 0);
+      Point<double> bottom1 = const Point<double>(0, 0);
+      Point<double> bottom2 = const Point<double>(0, 0);
 
-      Point<double> lastTopFound = const Point(0, 1000000);
-      Point<double> lastBottomFound = const Point(0, 0);
+      Point<double> lastTopFound = const Point<double>(0, 1000000);
+      Point<double> lastBottomFound = const Point<double>(0, 0);
 
       for (int i = 0; i < 4; i++) {
         for (final point in contour.points) {
@@ -96,11 +96,11 @@ class ImageUtils {
         lastBottomFound = const Point(0, 0);
       }
 
-      Point<double> topLeft = const Point(0, 0);
-      Point<double> topRight = const Point(0, 0);
+      Point<double> topLeft = const Point<double>(0, 0);
+      Point<double> topRight = const Point<double>(0, 0);
 
-      Point<double> bottomLeft = const Point(0, 0);
-      Point<double> bottomRight = const Point(0, 0);
+      Point<double> bottomLeft = const Point<double>(0, 0);
+      Point<double> bottomRight = const Point<double>(0, 0);
 
       if (top1.x < top2.x) {
         topLeft = top1;
@@ -135,7 +135,7 @@ class ImageUtils {
         bottomRight: bottomRight,
       );
     } catch (e) {
-      // TODO: add error handler
+      // TODO(utils): add error handler
       // print(e);
       return null;
     }
@@ -155,7 +155,7 @@ class ImageUtils {
 
       return newImage;
     } catch (e) {
-      // TODO: add error handler
+      // TODO(utils): add error handler
       // print(e);
       return null;
     }
@@ -178,7 +178,7 @@ class ImageUtils {
 
       return newImage;
     } catch (e) {
-      // TODO: add error handler
+      // TODO(utils): add error handler
       // print(e);
       return byteData;
     }

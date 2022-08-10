@@ -10,16 +10,20 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
+import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
+import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
+import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document_page.dart';
+import 'package:flutter_document_scanner/src/ui/pages/take_photo_document_page.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
-import 'bloc/app/app_bloc.dart';
-import 'bloc/app/app_event.dart';
-
+/// This class is responsible for controlling the scanning process
 class DocumentScannerController {
+  /// Creates a new instance of the [AppBloc]
   final AppBloc _appBloc = AppBloc(
     imageUtils: ImageUtils(),
   );
 
+  /// Return the [AppBloc] created
   AppBloc get bloc => _appBloc;
 
   /// Stream [AppStatus] to know the status while taking the picture
@@ -40,7 +44,8 @@ class DocumentScannerController {
     );
   }
 
-  /// Stream [AppStatus] to know the status while editing the document with filters
+  /// Stream [AppStatus] to know the status while editing the document
+  /// with filters
   Stream<AppStatus> get statusEditPhoto {
     return _appBloc.stream.transform(
       StreamTransformer.fromHandlers(
@@ -76,15 +81,18 @@ class DocumentScannerController {
 
   /// Taking the photo
   ///
-  /// Then find  the contour with the largest area only when it exceeds [minContourArea]
+  /// Then find  the contour with the largest area only when
+  /// it exceeds [minContourArea]
   ///
   /// [minContourArea] is default 80000.0
   Future<void> takePhoto({
     double? minContourArea,
   }) async {
-    _appBloc.add(AppPhotoTaken(
-      minContourArea: minContourArea,
-    ));
+    _appBloc.add(
+      AppPhotoTaken(
+        minContourArea: minContourArea,
+      ),
+    );
   }
 
   /// Change current page by [AppPages]

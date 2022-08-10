@@ -23,12 +23,12 @@ import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
 class CropPhotoDocumentPage extends StatelessWidget {
-  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
-
   const CropPhotoDocumentPage({
-    Key? key,
+    super.key,
     required this.cropPhotoDocumentStyle,
-  }) : super(key: key);
+  });
+
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class CropPhotoDocumentPage extends StatelessWidget {
         builder: (context, state) {
           if (state == null) {
             return const Center(
-              child: Text("NO IMAGE"),
+              child: Text('NO IMAGE'),
             );
           }
 
@@ -49,18 +49,20 @@ class CropPhotoDocumentPage extends StatelessWidget {
             create: (context) => CropBloc(
               dotUtils: DotUtils(),
               imageUtils: ImageUtils(),
-            )..add(CropAreaInitialized(
-                areaInitial: context.read<AppBloc>().state.contourInitial,
-                defaultAreaInitial: cropPhotoDocumentStyle.defaultAreaInitial,
-                image: state,
-                screenSize: screenSize,
-                positionImage: Rect.fromLTRB(
-                  cropPhotoDocumentStyle.left,
-                  cropPhotoDocumentStyle.top,
-                  cropPhotoDocumentStyle.right,
-                  cropPhotoDocumentStyle.bottom,
+            )..add(
+                CropAreaInitialized(
+                  areaInitial: context.read<AppBloc>().state.contourInitial,
+                  defaultAreaInitial: cropPhotoDocumentStyle.defaultAreaInitial,
+                  image: state,
+                  screenSize: screenSize,
+                  positionImage: Rect.fromLTRB(
+                    cropPhotoDocumentStyle.left,
+                    cropPhotoDocumentStyle.top,
+                    cropPhotoDocumentStyle.right,
+                    cropPhotoDocumentStyle.bottom,
+                  ),
                 ),
-              )),
+              ),
             child: _CropView(
               cropPhotoDocumentStyle: cropPhotoDocumentStyle,
               image: state,
@@ -72,20 +74,21 @@ class CropPhotoDocumentPage extends StatelessWidget {
   }
 
   Future<bool> _onPop(BuildContext context) async {
-    context.read<DocumentScannerController>().changePage(AppPages.takePhoto);
+    await context
+        .read<DocumentScannerController>()
+        .changePage(AppPages.takePhoto);
     return false;
   }
 }
 
 class _CropView extends StatelessWidget {
-  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
-  final File image;
-
   const _CropView({
-    Key? key,
+    super.key,
     required this.cropPhotoDocumentStyle,
     required this.image,
-  }) : super(key: key);
+  });
+  final CropPhotoDocumentStyle cropPhotoDocumentStyle;
+  final File image;
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +108,12 @@ class _CropView extends StatelessWidget {
               current.imageCropped != previous.imageCropped,
           listener: (context, state) {
             if (state.imageCropped != null) {
-              context.read<AppBloc>().add(AppLoadCroppedPhoto(
-                    image: state.imageCropped!,
-                    area: state.areaParsed!,
-                  ));
+              context.read<AppBloc>().add(
+                    AppLoadCroppedPhoto(
+                      image: state.imageCropped!,
+                      area: state.areaParsed!,
+                    ),
+                  );
             }
           },
         ),
