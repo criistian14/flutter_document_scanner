@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,16 +14,15 @@ import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
+import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document_page.dart';
+import 'package:flutter_document_scanner/src/ui/pages/edit_document_photo_page.dart';
+import 'package:flutter_document_scanner/src/ui/pages/take_photo_document_page.dart';
 import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/dialogs.dart';
 import 'package:flutter_document_scanner/src/utils/edit_photo_document_style.dart';
 import 'package:flutter_document_scanner/src/utils/general_styles.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
-
-import 'crop_photo_document_page.dart';
-import 'edit_document_photo_page.dart';
-import 'take_photo_document_page.dart';
 
 class DocumentScanner extends StatelessWidget {
   const DocumentScanner({
@@ -177,7 +178,6 @@ class DocumentScanner extends StatelessWidget {
 
 class _View extends StatelessWidget {
   const _View({
-    super.key,
     this.pageTransitionBuilder,
     required this.takePhotoDocumentStyle,
     required this.cropPhotoDocumentStyle,

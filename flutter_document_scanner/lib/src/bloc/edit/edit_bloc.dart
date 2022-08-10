@@ -10,10 +10,9 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
+import 'package:flutter_document_scanner/src/bloc/edit/edit_event.dart';
+import 'package:flutter_document_scanner/src/bloc/edit/edit_state.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
-
-import 'edit_event.dart';
-import 'edit_state.dart';
 
 class EditBloc extends Bloc<EditEvent, EditState> {
   EditBloc({

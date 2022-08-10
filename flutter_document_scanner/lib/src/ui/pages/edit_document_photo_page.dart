@@ -67,7 +67,6 @@ class EditDocumentPhotoPage extends StatelessWidget {
 
 class _EditView extends StatelessWidget {
   const _EditView({
-    super.key,
     required this.editPhotoDocumentStyle,
     required this.onSave,
   });

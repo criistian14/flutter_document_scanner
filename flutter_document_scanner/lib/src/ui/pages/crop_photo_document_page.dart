@@ -83,7 +83,6 @@ class CropPhotoDocumentPage extends StatelessWidget {
 
 class _CropView extends StatelessWidget {
   const _CropView({
-    super.key,
     required this.cropPhotoDocumentStyle,
     required this.image,
   });

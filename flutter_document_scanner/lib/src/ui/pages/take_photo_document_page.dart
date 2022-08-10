@@ -48,7 +48,6 @@ class TakePhotoDocumentPage extends StatelessWidget {
 
 class _CameraPreview extends StatelessWidget {
   const _CameraPreview({
-    super.key,
     required this.takePhotoDocumentStyle,
   });
 
