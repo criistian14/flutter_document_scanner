@@ -7,15 +7,22 @@
 
 import 'package:flutter/material.dart';
 
+/// The style of the document scanner.
 @immutable
 class GeneralStyles {
+  /// Create a instance of [GeneralStyles].
   const GeneralStyles({
     this.hideDefaultBottomNavigation = false,
     this.hideDefaultDialogs = false,
     this.baseColor = Colors.white,
   });
 
+  /// Hide the default bottom navigation.
   final bool hideDefaultBottomNavigation;
+
+  /// Hide the default dialogs of the app.
   final bool hideDefaultDialogs;
+
+  /// The base color of the app.
   final Color baseColor;
 }

@@ -20,14 +20,19 @@ import 'package:flutter_document_scanner/src/ui/widgets/bottom_bar_edit_photo.da
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 
+/// Page to edit a photo
 class EditDocumentPhotoPage extends StatelessWidget {
+  /// Create a page with style
   const EditDocumentPhotoPage({
     super.key,
     required this.editPhotoDocumentStyle,
     required this.onSave,
   });
 
+  /// Style of the page
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
+
+  /// Callback to save the photo
   final OnSave onSave;
 
   @override
@@ -97,7 +102,7 @@ class _EditView extends StatelessWidget {
               if (image == null) {
                 context.read<AppBloc>().add(
                       AppDocumentSaved(
-                        isSucces: false,
+                        isSuccess: false,
                       ),
                     );
                 return;
@@ -105,7 +110,7 @@ class _EditView extends StatelessWidget {
 
               context.read<AppBloc>().add(
                     AppDocumentSaved(
-                      isSucces: true,
+                      isSuccess: true,
                     ),
                   );
               onSave(image);

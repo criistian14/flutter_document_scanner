@@ -87,6 +87,7 @@ class AppLoadCroppedPhoto extends AppEvent {
   /// Image to load
   final Uint8List image;
 
+  ///
   final Area area;
 
   @override
@@ -114,12 +115,14 @@ class AppFilterApplied extends AppEvent {
       ];
 }
 
+///
 class AppNewEditedImageLoaded extends AppEvent {
   /// Create an event instance
   AppNewEditedImageLoaded({
     required this.isSuccess,
   });
 
+  ///
   final bool isSuccess;
 
   @override
@@ -128,6 +131,7 @@ class AppNewEditedImageLoaded extends AppEvent {
       ];
 }
 
+///
 class AppStartedSavingDocument extends AppEvent {
   /// Create an event instance
   AppStartedSavingDocument();
@@ -136,16 +140,18 @@ class AppStartedSavingDocument extends AppEvent {
   List<Object?> get props => [];
 }
 
+///
 class AppDocumentSaved extends AppEvent {
   /// Create an event instance
   AppDocumentSaved({
-    required this.isSucces,
+    required this.isSuccess,
   });
 
-  final bool isSucces;
+  ///
+  final bool isSuccess;
 
   @override
   List<Object?> get props => [
-        isSucces,
+        isSuccess,
       ];
 }

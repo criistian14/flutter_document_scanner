@@ -8,19 +8,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
+import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
+/// Default button that takes the photo
 class ButtonTakePhoto extends StatelessWidget {
+  /// Create a widget
   const ButtonTakePhoto({
     super.key,
-    this.hide = false,
+    required this.takePhotoDocumentStyle,
   });
 
-  final bool hide;
+  /// The style of the page
+  final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
-    if (hide) {
-      return Container();
+    if (takePhotoDocumentStyle.hideDefaultButtonTakePicture) {
+      return const SizedBox.shrink();
     }
 
     return Positioned(

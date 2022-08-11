@@ -22,12 +22,15 @@ import 'package:flutter_document_scanner/src/utils/border_crop_area_painter.dart
 import 'package:flutter_document_scanner/src/utils/dot_utils.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
+/// Page to crop a photo
 class CropPhotoDocumentPage extends StatelessWidget {
+  /// Create a page with style
   const CropPhotoDocumentPage({
     super.key,
     required this.cropPhotoDocumentStyle,
   });
 
+  /// Style of the page
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override
@@ -47,7 +50,9 @@ class CropPhotoDocumentPage extends StatelessWidget {
 
           return BlocProvider(
             create: (context) => CropBloc(
-              dotUtils: DotUtils(),
+              dotUtils: DotUtils(
+                minDistanceDots: cropPhotoDocumentStyle.minDistanceDots,
+              ),
               imageUtils: ImageUtils(),
             )..add(
                 CropAreaInitialized(
@@ -154,6 +159,8 @@ class _CropView extends StatelessWidget {
                     return CustomPaint(
                       painter: BorderCropAreaPainter(
                         area: state,
+                        colorBorderArea: cropPhotoDocumentStyle.colorBorderArea,
+                        widthBorderArea: cropPhotoDocumentStyle.widthBorderArea,
                       ),
                       child: const SizedBox.expand(),
                     );

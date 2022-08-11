@@ -7,6 +7,8 @@
 
 import 'dart:typed_data';
 
+/// Value to be able to assign null in the copyWith of the models
 const valueNull = 'valueNull';
 
+/// Define how the saving function is to be used
 typedef OnSave = void Function(Uint8List imageBytes);

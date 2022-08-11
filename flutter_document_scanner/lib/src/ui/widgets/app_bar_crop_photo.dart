@@ -9,17 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
+/// Default AppBar of the Crop Photo page
 class AppBarCropPhoto extends StatelessWidget {
+  /// Create a widget with style
   const AppBarCropPhoto({
     super.key,
     required this.cropPhotoDocumentStyle,
   });
 
+  /// The style of the page
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
-    if (cropPhotoDocumentStyle.hideAppBarDefault) return Container();
+    if (cropPhotoDocumentStyle.hideAppBarDefault) {
+      return const SizedBox.shrink();
+    }
 
     return Positioned(
       top: 0,

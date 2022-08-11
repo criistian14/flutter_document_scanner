@@ -24,7 +24,10 @@ import 'package:flutter_document_scanner/src/utils/general_styles.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
+/// This class is the main page of the application
 class DocumentScanner extends StatelessWidget {
+  /// Create a main page with properties and methods
+  /// to manage the document scanner.
   const DocumentScanner({
     super.key,
     this.controller,
@@ -38,7 +41,8 @@ class DocumentScanner extends StatelessWidget {
     required this.onSave,
   });
 
-  /// Controller to execute the different functionalities using the [DocumentScannerController]
+  /// Controller to execute the different functionalities
+  /// using the [DocumentScannerController]
   final DocumentScannerController? controller;
 
   /// [generalStyles] is the [GeneralStyles] that will be used to style the
@@ -49,8 +53,10 @@ class DocumentScanner extends StatelessWidget {
   /// by using the [AnimatedSwitcherTransitionBuilder]
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
 
-  /// Config Camera
+  /// Camera library [CameraLensDirection]
   final CameraLensDirection initialCameraLensDirection;
+
+  /// Camera library [ResolutionPreset]
   final ResolutionPreset resolutionCamera;
 
   /// It is used to change the style of the [TakePhotoDocumentPage] page

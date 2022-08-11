@@ -14,7 +14,9 @@ import 'package:flutter_document_scanner/src/bloc/edit/edit_event.dart';
 import 'package:flutter_document_scanner/src/bloc/edit/edit_state.dart';
 import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 
+/// Control image editing and filter application
 class EditBloc extends Bloc<EditEvent, EditState> {
+  /// Create an instance of the bloc
   EditBloc({
     required ImageUtils imageUtils,
   })  : _imageUtils = imageUtils,
@@ -25,6 +27,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
 
   final ImageUtils _imageUtils;
 
+  /// Base image in case of undoing a filter
   late Uint8List imageBase;
 
   /// Load cropped image from previous page

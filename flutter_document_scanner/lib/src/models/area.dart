@@ -9,7 +9,9 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 
+/// Area composed of 4 points
 class Area extends Equatable {
+  /// Create a new area
   const Area({
     required this.topLeft,
     required this.topRight,
@@ -17,9 +19,16 @@ class Area extends Equatable {
     required this.bottomRight,
   });
 
+  /// The top left dot
   final Point<double> topLeft;
+
+  /// The top right dot
   final Point<double> topRight;
+
+  /// The bottom left dot
   final Point<double> bottomLeft;
+
+  /// The bottom right dot
   final Point<double> bottomRight;
 
   @override

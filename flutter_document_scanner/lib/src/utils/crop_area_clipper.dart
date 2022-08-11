@@ -8,9 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
 
+/// Clipper for the crop area
 class CropAreaClipper extends CustomClipper<Path> {
+  /// Create a clipper for the given [Area].
   const CropAreaClipper(this.area);
 
+  /// The area to clip
   final Area area;
 
   @override

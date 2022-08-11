@@ -14,13 +14,22 @@ import 'package:flutter_document_scanner/src/models/area.dart';
 import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document_page.dart';
 import 'package:flutter_document_scanner/src/ui/pages/edit_document_photo_page.dart';
 import 'package:flutter_document_scanner/src/ui/pages/take_photo_document_page.dart';
+import 'package:flutter_document_scanner/src/utils/image_utils.dart';
 import 'package:flutter_document_scanner/src/utils/model_utils.dart';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
+/// Status of the app
 enum AppStatus {
+  /// Is initializing
   initial,
+
+  /// Is loading
   loading,
+
+  /// Completed without errors
   success,
+
+  /// An error occurred
   failure,
 }
 
@@ -36,7 +45,9 @@ enum AppPages {
   editDocument,
 }
 
+/// Controls the status general of the app
 class AppState extends Equatable {
+  /// Create an state instance
   const AppState({
     this.currentPage = AppPages.takePhoto,
     this.statusCamera = AppStatus.initial,
@@ -51,20 +62,42 @@ class AppState extends Equatable {
     this.statusSavePhotoDocument = AppStatus.initial,
   });
 
+  /// Initial state
   factory AppState.init() {
     return const AppState();
   }
 
+  /// Current page being displayed
   final AppPages currentPage;
+
+  /// Status of when the [cameraController] is being created
   final AppStatus statusCamera;
+
+  /// Camera controller from Camera library
   final CameraController? cameraController;
+
+  /// Status when the photo was captured
   final AppStatus statusTakePhotoPage;
+
+  /// Picture that was taken
   final File? pictureInitial;
+
+  /// Status when the photo was cropped
   final AppStatus statusCropPhoto;
+
+  /// Contour found with [ImageUtils.findContourPhoto]
   final Area? contourInitial;
+
+  /// Picture that was cropped
   final Uint8List? pictureCropped;
+
+  /// Status when the photo was edited
   final AppStatus statusEditPhoto;
+
+  /// Current filter type
   final FilterType currentFilterType;
+
+  /// Status when the photo was saved
   final AppStatus statusSavePhotoDocument;
 
   @override

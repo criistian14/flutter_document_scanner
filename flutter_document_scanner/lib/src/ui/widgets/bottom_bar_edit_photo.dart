@@ -9,17 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
+/// Default BottomBar of the Edit Photo page
 class BottomBarEditPhoto extends StatelessWidget {
+  /// Create a widget with style
   const BottomBarEditPhoto({
     super.key,
     required this.editPhotoDocumentStyle,
   });
 
+  /// The style of the page
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
-    if (editPhotoDocumentStyle.hideBottomBarDefault) return Container();
+    if (editPhotoDocumentStyle.hideBottomBarDefault) {
+      return const SizedBox.shrink();
+    }
 
     return Positioned(
       bottom: MediaQuery.of(context).padding.bottom,

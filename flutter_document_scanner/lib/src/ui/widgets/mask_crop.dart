@@ -12,14 +12,19 @@ import 'package:flutter_document_scanner/src/models/area.dart';
 import 'package:flutter_document_scanner/src/utils/crop_area_clipper.dart';
 import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 
+/// Mask that is superimposed on the image by applying color and/or filter to it
 class MaskCrop extends StatelessWidget {
+  /// Create a widget with style
   const MaskCrop({
     super.key,
     required this.area,
     required this.cropPhotoDocumentStyle,
   });
 
+  /// Area to be occupied by the mask when cropping the image
   final Area area;
+
+  /// The style of the page
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
 
   @override

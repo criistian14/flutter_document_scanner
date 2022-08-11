@@ -7,7 +7,9 @@
 
 import 'package:flutter/material.dart';
 
+/// Define the dialogs to be displayed in the app
 class Dialogs {
+  /// Show a basic dialog with a [message]
   void defaultDialog(
     BuildContext context,
     String message,

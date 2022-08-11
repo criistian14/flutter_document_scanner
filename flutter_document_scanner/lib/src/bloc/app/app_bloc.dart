@@ -243,7 +243,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     emit(
       state.copyWith(
         statusSavePhotoDocument:
-            event.isSucces ? AppStatus.success : AppStatus.failure,
+            event.isSuccess ? AppStatus.success : AppStatus.failure,
       ),
     );
   }

@@ -9,17 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
+/// Default AppBar of the Edit Photo page
 class AppBarEditPhoto extends StatelessWidget {
+  /// Create a widget with style
   const AppBarEditPhoto({
     super.key,
     required this.editPhotoDocumentStyle,
   });
 
+  /// The style of the page
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
 
   @override
   Widget build(BuildContext context) {
-    if (editPhotoDocumentStyle.hideAppBarDefault) return Container();
+    if (editPhotoDocumentStyle.hideAppBarDefault) {
+      return const SizedBox.shrink();
+    }
 
     return Positioned(
       top: 0,

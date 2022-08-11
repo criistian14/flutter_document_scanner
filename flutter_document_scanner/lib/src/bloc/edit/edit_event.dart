@@ -13,10 +13,12 @@ import 'package:flutter_document_scanner_platform_interface/flutter_document_sca
 /// Class to create events
 abstract class EditEvent extends Equatable {}
 
+/// Initialize the page with the image
 class EditStarted extends EditEvent {
   /// Create an event instance
   EditStarted(this.image);
 
+  /// Bytes of the image base
   final Uint8List image;
 
   @override
@@ -25,10 +27,12 @@ class EditStarted extends EditEvent {
       ];
 }
 
+/// Apply the filter to the image
 class EditFilterChanged extends EditEvent {
   /// Create an event instance
   EditFilterChanged(this.filter);
 
+  /// Filter to apply
   final FilterType filter;
 
   @override

@@ -13,12 +13,15 @@ import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/ui/widgets/button_take_photo.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
+/// Page to take a photo
 class TakePhotoDocumentPage extends StatelessWidget {
+  /// Create a page with style
   const TakePhotoDocumentPage({
     super.key,
     required this.takePhotoDocumentStyle,
   });
 
+  /// Style of the page
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
   @override
@@ -71,10 +74,10 @@ class _CameraPreview extends StatelessWidget {
           children: [
             // * Camera
             Positioned(
-              top: takePhotoDocumentStyle.top ?? 0,
-              bottom: takePhotoDocumentStyle.bottom ?? 0,
-              left: takePhotoDocumentStyle.left ?? 0,
-              right: takePhotoDocumentStyle.right ?? 0,
+              top: takePhotoDocumentStyle.top,
+              bottom: takePhotoDocumentStyle.bottom,
+              left: takePhotoDocumentStyle.left,
+              right: takePhotoDocumentStyle.right,
               child: CameraPreview(state),
             ),
 
@@ -83,7 +86,9 @@ class _CameraPreview extends StatelessWidget {
               ...takePhotoDocumentStyle.children!,
 
             /// Default
-            const ButtonTakePhoto(),
+            ButtonTakePhoto(
+              takePhotoDocumentStyle: takePhotoDocumentStyle,
+            ),
           ],
         );
       },

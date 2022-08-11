@@ -15,7 +15,8 @@ class FlutterDocumentScannerIOS extends FlutterDocumentScannerPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('flutter_document_scanner_ios');
 
-  /// Registers this class as the default instance of [FlutterDocumentScannerPlatform]
+  /// Registers this class as the default instance
+  /// of [FlutterDocumentScannerPlatform]
   static void registerWith() {
     FlutterDocumentScannerPlatform.instance = FlutterDocumentScannerIOS();
   }

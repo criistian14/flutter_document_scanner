@@ -7,24 +7,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/src/models/area.dart';
+import 'package:flutter_document_scanner/src/utils/crop_photo_document_style.dart';
 
+/// Border
 class BorderCropAreaPainter extends CustomPainter {
+  /// Create a painter for the given [Area].
   const BorderCropAreaPainter({
     required this.area,
-    this.colorBorderArea,
-    this.widthBorderArea,
+    required this.colorBorderArea,
+    required this.widthBorderArea,
   });
 
+  /// The area to paint
   final Area area;
-  final Color? colorBorderArea;
-  final double? widthBorderArea;
+
+  /// Color of the border covering the clipping mask
+  ///
+  /// Can be modified from [CropPhotoDocumentStyle.colorBorderArea]
+  final Color colorBorderArea;
+
+  /// Width of the border covering the clipping mask
+  ///
+  /// Can be modified from [CropPhotoDocumentStyle.widthBorderArea]
+  final double widthBorderArea;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = widthBorderArea ?? 3
-      ..color = colorBorderArea ?? Colors.white;
+      ..strokeWidth = widthBorderArea
+      ..color = colorBorderArea;
 
     final path = Path()
       ..moveTo(area.topLeft.x, area.topLeft.y)

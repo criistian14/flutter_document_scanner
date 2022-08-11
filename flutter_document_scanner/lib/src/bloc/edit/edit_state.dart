@@ -9,15 +9,19 @@ import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 
+/// Controls the status when editing the image
 class EditState extends Equatable {
+  /// Create an state instance
   const EditState({
     this.image,
   });
 
+  /// Initial state
   factory EditState.init() {
     return const EditState();
   }
 
+  /// The bytes of the edited image
   final Uint8List? image;
 
   @override
