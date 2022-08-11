@@ -54,14 +54,11 @@ final _controller = DocumentScannerController();
 ### Display widget
 
 ```dart
-DocumentScanner
-(
-controller: _controller,onSave: (
-
-Uint8List imageBytes
-) {
-print("image bytes: $imageBytes");
-},
+DocumentScanner(
+  controller: _controller,
+  onSave: (Uint8List imageBytes) {
+    print("image bytes: $imageBytes");
+  },
 );
 ```
 
@@ -72,9 +69,7 @@ print("image bytes: $imageBytes");
 ### Actions
 
 ```dart
-_controller.takePhoto(minContourArea: 80000.0
-,
-);
+_controller.takePhoto(minContourArea: 80000.0,);
 
 _controller.cropPhoto();
 
@@ -88,48 +83,33 @@ _controller.changePage(AppPages.cropPhoto);
 ### Can listen to the changes
 
 ```dart
-_controller.statusTakePhotoPage.listen((
-
-AppStatus event
-) {
-print("Changes when taking the picture");
-print("[initial, loading, success, failure]");
+_controller.statusTakePhotoPage.listen((AppStatus event) {
+    print("Changes when taking the picture");
+    print("[initial, loading, success, failure]");
 });
 
 
-_controller.statusCropPhoto.listen((
-
-AppStatus event
-) {
-print("Changes while cutting the image and adding warp perspective");
-print("[initial, loading, success, failure]");
+_controller.statusCropPhoto.listen((AppStatus event) {
+    print("Changes while cutting the image and adding warp perspective");
+    print("[initial, loading, success, failure]");
 });
 
 
-_controller.statusEditPhoto.listen((
-
-AppStatus event
-) {
-print("Changes when editing the image (applying filters)");
-print("[initial, loading, success, failure]");
+_controller.statusEditPhoto.listen((AppStatus event) {
+    print("Changes when editing the image (applying filters)");
+    print("[initial, loading, success, failure]");
 });
 
 
-_controller.currentFilterType.listen((
-
-FilterType event
-) {
-print("Listen to the current filter applied on the image");
-print("[ natural, gray, eco]");
+_controller.currentFilterType.listen((FilterType event) {
+    print("Listen to the current filter applied on the image");
+    print("[ natural, gray, eco]");
 });
 
 
-_controller.statusSavePhotoDocument.listen((
-
-AppStatus event
-) {
-print("Changes while the document image is being saved");
-print("[initial, loading, success, failure]");
+_controller.statusSavePhotoDocument.listen((AppStatus event) {
+  print("Changes while the document image is being saved");
+  print("[initial, loading, success, failure]");
 });
 ```
 
@@ -140,42 +120,37 @@ print("[initial, loading, success, failure]");
 ### Camera
 
 ```dart
-DocumentScanner
-(
-controller: _controller,onSave: (
-
-Uint8List imageBytes
-) {
-print("image bytes: $imageBytes");
-},
-resolutionCamera: ResolutionPreset.high,initialCameraLensDirection: CameraLensDirection.front,);
+DocumentScanner(
+  controller: _controller,
+  onSave: (Uint8List imageBytes) {
+    print("image bytes: $imageBytes");
+  },
+  resolutionCamera: ResolutionPreset.high,
+  initialCameraLensDirection: CameraLensDirection.front,
+);
 ```
 
 ### Page transitions
 
 ```dart
-DocumentScanner
-(
-controller: _controller,onSave: (
+DocumentScanner(
+  controller: _controller,
+  onSave: (Uint8List imageBytes) {
+    print("image bytes: $imageBytes");
+  },
+  pageTransitionBuilder: (child, animation) {
+    final tween = Tween(begin: 0.0, end: 1.0);
 
-Uint8List imageBytes
-) {
-print("image bytes: $imageBytes");
-},
-pageTransitionBuilder: (
-child, animation) {
-final tween = Tween(begin: 0.0, end: 1.0);
+    final curvedAnimation = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+    );
 
-final curvedAnimation = CurvedAnimation(
-parent: animation,
-curve: Curves.easeOutCubic,
-);
-
-return FadeTransition(
-opacity: tween.animate(curvedAnimation),
-child: child,
-);
-},
+    return FadeTransition(
+      opacity: tween.animate(curvedAnimation),
+      child: child,
+    );
+  },
 );
 
 ```
