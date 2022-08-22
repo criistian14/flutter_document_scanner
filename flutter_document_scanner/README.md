@@ -17,6 +17,7 @@ the [Camera][camera_link] plugin and [OpenCV][opencv_link]
 
 ![demo]
 
+
 ---
 
 ## TODO
@@ -180,7 +181,7 @@ listed [here](https://github.com/criistian14/flutter_document_scanner/blob/maste
 
 [workflow_badge]: https://github.com/criistian14/flutter_document_scanner/actions/workflows/main.yml/badge.svg
 
-[demo]: https://i.giphy.com/media/UTlIjPmu8glCGQaSpu/giphy.webp
+[demo]: https://media.giphy.com/media/flQWXeHif35IsSQOOO/giphy.gif
 
 [coverage_badge]: https://codecov.io/gh/criistian14/flutter_document_scanner/branch/master/graph/badge.svg?token=2U7891NVMO
 
