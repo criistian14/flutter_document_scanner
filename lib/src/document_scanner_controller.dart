@@ -84,12 +84,9 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
     assert(_stateDocument == StateDocument.takePictureDocument);
 
     changeStateDocument(StateDocument.loadingTakePictureDocument);
+    final pictureTake = await _cameraController.takePicture();
 
-    final appDir = await getTemporaryDirectory();
-    File pictureFile = File('${appDir.path}/${DateTime.now()}.jpg');
-    await _cameraController.takePicture(pictureFile.path);
-
-    _picture = pictureFile;
+    _picture = File(pictureTake.path);
 
     changeStateDocument(StateDocument.cropDocumentPicture);
   }

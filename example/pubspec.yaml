@@ -26,7 +26,7 @@ dependencies:
 
   flutter_document_scanner:
     path: ../
-  camera: ^0.5.8+2
+  camera: ^0.10.0+4
 
 
 
