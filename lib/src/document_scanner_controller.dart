@@ -38,13 +38,13 @@ abstract class DocumentScannerControllerInterface {
 }
 
 class DocumentScannerController implements DocumentScannerControllerInterface {
-  CameraController _cameraController;
-  CropController _cropController;
+  CameraController? _cameraController;
+  late CropController _cropController;
   StateDocument _stateDocument = StateDocument.takePictureDocument;
-  File _picture, _pictureCropped;
-  Uint8List bytesPictureWithFilter;
+  File? _picture, _pictureCropped;
+  Uint8List? bytesPictureWithFilter;
 
-  set cameraController(CameraController cameraCtrl) =>
+  set cameraController(CameraController? cameraCtrl) =>
       _cameraController = cameraCtrl;
 
   set cropController(CropController cropController) =>
@@ -68,9 +68,9 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   @override
   Stream<Uint8List> get pictureWithFilter => _streamPictureWithFilter.stream;
 
-  File get picture => _picture;
+  File? get picture => _picture;
 
-  File get pictureCropped => _pictureCropped;
+  File? get pictureCropped => _pictureCropped;
 
   @override
   void changeStateDocument(StateDocument state) {
@@ -84,7 +84,7 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
     assert(_stateDocument == StateDocument.takePictureDocument);
 
     changeStateDocument(StateDocument.loadingTakePictureDocument);
-    final pictureTake = await _cameraController.takePicture();
+    final pictureTake = await _cameraController!.takePicture();
 
     _picture = File(pictureTake.path);
 
@@ -122,7 +122,7 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   Future<void> applyNaturalFilter() async {
     assert(_pictureCropped != null);
 
-    Uint8List bytes = await _pictureCropped.readAsBytes();
+    Uint8List bytes = await _pictureCropped!.readAsBytes();
 
     _changeFilter(FilterDocument.original, bytes);
   }
@@ -131,8 +131,8 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   Future<void> applyGrayFilter() async {
     assert(_pictureCropped != null);
 
-    Uint8List response = await DocumentUtils.grayScale(
-      _pictureCropped.readAsBytesSync(),
+    Uint8List? response = await DocumentUtils.grayScale(
+      _pictureCropped!.readAsBytesSync(),
     );
 
     if (response == null) return;
@@ -145,8 +145,8 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
   Future<void> applyEcoFilter() async {
     assert(_pictureCropped != null);
 
-    Uint8List response = await DocumentUtils.eco(
-      _pictureCropped.readAsBytesSync(),
+    Uint8List? response = await DocumentUtils.eco(
+      _pictureCropped!.readAsBytesSync(),
     );
 
     if (response == null) return;
@@ -164,7 +164,7 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
     // imageCache.clear();
     final appDir = await getTemporaryDirectory();
     File file = File('${appDir.path}/${DateTime.now()}.jpg');
-    await file.writeAsBytes(bytesPictureWithFilter);
+    await file.writeAsBytes(bytesPictureWithFilter!);
 
     changeStateDocument(StateDocument.saveDocument);
   }
@@ -186,8 +186,8 @@ class DocumentScannerController implements DocumentScannerControllerInterface {
 
   @override
   void dispose() {
-    _streamStateDocument?.close();
-    _streamFilterDocument?.close();
-    _streamPictureWithFilter?.close();
+    _streamStateDocument.close();
+    _streamFilterDocument.close();
+    _streamPictureWithFilter.close();
   }
 }

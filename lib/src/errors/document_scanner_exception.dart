@@ -1,6 +1,6 @@
 class DocumentScannerException implements Exception {
-  String code;
-  String description;
+  String? code;
+  String? description;
 
   DocumentScannerException({
     this.code,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class BorderCropAreaPainter extends CustomPainter {
   final Rect rect;
-  final Color colorBorderArea;
-  final double widthBorderArea;
+  final Color? colorBorderArea;
+  final double? widthBorderArea;
 
   const BorderCropAreaPainter({
-    @required this.rect,
+    required this.rect,
     this.colorBorderArea,
     this.widthBorderArea,
   });

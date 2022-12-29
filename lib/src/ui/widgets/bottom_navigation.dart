@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui show ImageFilter;
 
 class BottomNavigation extends StatelessWidget {
-  final Function() onBack;
-  final Function() onNext;
-  final IconData iconBack;
-  final IconData iconNext;
+  final Function()? onBack;
+  final Function()? onNext;
+  final IconData? iconBack;
+  final IconData? iconNext;
 
   const BottomNavigation({
-    Key key,
+    Key? key,
     this.onBack,
     this.onNext,
     this.iconBack,

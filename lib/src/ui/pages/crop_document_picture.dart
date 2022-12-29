@@ -1,35 +1,34 @@
 import 'dart:io';
 
 import 'package:crop_your_image/crop_your_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../flutter_document_scanner.dart';
 import '../widgets/bottom_navigation.dart';
 
 class CropDocumentPicture extends StatelessWidget {
-  final DocumentScannerControllerInterface controller;
+  final DocumentScannerControllerInterface? controller;
   final CropController cropController;
 
-  final File picture;
-  final Rect initialArea;
-  final Color baseColor;
+  final File? picture;
+  final Rect? initialArea;
+  final Color? baseColor;
 
-  final Widget childTopCropPicture;
-  final Widget childBottomCropPicture;
+  final Widget? childTopCropPicture;
+  final Widget? childBottomCropPicture;
   final bool showDefaultBottomNavigation;
 
-  final Color cropColorMask;
-  final Color cropColorBorderArea;
-  final double cropWidthBorderArea;
-  final Color cropColorDotControl;
+  final Color? cropColorMask;
+  final Color? cropColorBorderArea;
+  final double? cropWidthBorderArea;
+  final Color? cropColorDotControl;
 
   const CropDocumentPicture({
-    Key key,
-    @required this.controller,
-    @required this.cropController,
-    @required this.picture,
-    @required this.showDefaultBottomNavigation,
+    Key? key,
+    required this.controller,
+    required this.cropController,
+    required this.picture,
+    required this.showDefaultBottomNavigation,
     this.baseColor,
     this.initialArea,
     this.childTopCropPicture,
@@ -44,7 +43,7 @@ class CropDocumentPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        controller.backStep();
+        controller!.backStep();
         return false;
       },
       child: Container(
@@ -54,21 +53,21 @@ class CropDocumentPicture extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            if (childTopCropPicture != null) childTopCropPicture,
+            if (childTopCropPicture != null) childTopCropPicture!,
 
             Expanded(
               child: Crop(
-                image: picture.readAsBytesSync(),
+                image: picture!.readAsBytesSync(),
                 controller: cropController,
                 initialArea: _initialAreaCalculate(context),
-                onCropped: controller.onCroppedPicture,
+                onCropped: controller!.onCroppedPicture,
                 maskColor: cropColorMask,
                 colorBorderArea: cropColorBorderArea,
                 widthBorderArea: cropWidthBorderArea,
-                baseColor: baseColor,
+                baseColor: baseColor!,
                 cornerDotBuilder: (size, edgeAlignment) {
                   return DotControl(
-                    color: cropColorDotControl,
+                    color: cropColorDotControl!,
                   );
                 },
               ),
@@ -77,11 +76,11 @@ class CropDocumentPicture extends StatelessWidget {
             // Default Menu
             if (showDefaultBottomNavigation)
               BottomNavigation(
-                onBack: controller.backStep,
-                onNext: controller.cropPicture,
+                onBack: controller!.backStep,
+                onNext: controller!.cropPicture,
               ),
 
-            if (childBottomCropPicture != null) childBottomCropPicture,
+            if (childBottomCropPicture != null) childBottomCropPicture!,
           ],
         ),
       ),
@@ -101,10 +100,10 @@ class CropDocumentPicture extends StatelessWidget {
 
     if (initialArea != null) {
       _initialArea = Rect.fromLTWH(
-        initialArea.left,
-        initialArea.top,
-        initialArea.width,
-        initialArea.height,
+        initialArea!.left,
+        initialArea!.top,
+        initialArea!.width,
+        initialArea!.height,
       );
     }
 

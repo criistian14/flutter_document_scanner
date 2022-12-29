@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner/flutter_document_scanner.dart';
 
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -112,8 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class _CustomBottomTakePicture extends StatelessWidget {
   const _CustomBottomTakePicture({
-    Key key,
-    @required this.documentScannerCtrl,
+    Key? key,
+    required this.documentScannerCtrl,
   }) : super(key: key);
 
   final DocumentScannerController documentScannerCtrl;
@@ -157,8 +156,8 @@ class _CustomBottomTakePicture extends StatelessWidget {
 
 class _CustomBottomCropPicture extends StatelessWidget {
   const _CustomBottomCropPicture({
-    Key key,
-    @required this.documentScannerCtrl,
+    Key? key,
+    required this.documentScannerCtrl,
   }) : super(key: key);
 
   final DocumentScannerController documentScannerCtrl;
@@ -217,8 +216,8 @@ class _CustomBottomCropPicture extends StatelessWidget {
 
 class _CustomBottomEditDocument extends StatelessWidget {
   const _CustomBottomEditDocument({
-    Key key,
-    @required this.documentScannerCtrl,
+    Key? key,
+    required this.documentScannerCtrl,
   }) : super(key: key);
 
   final DocumentScannerController documentScannerCtrl;

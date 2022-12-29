@@ -9,21 +9,21 @@ import '../widgets/bottom_navigation.dart';
 import '../widgets/item_filter.dart';
 
 class EditDocumentPicture extends StatelessWidget {
-  final DocumentScannerControllerInterface controller;
+  final DocumentScannerControllerInterface? controller;
 
-  final File picture;
+  final File? picture;
 
-  final Widget childTopEditDocument;
-  final Widget childBottomEditDocument;
+  final Widget? childTopEditDocument;
+  final Widget? childBottomEditDocument;
   final bool showDefaultBottomNavigation;
 
-  final Color baseColor;
+  final Color? baseColor;
 
   const EditDocumentPicture({
-    Key key,
-    @required this.controller,
-    @required this.picture,
-    @required this.showDefaultBottomNavigation,
+    Key? key,
+    required this.controller,
+    required this.picture,
+    required this.showDefaultBottomNavigation,
     this.childTopEditDocument,
     this.childBottomEditDocument,
     this.baseColor,
@@ -33,7 +33,7 @@ class EditDocumentPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        controller.backStep();
+        controller!.backStep();
         return false;
       },
       child: Container(
@@ -43,16 +43,16 @@ class EditDocumentPicture extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            if (childTopEditDocument != null) childTopEditDocument,
+            if (childTopEditDocument != null) childTopEditDocument!,
 
             StreamBuilder<Uint8List>(
-              stream: controller.pictureWithFilter,
-              initialData: picture.readAsBytesSync(),
+              stream: controller!.pictureWithFilter,
+              initialData: picture!.readAsBytesSync(),
               builder: (context, snapshot) {
                 return Expanded(
                   child: Container(
                     child: Image.memory(
-                      snapshot.data,
+                      snapshot.data!,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -68,7 +68,7 @@ class EditDocumentPicture extends StatelessWidget {
                 color: Color(0xFF040404).withOpacity(0.7),
                 child: Center(
                   child: StreamBuilder<FilterDocument>(
-                      stream: controller.currentFilter,
+                      stream: controller!.currentFilter,
                       initialData: FilterDocument.original,
                       builder: (context, snapshot) {
                         return ListView(
@@ -77,21 +77,21 @@ class EditDocumentPicture extends StatelessWidget {
                           children: [
                             // Natural filter
                             ItemFilter(
-                              onTap: controller.applyNaturalFilter,
+                              onTap: controller!.applyNaturalFilter,
                               title: "Original",
                               active: snapshot.data == FilterDocument.original,
                             ),
 
                             // Gray filter
                             ItemFilter(
-                              onTap: controller.applyGrayFilter,
+                              onTap: controller!.applyGrayFilter,
                               title: "Gray",
                               active: snapshot.data == FilterDocument.gray,
                             ),
 
                             // Eco filter
                             ItemFilter(
-                              onTap: controller.applyEcoFilter,
+                              onTap: controller!.applyEcoFilter,
                               title: "Eco",
                               active: snapshot.data == FilterDocument.eco,
                             ),
@@ -105,11 +105,11 @@ class EditDocumentPicture extends StatelessWidget {
             if (showDefaultBottomNavigation)
               BottomNavigation(
                 iconNext: Icons.check,
-                onBack: controller.backStep,
-                onNext: controller.save,
+                onBack: controller!.backStep,
+                onNext: controller!.save,
               ),
 
-            if (childBottomEditDocument != null) childBottomEditDocument,
+            if (childBottomEditDocument != null) childBottomEditDocument!,
           ],
         ),
       ),

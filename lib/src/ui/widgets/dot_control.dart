@@ -5,9 +5,9 @@ class DotControl extends StatelessWidget {
   final Color color;
 
   const DotControl({
-    Key key,
-    @required this.color,
-    @required this.radius,
+    Key? key,
+    required this.color,
+    required this.radius,
   }) : super(key: key);
 
   @override

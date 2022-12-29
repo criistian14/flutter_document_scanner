@@ -1,7 +1,7 @@
 part of '../../../flutter_document_scanner.dart';
 
 class DocumentScanner extends StatefulWidget {
-  final DocumentScannerControllerInterface controller;
+  final DocumentScannerControllerInterface? controller;
 
   final bool showDefaultBottomNavigation;
   final bool showDefaultDialogs;
@@ -12,26 +12,26 @@ class DocumentScanner extends StatefulWidget {
   final ResolutionPreset resolutionCamera;
 
   // Taking Picture
-  final Widget childButtonTakePicture;
+  final Widget? childButtonTakePicture;
   final bool showButtonTakePicture;
-  final Widget childTopTakePicture;
-  final Widget childBottomTakePicture;
+  final Widget? childTopTakePicture;
+  final Widget? childBottomTakePicture;
 
   // Cropping Picture
-  final Widget childTopCropPicture;
-  final Widget childBottomCropPicture;
-  final Color cropColorMask;
-  final Color cropColorBorderArea;
-  final double cropWidthBorderArea;
+  final Widget? childTopCropPicture;
+  final Widget? childBottomCropPicture;
+  final Color? cropColorMask;
+  final Color? cropColorBorderArea;
+  final double? cropWidthBorderArea;
   final Color cropColorDotControl;
 
   // Editing Document
   final Function(File document) onSaveDocument;
-  final Widget childTopEditDocument;
-  final Widget childBottomEditDocument;
+  final Widget? childTopEditDocument;
+  final Widget? childBottomEditDocument;
 
   const DocumentScanner({
-    Key key,
+    Key? key,
     this.controller,
     this.showDefaultBottomNavigation = true,
     this.showDefaultDialogs = true,
@@ -54,7 +54,7 @@ class DocumentScanner extends StatefulWidget {
     this.cropColorDotControl = Colors.white,
 
     // Editing Document
-    @required this.onSaveDocument,
+    required this.onSaveDocument,
     this.childTopEditDocument,
     this.childBottomEditDocument,
   }) : super(key: key);
@@ -64,11 +64,11 @@ class DocumentScanner extends StatefulWidget {
 }
 
 class _DocumentScannerState extends State<DocumentScanner> {
-  File _picture, _pictureCropped;
-  CameraController _cameraController;
+  File? _picture, _pictureCropped;
+  CameraController? _cameraController;
   CropController _cropController = CropController();
-  Rect _selectedArea;
-  DocumentScannerController _documentScannerCtrl = DocumentScannerController();
+  Rect? _selectedArea;
+  DocumentScannerController? _documentScannerCtrl = DocumentScannerController();
   PageController _pageController = PageController();
   final Duration _duration = Duration(milliseconds: 300);
   final Curve _curve = Curves.easeIn;
@@ -80,10 +80,10 @@ class _DocumentScannerState extends State<DocumentScanner> {
     super.initState();
     // Replace controller with the widget.controller
     if (widget.controller != null) {
-      _documentScannerCtrl = widget.controller;
+      _documentScannerCtrl = widget.controller as DocumentScannerController?;
     }
 
-    _documentScannerCtrl.cropController = _cropController;
+    _documentScannerCtrl!.cropController = _cropController;
 
     _initCamera();
   }
@@ -103,13 +103,13 @@ class _DocumentScannerState extends State<DocumentScanner> {
       enableAudio: false,
     );
 
-    _cameraController.initialize().then((_) {
+    _cameraController!.initialize().then((_) {
       if (!mounted) {
         return;
       }
 
-      _documentScannerCtrl.cameraController = _cameraController;
-      _documentScannerCtrl.stateDocument.listen(_listenDocumentScannerCtrl);
+      _documentScannerCtrl!.cameraController = _cameraController;
+      _documentScannerCtrl!.stateDocument.listen(_listenDocumentScannerCtrl);
 
       setState(() {});
     });
@@ -117,7 +117,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    _cameraController!.dispose();
     super.dispose();
   }
 
@@ -183,7 +183,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
       case StateDocument.cropDocumentPicture:
         _hideDefaultDialog();
 
-        _nextTakingPicture(_documentScannerCtrl.picture);
+        _nextTakingPicture(_documentScannerCtrl!.picture);
         break;
 
       case StateDocument.loadingCropDocumentPicture:
@@ -194,7 +194,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
       case StateDocument.editDocumentPicture:
         _hideDefaultDialog();
 
-        _nextCropDocument(_documentScannerCtrl.pictureCropped, _selectedArea);
+        _nextCropDocument(_documentScannerCtrl!.pictureCropped, _selectedArea);
         break;
 
       case StateDocument.loadingEditDocumentPicture:
@@ -208,7 +208,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
         final appDir = await getTemporaryDirectory();
         File document = File('${appDir.path}/${DateTime.now()}.jpg');
         await document.writeAsBytes(
-          _documentScannerCtrl.bytesPictureWithFilter,
+          _documentScannerCtrl!.bytesPictureWithFilter!,
         );
         widget.onSaveDocument(document);
         break;
@@ -217,8 +217,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
 
   /// When finish taking the picture
   /// And change state to [StateDocument.cropDocumentPicture]
-  /// After call [DocumentUtils.detectEdges]
-  Future<void> _nextTakingPicture(File picture) async {
+  Future<void> _nextTakingPicture(File? picture) async {
     // _selectedArea = await DocumentUtils.detectEdges(picture);
 
     setState(() {
@@ -229,7 +228,7 @@ class _DocumentScannerState extends State<DocumentScanner> {
 
   /// When the picture is finished cropping
   /// And change state to [StateDocument.editDocumentPicture]
-  void _nextCropDocument(File pictureCropped, Rect selectedArea) {
+  void _nextCropDocument(File? pictureCropped, Rect? selectedArea) {
     setState(() {
       _pictureCropped = pictureCropped;
       _selectedArea = selectedArea;
