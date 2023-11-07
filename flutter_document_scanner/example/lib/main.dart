@@ -6,7 +6,9 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_document_scanner_example/pages/home_page.dart';
+import 'package:flutter_document_scanner_example/pages/custom_page.dart';
+
+import 'pages/basic_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +25,44 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.teal,
       ),
       title: 'Flutter Document Scanner',
-      home: const HomePage(),
+      home: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // * Basic example page
+                  ElevatedButton(
+                    onPressed: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const BasicPage(),
+                      ),
+                    ),
+                    child: const Text(
+                      'Basic example',
+                    ),
+                  ),
+
+                  // * Custom example page
+                  ElevatedButton(
+                    onPressed: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CustomPage(),
+                      ),
+                    ),
+                    child: const Text(
+                      'Custom example',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

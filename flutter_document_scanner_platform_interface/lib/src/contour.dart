@@ -23,8 +23,8 @@ class Contour extends Equatable {
   /// Construct class from the json map
   factory Contour.fromMap(Map<String, dynamic> map) {
     return Contour(
-      height: map['height'] as int,
-      width: map['width'] as int,
+      height: map['height'] as int?,
+      width: map['width'] as int?,
       points: (map['points'] as List)
           .map(
             (e) => Point(
@@ -33,7 +33,7 @@ class Contour extends Equatable {
             ),
           )
           .toList(),
-      image: map['image'] as Uint8List,
+      image: map['image'] as Uint8List?,
     );
   }
 

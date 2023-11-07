@@ -46,6 +46,11 @@ abstract class FlutterDocumentScannerPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Get the version of the opencv library
+  Future<String?> getVersionOpenCV() {
+    throw UnimplementedError('getVersionOpenCV() has not been implemented.');
+  }
+
   /// Apply filters to the image with opencv
   /// Then get the contours and return only the largest one that has four sides
   /// (this is done from native code)

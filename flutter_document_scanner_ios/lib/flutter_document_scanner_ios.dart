@@ -20,4 +20,66 @@ class FlutterDocumentScannerIOS extends FlutterDocumentScannerPlatform {
   static void registerWith() {
     FlutterDocumentScannerPlatform.instance = FlutterDocumentScannerIOS();
   }
+
+  @override
+  Future<String?> getVersionOpenCV() async {
+    return methodChannel.invokeMethod<String?>('getVersionOpenCV');
+  }
+
+  @override
+  Future<Contour?> findContourPhoto({
+    required Uint8List byteData,
+    required double minContourArea,
+  }) async {
+    final contour = await methodChannel.invokeMapMethod<String, dynamic>(
+      'findContourPhoto',
+      <String, Object>{
+        'byteData': byteData,
+        'minContourArea': minContourArea,
+      },
+    );
+
+    if (contour != null) {
+      return Contour.fromMap(contour);
+    }
+
+    return null;
+  }
+
+  @override
+  Future<Uint8List?> adjustingPerspective({
+    required Uint8List byteData,
+    required Contour contour,
+  }) async {
+    final newImage = await methodChannel.invokeMethod<Uint8List?>(
+      'adjustingPerspective',
+      <String, Object>{
+        'byteData': byteData,
+        'points': contour.points
+            .map(
+              (e) => {
+                'x': e.x,
+                'y': e.y,
+              },
+            )
+            .toList(),
+      },
+    );
+
+    return newImage;
+  }
+
+  @override
+  Future<Uint8List?> applyFilter({
+    required Uint8List byteData,
+    required FilterType filter,
+  }) async {
+    return methodChannel.invokeMethod<Uint8List>(
+      'applyFilter',
+      <String, Object>{
+        'byteData': byteData,
+        'filter': filter.value,
+      },
+    ).then((value) => value);
+  }
 }

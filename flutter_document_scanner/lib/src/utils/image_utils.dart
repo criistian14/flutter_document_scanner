@@ -136,7 +136,7 @@ class ImageUtils {
       );
     } catch (e) {
       // TODO(utils): add error handler
-      // print(e);
+      print(e);
       return null;
     }
   }
@@ -156,7 +156,7 @@ class ImageUtils {
       return newImage;
     } catch (e) {
       // TODO(utils): add error handler
-      // print(e);
+      print(e);
       return null;
     }
   }

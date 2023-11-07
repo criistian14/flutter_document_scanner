@@ -224,7 +224,7 @@ class CropBloc extends Bloc<CropEvent, CropState> {
 
     emit(
       state.copyWith(
-        imageCropped: response,
+        imageCropped: response ?? event.image.readAsBytesSync(),
         areaParsed: area,
       ),
     );
