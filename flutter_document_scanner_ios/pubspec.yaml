@@ -1,7 +1,7 @@
 name: flutter_document_scanner_ios
 description: iOS implementation of the flutter_document_scanner plugin
 repository: https://github.com/criistian14/flutter_document_scanner/tree/master/flutter_document_scanner_ios
-version: 0.5.0
+version: 1.0.0
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
