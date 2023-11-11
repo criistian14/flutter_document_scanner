@@ -201,6 +201,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppFilterApplied event,
     Emitter<AppState> emit,
   ) async {
+    if (event.filter == state.currentFilterType) return;
+
     emit(
       state.copyWith(
         currentFilterType: event.filter,
