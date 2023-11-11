@@ -27,6 +27,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         super(AppState.init()) {
     on<AppCameraInitialized>(_cameraInitialized);
     on<AppPhotoTaken>(_photoTaken);
+    on<AppExternalImageContoursFound>(_externalImageContoursFound);
     on<AppPageChanged>(_pageChanged);
     on<AppPhotoCropped>(_photoCropped);
     on<AppLoadCroppedPhoto>(_loadCroppedPhoto);
@@ -61,6 +62,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       (camera) => camera.lensDirection == event.cameraLensDirection,
       orElse: () => cameras.first,
     );
+
+    if (_cameraController != null) {
+      await _cameraController?.dispose();
+      _cameraController = null;
+    }
 
     _cameraController = CameraController(
       camera,
@@ -111,6 +117,33 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       state.copyWith(
         statusTakePhotoPage: AppStatus.success,
         pictureInitial: fileImage,
+        contourInitial: response,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        currentPage: AppPages.cropPhoto,
+      ),
+    );
+  }
+
+  /// Find the contour from an external image like gallery
+  Future<void> _externalImageContoursFound(
+    AppExternalImageContoursFound event,
+    Emitter<AppState> emit,
+  ) async {
+    final externalImage = event.image;
+
+    final byteData = await externalImage.readAsBytes();
+    final response = await _imageUtils.findContourPhoto(
+      byteData,
+      minContourArea: event.minContourArea,
+    );
+
+    emit(
+      state.copyWith(
+        pictureInitial: externalImage,
         contourInitial: response,
       ),
     );
@@ -248,5 +281,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             event.isSuccess ? AppStatus.success : AppStatus.failure,
       ),
     );
+  }
+
+  @override
+  Future<void> close() async {
+    await _cameraController?.dispose();
+    return super.close();
   }
 }

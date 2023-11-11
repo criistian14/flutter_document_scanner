@@ -17,6 +17,7 @@ dependencies:
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_driver:
