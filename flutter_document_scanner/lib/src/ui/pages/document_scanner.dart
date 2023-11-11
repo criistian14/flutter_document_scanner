@@ -103,7 +103,10 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusTakePhotoPage == AppStatus.loading) {
-                  dialogs.defaultDialog(context, 'Taking picture');
+                  dialogs.defaultDialog(
+                    context,
+                    generalStyles.messageTakingPicture,
+                  );
                 }
 
                 if (state.statusTakePhotoPage == AppStatus.success) {
@@ -120,7 +123,10 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusCropPhoto == AppStatus.loading) {
-                  dialogs.defaultDialog(context, 'Cropping picture');
+                  dialogs.defaultDialog(
+                    context,
+                    generalStyles.messageCroppingPicture,
+                  );
                 }
 
                 if (state.statusCropPhoto == AppStatus.success) {
@@ -137,7 +143,10 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusEditPhoto == AppStatus.loading) {
-                  dialogs.defaultDialog(context, 'Editing picture');
+                  dialogs.defaultDialog(
+                    context,
+                    generalStyles.messageEditingPicture,
+                  );
                 }
 
                 if (state.statusEditPhoto == AppStatus.success) {
@@ -155,12 +164,14 @@ class DocumentScanner extends StatelessWidget {
                 if (generalStyles.hideDefaultDialogs) return;
 
                 if (state.statusSavePhotoDocument == AppStatus.loading) {
-                  dialogs.defaultDialog(context, 'Saving Document');
+                  dialogs.defaultDialog(
+                    context,
+                    generalStyles.messageSavingPicture,
+                  );
                 }
 
                 if (state.statusSavePhotoDocument == AppStatus.success) {
                   Navigator.pop(context);
-                  dialogs.defaultDialog(context, 'Saved Document');
                 }
               },
             ),

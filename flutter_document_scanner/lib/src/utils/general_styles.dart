@@ -15,6 +15,10 @@ class GeneralStyles {
     this.hideDefaultBottomNavigation = false,
     this.hideDefaultDialogs = false,
     this.baseColor = Colors.white,
+    this.messageTakingPicture = 'Taking picture',
+    this.messageCroppingPicture = 'Cropping picture',
+    this.messageEditingPicture = 'Editing picture',
+    this.messageSavingPicture = 'Saving picture',
   });
 
   /// Hide the default bottom navigation.
@@ -25,4 +29,20 @@ class GeneralStyles {
 
   /// The base color of the app.
   final Color baseColor;
+
+  /// Message to be displayed when taking picture
+  /// (only if [hideDefaultDialogs] is false)
+  final String messageTakingPicture;
+
+  /// Message to be displayed when cropping picture
+  /// (only if [hideDefaultDialogs] is false)
+  final String messageCroppingPicture;
+
+  /// Message to be displayed when editing picture
+  /// (only if [hideDefaultDialogs] is false)
+  final String messageEditingPicture;
+
+  /// Message to be displayed when saving picture
+  /// (only if [hideDefaultDialogs] is false)
+  final String messageSavingPicture;
 }
