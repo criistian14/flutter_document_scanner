@@ -8,6 +8,7 @@
 import Flutter
 import Foundation
 import Vision
+import UIKit
 
 
 class VisionPlugin {
@@ -97,42 +98,48 @@ class VisionPlugin {
             return
         }
         
-        guard let ciImage = CIImage(image: image) else {
+        guard let ciImage = CIImage(image: image)?.oriented(.rightMirrored) else {
             result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Invalid CIImage", details: nil))
             return
         }
         
+        
         guard points.count == 4,
               let topLeft = CGPoint(dictionary: points[0]),
               let topRight = CGPoint(dictionary: points[1]),
-              let bottomLeft = CGPoint(dictionary: points[3]),
-              let bottomRight = CGPoint(dictionary: points[2]) else {
+              let bottomRight = CGPoint(dictionary: points[2]),
+              let bottomLeft = CGPoint(dictionary: points[3]) else {
             result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Invalid Points", details: nil))
             return
         }
         
         guard let perspectiveCorrection = CIFilter(name: "CIPerspectiveCorrection") else {
-            result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Could not create perspective correction filter", details: nil))
+            result(FlutterError(
+                code: "ADJUSTING_PERSPECTIVE",
+                message: "Could not create perspective correction filter",
+                details: nil
+            ))
             return
         }
         
-        let width = Int(image.size.width)
-        let height = Int(image.size.height)
-        
-        perspectiveCorrection.setValue(ciImage, forKey: "inputImage")
-        perspectiveCorrection.setValue(CIVector(cgPoint: VNImagePointForNormalizedPoint(topLeft, width, height)), forKey: "inputTopLeft")
-        perspectiveCorrection.setValue(CIVector(cgPoint: VNImagePointForNormalizedPoint(topRight, width, height)), forKey: "inputTopRight")
-        perspectiveCorrection.setValue(CIVector(cgPoint: VNImagePointForNormalizedPoint(bottomLeft, width, height)), forKey: "inputBottomLeft")
-        perspectiveCorrection.setValue(CIVector(cgPoint: VNImagePointForNormalizedPoint(bottomRight, width, height)), forKey: "inputBottomRight")
+        perspectiveCorrection.setValue(ciImage, forKey: kCIInputImageKey)
+        perspectiveCorrection.setValue(CIVector(cgPoint: topLeft), forKey: "inputTopLeft")
+        perspectiveCorrection.setValue(CIVector(cgPoint: topRight), forKey: "inputTopRight")
+        perspectiveCorrection.setValue(CIVector(cgPoint: bottomLeft), forKey: "inputBottomLeft")
+        perspectiveCorrection.setValue(CIVector(cgPoint: bottomRight), forKey: "inputBottomRight")
         
         
         guard let outputImage = perspectiveCorrection.outputImage else {
-            result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Could not get output image from filter", details: nil))
+            result(FlutterError(
+                code: "ADJUSTING_PERSPECTIVE",
+                message: "Could not get output image from filter",
+                details: nil
+            ))
             return
         }
         
         
-        let context = CIContext(options: [CIContextOption.workingColorSpace: NSNull()])
+        let context = CIContext(options: nil)
         guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else {
             result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Could not create CGImage from CIImage", details: nil))
             return
@@ -143,6 +150,7 @@ class VisionPlugin {
             result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Could not get JPEG data from UIImage", details: nil))
             return
         }
+        
         
         result(FlutterStandardTypedData(bytes: imageData))
     }
@@ -157,24 +165,28 @@ class VisionPlugin {
             return
         }
         
+        guard let ciImage = CIImage(image: image) else {
+            result(FlutterError(code: "ADJUSTING_PERSPECTIVE", message: "Invalid CIImage", details: nil))
+            return
+        }
+        
         switch filter {
             // Gray
         case 2:
-            guard let currentFilter = CIFilter(name: "CIColorControls") else {
+            guard let grayFilter = CIFilter(name: "CIColorControls") else {
                 result(FlutterError(code: "APPLY_FILTER", message: "Could not make filter", details: nil))
                 break
             }
             
-            let beginImage = CIImage(image: image)
-            currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-            currentFilter.setValue(0, forKey: kCIInputSaturationKey)
+            grayFilter.setValue(ciImage, forKey: kCIInputImageKey)
+            grayFilter.setValue(0, forKey: kCIInputSaturationKey)
             
-            guard let output = currentFilter.outputImage else {
+            guard let output = grayFilter.outputImage else {
                 result(FlutterError(code: "APPLY_FILTER", message: "Could not apply filter", details: nil))
                 break
             }
             
-            let context = CIContext(options: [CIContextOption.workingColorSpace: NSNull()])
+            let context = CIContext(options: nil)
             guard let cgimg = context.createCGImage(output, from: output.extent) else {
                 result(FlutterError(code: "APPLY_FILTER", message: "Could not create CGImage", details: nil))
                 break
@@ -182,7 +194,11 @@ class VisionPlugin {
             
             let uiImage = UIImage(cgImage: cgimg)
             guard let imageData = uiImage.jpegData(compressionQuality: 1) else {
-                result(FlutterError(code: "APPLY_FILTER", message: "Could not get JPEG data from UIImage", details: nil))
+                result(FlutterError(
+                    code: "APPLY_FILTER",
+                    message: "Could not get JPEG data from UIImage",
+                    details: nil
+                ))
                 return
             }
             
@@ -191,23 +207,61 @@ class VisionPlugin {
             
             // Eco
         case 3:
-            guard let currentFilter = CIFilter(name: "CIUnsharpMask") else {
-                result(FlutterError(code: "APPLY_FILTER", message: "Could not make filter", details: nil))
+            guard let colorMonochromeFilter = CIFilter(name: "CIColorMonochrome") else {
+                result(FlutterError(
+                    code: "APPLY_FILTER",
+                    message: "Could not make color mono chrome filter",
+                    details: nil
+                ))
                 break
             }
             
-            let beginImage = CIImage(image: image)
-            currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-            currentFilter.setValue(2.5, forKey: kCIInputRadiusKey)
-            currentFilter.setValue(0.5, forKey: kCIInputIntensityKey)
+            colorMonochromeFilter.setValue(ciImage, forKey: kCIInputImageKey)
+            colorMonochromeFilter.setValue(CIColor(color: UIColor.white), forKey: "inputColor")
+            colorMonochromeFilter.setValue(1, forKey: "inputIntensity")
             
-            guard let output = currentFilter.outputImage else {
-                result(FlutterError(code: "APPLY_FILTER", message: "Could not apply filter", details: nil))
+            guard let monochromeImage = colorMonochromeFilter.outputImage else {
+                result(FlutterError(
+                    code: "APPLY_FILTER",
+                    message: "Could not apply color mono chrome filter",
+                    details: nil
+                ))
                 break
             }
             
-            let context = CIContext(options: [CIContextOption.workingColorSpace: NSNull()])
-            guard let cgimg = context.createCGImage(output, from: output.extent) else {
+            
+            guard let colorControlsFilter = CIFilter(name: "CIColorControls") else {
+                result(FlutterError(code: "APPLY_FILTER", message: "Could not make color control filter", details: nil))
+                break
+            }
+            
+            colorControlsFilter.setValue(monochromeImage, forKey: kCIInputImageKey)
+            colorControlsFilter.setValue(0, forKey: "inputBrightness")
+            colorControlsFilter.setValue(1, forKey: "inputContrast")
+            
+            guard let colorControlsImage = colorControlsFilter.outputImage else {
+                result(FlutterError(code: "APPLY_FILTER", message: "Could not apply color control filter", details: nil))
+                break
+            }
+            
+            
+            guard let unsharpMaskFilter = CIFilter(name: "CIUnsharpMask") else {
+                result(FlutterError(code: "APPLY_FILTER", message: "Could not make unsharp filter", details: nil))
+                break
+            }
+            
+            unsharpMaskFilter.setValue(colorControlsImage, forKey: kCIInputImageKey)
+            unsharpMaskFilter.setValue(1, forKey: kCIInputRadiusKey)
+            unsharpMaskFilter.setValue(2, forKey: kCIInputIntensityKey)
+            
+            guard let unsharpMaskImage = unsharpMaskFilter.outputImage else {
+                result(FlutterError(code: "APPLY_FILTER", message: "Could not apply unsharp filter", details: nil))
+                break
+            }
+            
+            
+            let context = CIContext(options: nil)
+            guard let cgimg = context.createCGImage(unsharpMaskImage, from: unsharpMaskImage.extent) else {
                 result(FlutterError(code: "APPLY_FILTER", message: "Could not create CGImage", details: nil))
                 break
             }
@@ -233,10 +287,6 @@ extension CGPoint {
             return nil
         }
         self.init(x: x, y: y)
-    }
-    
-    func scaled(to size: CGSize) -> CGPoint {
-        return CGPoint(x: self.x * size.width, y: self.y * size.height)
     }
 }
 
