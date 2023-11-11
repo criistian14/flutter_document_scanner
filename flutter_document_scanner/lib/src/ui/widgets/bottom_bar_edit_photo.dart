@@ -44,7 +44,7 @@ class BottomBarEditPhoto extends StatelessWidget {
                         FilterType.natural,
                       ),
               style: TextButton.styleFrom(
-                primary: Colors.white,
+                foregroundColor: Colors.white,
               ),
               child: const Text(
                 'Natural',
@@ -58,7 +58,7 @@ class BottomBarEditPhoto extends StatelessWidget {
                         FilterType.gray,
                       ),
               style: TextButton.styleFrom(
-                primary: Colors.white,
+                foregroundColor: Colors.white,
               ),
               child: const Text(
                 'GRAY',
@@ -72,7 +72,7 @@ class BottomBarEditPhoto extends StatelessWidget {
                         FilterType.eco,
                       ),
               style: TextButton.styleFrom(
-                primary: Colors.white,
+                foregroundColor: Colors.white,
               ),
               child: const Text(
                 'ECO',

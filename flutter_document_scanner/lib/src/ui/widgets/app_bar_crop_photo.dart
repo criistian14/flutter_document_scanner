@@ -53,7 +53,7 @@ class AppBarCropPhoto extends StatelessWidget {
               onPressed: () =>
                   context.read<DocumentScannerController>().cropPhoto(),
               style: TextButton.styleFrom(
-                primary: Colors.white,
+                foregroundColor: Colors.white,
               ),
               child: Text(
                 cropPhotoDocumentStyle.textButtonSave,

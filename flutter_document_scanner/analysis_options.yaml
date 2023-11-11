@@ -4,3 +4,4 @@ linter:
   rules:
     sort_pub_dependencies: false
     omit_local_variable_types: false
+    lines_longer_than_80_chars: false

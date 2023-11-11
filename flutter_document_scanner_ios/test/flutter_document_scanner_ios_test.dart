@@ -22,7 +22,7 @@ void main() {
       flutterDocumentScanner = FlutterDocumentScannerIOS();
 
       log = <MethodCall>[];
-      TestDefaultBinaryMessengerBinding.instance!.defaultBinaryMessenger
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(flutterDocumentScanner.methodChannel,
               (methodCall) async {
         log.add(methodCall);

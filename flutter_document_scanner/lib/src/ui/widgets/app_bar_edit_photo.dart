@@ -54,7 +54,7 @@ class AppBarEditPhoto extends StatelessWidget {
               onPressed: () =>
                   context.read<DocumentScannerController>().savePhotoDocument(),
               style: TextButton.styleFrom(
-                primary: Colors.white,
+                foregroundColor: Colors.white,
               ),
               child: Text(
                 editPhotoDocumentStyle.textButtonSave,
