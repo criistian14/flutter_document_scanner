@@ -5,10 +5,9 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
@@ -199,6 +198,10 @@ class _View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     return BlocSelector<AppBloc, AppState, AppPages>(
       selector: (state) => state.currentPage,
       builder: (context, state) {
