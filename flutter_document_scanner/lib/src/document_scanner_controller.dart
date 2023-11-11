@@ -73,6 +73,15 @@ class DocumentScannerController {
     );
   }
 
+  /// Stream [AppPages] to know the current page
+  Stream<AppPages> get currentPage {
+    return _appBloc.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) => sink.add(data.currentPage),
+      ),
+    );
+  }
+
   /// Will return the picture taken on the [TakePhotoDocumentPage].
   File? get pictureTaken => _appBloc.state.pictureInitial;
 
@@ -90,6 +99,21 @@ class DocumentScannerController {
   }) async {
     _appBloc.add(
       AppPhotoTaken(
+        minContourArea: minContourArea,
+      ),
+    );
+  }
+
+  /// Find the contour from an external image like gallery
+  ///
+  /// [minContourArea] is default 80000.0
+  Future<void> findContoursFromExternalImage({
+    required File image,
+    double? minContourArea,
+  }) async {
+    _appBloc.add(
+      AppExternalImageContoursFound(
+        image: image,
         minContourArea: minContourArea,
       ),
     );
@@ -115,5 +139,10 @@ class DocumentScannerController {
   /// It will return it as [Uint8List] in [DocumentScanner]
   Future<void> savePhotoDocument() async {
     _appBloc.add(AppStartedSavingDocument());
+  }
+
+  /// Dispose the [AppBloc]
+  void dispose() {
+    _appBloc.close();
   }
 }

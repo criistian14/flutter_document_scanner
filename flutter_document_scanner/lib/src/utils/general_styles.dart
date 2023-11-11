@@ -19,6 +19,8 @@ class GeneralStyles {
     this.messageCroppingPicture = 'Cropping picture',
     this.messageEditingPicture = 'Editing picture',
     this.messageSavingPicture = 'Saving picture',
+    this.showCameraPreview = true,
+    this.widgetInsteadOfCameraPreview,
   });
 
   /// Hide the default bottom navigation.
@@ -45,4 +47,13 @@ class GeneralStyles {
   /// Message to be displayed when saving picture
   /// (only if [hideDefaultDialogs] is false)
   final String messageSavingPicture;
+
+  /// Show the camera preview
+  final bool showCameraPreview;
+
+  /// Widget to be displayed instead of the camera preview
+  /// (only if [showCameraPreview] is false)
+  ///
+  /// If this is null, a SizedBox.shrink() will be displayed
+  final Widget? widgetInsteadOfCameraPreview;
 }

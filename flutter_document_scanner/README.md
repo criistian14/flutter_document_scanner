@@ -33,16 +33,15 @@ For iOS use [Vision Kit][vision_kit_link].
 
 ## TODO
 
-| Feature                       | Android | iOS |
-|-------------------------------|:-------:|:---:|
-| Adjust perspective |    ✅    | ✅ |
-| Apply filters     |    ✅    | ✅ |
-| Select image from gallery     |    ❌    | ❌ |
-| Add Unit Test |    ❌    | ❌ |
-| Find contours in real time    |    ❌    | ❌ |
-| Taking multiple photos at once |    ❌    | ❌ |
-| Share photos taken            |    ❌    | ❌ |
-| Generate PDF                  |    ❌    | ❌ |
+| Feature                           | Android | iOS |
+|-----------------------------------|:-------:|:---:|
+| Adjust perspective                |    ✅    | ✅ |
+| Apply filters                     |    ✅    | ✅ |
+| Find contours from external image |    ✅    | ✅ |
+| Improve error control             |    ❌    | ❌ |
+| Add Unit Test                     |    ❌    | ❌ |
+| Find contours in real time        |    ❌    | ❌ |
+| Taking multiple photos at once    |    ❌    | ❌ |
 
 ## Usage
 
@@ -126,13 +125,47 @@ _controller.statusSavePhotoDocument.listen((AppStatus event) {
   print("Changes while the document image is being saved");
   print("[initial, loading, success, failure]");
 });
+
+_controller.currentPage.listen((AppPages page) {
+  print("Changes in the current page");
+  print("[takePhoto, cropPhoto, editDocument]");
+});
+
 ```
+
+### Can get photos
+    
+```dart
+final File? photoTaken = _controller.pictureTaken;
+
+final Uint8List? photoCropped = _controller.pictureCropped;
+```
+
+### Can find contours from gallery o external image
+To learn more, you can see the example from_gallery_page.dart
+
+```dart
+final picker = ImagePicker();
+final image = await picker.pickImage(source: ImageSource.gallery);
+
+if (image == null) return;
+
+await _controller.findContoursFromExternalImage(
+  image: File(image.path),
+);
+```
+
 
 ---
 
 ## Customizations
 
-### Change messsages dialogs
+### Change messages dialogs
+
+Only if "hideDefaultDialogs" of [GeneralStyles](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/general_styles.dart) is set to false.
+
+If you want to add another type of dialogs you must do it manually with the status changes and set "hideDefaultDialogs" of [GeneralStyles](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/general_styles.dart) to true.
+
 
 ```dart
 DocumentScanner(
@@ -190,22 +223,28 @@ DocumentScanner(
 ### General Styles
 
 The properties are
-listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/lib/src/utils/general_styles.dart)
+listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/general_styles.dart)
 
-#### Page to take the photo
+---
 
-The properties are
-listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/lib/src/utils/take_photo_document_style.dart)
+## Page Styles
 
-#### Page to crop the image
+If you want to add widgets or modify elements of each page you can do it with their respective style per page.
 
-The properties are
-listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/lib/src/utils/crop_photo_document_style.dart)
-
-#### Page to edit image
+### Page to take the photo
 
 The properties are
-listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/lib/src/utils/edit_photo_document_style.dart)
+listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/take_photo_document_style.dart)
+
+### Page to crop the image
+
+The properties are
+listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/crop_photo_document_style.dart)
+
+### Page to edit image
+
+The properties are
+listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/edit_photo_document_style.dart)
 
 
 [pub_version]: https://img.shields.io/pub/v/flutter_document_scanner.svg

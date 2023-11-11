@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_document_scanner_example/pages/basic_page.dart';
 import 'package:flutter_document_scanner_example/pages/custom_page.dart';
+import 'package:flutter_document_scanner_example/pages/from_gallery_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,6 +55,19 @@ class MyApp extends StatelessWidget {
                     ),
                     child: const Text(
                       'Custom example',
+                    ),
+                  ),
+
+                  // * From gallery example page
+                  ElevatedButton(
+                    onPressed: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FromGalleryPage(),
+                      ),
+                    ),
+                    child: const Text(
+                      'From gallery example',
                     ),
                   ),
                 ],

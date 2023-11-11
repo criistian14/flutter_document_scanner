@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
-import 'package:flutter_document_scanner/src/bloc/app/app_event.dart';
 import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
 import 'package:flutter_document_scanner/src/document_scanner_controller.dart';
 import 'package:flutter_document_scanner/src/ui/pages/crop_photo_document_page.dart';
@@ -84,13 +83,7 @@ class DocumentScanner extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (BuildContext context) => _controller.bloc
-        ..add(
-          AppCameraInitialized(
-            cameraLensDirection: initialCameraLensDirection,
-            resolutionCamera: resolutionCamera,
-          ),
-        ),
+      create: (BuildContext context) => _controller.bloc,
       child: RepositoryProvider<DocumentScannerController>(
         create: (context) => _controller,
         child: MultiBlocListener(
@@ -180,10 +173,13 @@ class DocumentScanner extends StatelessWidget {
             color: generalStyles.baseColor,
             child: _View(
               pageTransitionBuilder: pageTransitionBuilder,
+              generalStyles: generalStyles,
               takePhotoDocumentStyle: takePhotoDocumentStyle,
               cropPhotoDocumentStyle: cropPhotoDocumentStyle,
               editPhotoDocumentStyle: editPhotoDocumentStyle,
               onSave: onSave,
+              initialCameraLensDirection: initialCameraLensDirection,
+              resolutionCamera: resolutionCamera,
             ),
           ),
         ),
@@ -195,17 +191,23 @@ class DocumentScanner extends StatelessWidget {
 class _View extends StatelessWidget {
   const _View({
     this.pageTransitionBuilder,
+    required this.generalStyles,
     required this.takePhotoDocumentStyle,
     required this.cropPhotoDocumentStyle,
     required this.editPhotoDocumentStyle,
     required this.onSave,
+    required this.initialCameraLensDirection,
+    required this.resolutionCamera,
   });
 
   final AnimatedSwitcherTransitionBuilder? pageTransitionBuilder;
+  final GeneralStyles generalStyles;
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
   final CropPhotoDocumentStyle cropPhotoDocumentStyle;
   final EditPhotoDocumentStyle editPhotoDocumentStyle;
   final OnSave onSave;
+  final CameraLensDirection initialCameraLensDirection;
+  final ResolutionPreset resolutionCamera;
 
   @override
   Widget build(BuildContext context) {
@@ -216,15 +218,22 @@ class _View extends StatelessWidget {
     return BlocSelector<AppBloc, AppState, AppPages>(
       selector: (state) => state.currentPage,
       builder: (context, state) {
-        Widget page = TakePhotoDocumentPage(
-          takePhotoDocumentStyle: takePhotoDocumentStyle,
-        );
+        Widget page = const SizedBox.shrink();
 
         switch (state) {
           case AppPages.takePhoto:
-            page = TakePhotoDocumentPage(
-              takePhotoDocumentStyle: takePhotoDocumentStyle,
-            );
+            if (generalStyles.showCameraPreview) {
+              page = TakePhotoDocumentPage(
+                takePhotoDocumentStyle: takePhotoDocumentStyle,
+                initialCameraLensDirection: initialCameraLensDirection,
+                resolutionCamera: resolutionCamera,
+              );
+
+              break;
+            }
+
+            page = generalStyles.widgetInsteadOfCameraPreview ??
+                const SizedBox.shrink();
             break;
 
           case AppPages.cropPhoto:

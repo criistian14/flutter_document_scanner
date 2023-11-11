@@ -14,6 +14,12 @@ class _CustomPageState extends State<CustomPage> {
   final _controller = DocumentScannerController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: DocumentScanner(

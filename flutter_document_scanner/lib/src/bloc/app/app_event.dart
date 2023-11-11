@@ -5,6 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
@@ -49,6 +50,27 @@ class AppPhotoTaken extends AppEvent {
 
   @override
   List<Object?> get props => [
+        minContourArea,
+      ];
+}
+
+/// Event when an image is passed to it
+class AppExternalImageContoursFound extends AppEvent {
+  /// Create an event instance
+  AppExternalImageContoursFound({
+    required this.image,
+    this.minContourArea,
+  });
+
+  /// Image to find contours
+  final File image;
+
+  /// Minimum area to detect a contour
+  final double? minContourArea;
+
+  @override
+  List<Object?> get props => [
+        image,
         minContourArea,
       ];
 }

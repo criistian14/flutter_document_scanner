@@ -8,8 +8,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_document_scanner/src/bloc/app/app_bloc.dart';
-import 'package:flutter_document_scanner/src/bloc/app/app_state.dart';
+import 'package:flutter_document_scanner/src/bloc/app/app.dart';
 import 'package:flutter_document_scanner/src/ui/widgets/button_take_photo.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
@@ -19,13 +18,28 @@ class TakePhotoDocumentPage extends StatelessWidget {
   const TakePhotoDocumentPage({
     super.key,
     required this.takePhotoDocumentStyle,
+    required this.initialCameraLensDirection,
+    required this.resolutionCamera,
   });
 
   /// Style of the page
   final TakePhotoDocumentStyle takePhotoDocumentStyle;
 
+  /// Camera library [CameraLensDirection]
+  final CameraLensDirection initialCameraLensDirection;
+
+  /// Camera library [ResolutionPreset]
+  final ResolutionPreset resolutionCamera;
+
   @override
   Widget build(BuildContext context) {
+    context.read<AppBloc>().add(
+          AppCameraInitialized(
+            cameraLensDirection: initialCameraLensDirection,
+            resolutionCamera: resolutionCamera,
+          ),
+        );
+
     return BlocSelector<AppBloc, AppState, AppStatus>(
       selector: (state) => state.statusCamera,
       builder: (context, state) {
