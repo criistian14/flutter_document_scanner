@@ -72,4 +72,10 @@ class Contour extends Equatable {
       image: image ?? this.image,
     );
   }
+
+  /// Convert the class to String
+  @override
+  String toString() {
+    return 'Contour(height: $height, width: $width, points: $points, image: $image)';
+  }
 }
