@@ -25,7 +25,7 @@ class CropPhotoDocumentStyle {
     this.right = 0,
     this.maskColor,
     this.maskFilter,
-    this.dotSize = 18,
+    this.dotSize = 24,
     this.dotRadius = 30,
     this.defaultAreaInitial = const Area(
       topRight: Point(300, 80),

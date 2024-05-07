@@ -13,7 +13,7 @@ import 'package:flutter_document_scanner/src/ui/widgets/button_take_photo.dart';
 import 'package:flutter_document_scanner/src/utils/take_photo_document_style.dart';
 
 /// Page to take a photo
-class TakePhotoDocumentPage extends StatelessWidget {
+class TakePhotoDocumentPage extends StatefulWidget {
   /// Create a page with style
   const TakePhotoDocumentPage({
     super.key,
@@ -32,14 +32,26 @@ class TakePhotoDocumentPage extends StatelessWidget {
   final ResolutionPreset resolutionCamera;
 
   @override
-  Widget build(BuildContext context) {
-    context.read<AppBloc>().add(
-          AppCameraInitialized(
-            cameraLensDirection: initialCameraLensDirection,
-            resolutionCamera: resolutionCamera,
-          ),
-        );
+  State<TakePhotoDocumentPage> createState() => _TakePhotoDocumentPageState();
+}
 
+class _TakePhotoDocumentPageState extends State<TakePhotoDocumentPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AppBloc>().add(
+            AppCameraInitialized(
+              cameraLensDirection: widget.initialCameraLensDirection,
+              resolutionCamera: widget.resolutionCamera,
+            ),
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocSelector<AppBloc, AppState, AppStatus>(
       selector: (state) => state.statusCamera,
       builder: (context, state) {
@@ -48,11 +60,11 @@ class TakePhotoDocumentPage extends StatelessWidget {
             return Container();
 
           case AppStatus.loading:
-            return takePhotoDocumentStyle.onLoading;
+            return widget.takePhotoDocumentStyle.onLoading;
 
           case AppStatus.success:
             return _CameraPreview(
-              takePhotoDocumentStyle: takePhotoDocumentStyle,
+              takePhotoDocumentStyle: widget.takePhotoDocumentStyle,
             );
 
           case AppStatus.failure:

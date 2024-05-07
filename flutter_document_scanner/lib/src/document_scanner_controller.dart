@@ -28,58 +28,36 @@ class DocumentScannerController {
 
   /// Stream [AppStatus] to know the status while taking the picture
   Stream<AppStatus> get statusTakePhotoPage {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.statusTakePhotoPage),
-      ),
-    );
+    return _appBloc.stream.map((data) => data.statusTakePhotoPage).distinct();
   }
 
   /// Stream [AppStatus] to know the status while the document is being cropped
   Stream<AppStatus> get statusCropPhoto {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.statusCropPhoto),
-      ),
-    );
+    return _appBloc.stream.map((data) => data.statusCropPhoto).distinct();
   }
 
   /// Stream [AppStatus] to know the status while editing the document
   /// with filters
   Stream<AppStatus> get statusEditPhoto {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.statusEditPhoto),
-      ),
-    );
+    return _appBloc.stream.map((data) => data.statusEditPhoto).distinct();
   }
 
   /// Stream [FilterType] the current filtering of the document
   Stream<FilterType> get currentFilterType {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.currentFilterType),
-      ),
-    );
+    return _appBloc.stream.map((data) => data.currentFilterType).distinct();
   }
 
   /// Stream [AppStatus] to know the status while saving the document
   /// with all filters and cropping area
   Stream<AppStatus> get statusSavePhotoDocument {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.statusSavePhotoDocument),
-      ),
-    );
+    return _appBloc.stream
+        .map((data) => data.statusSavePhotoDocument)
+        .distinct();
   }
 
   /// Stream [AppPages] to know the current page
   Stream<AppPages> get currentPage {
-    return _appBloc.stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) => sink.add(data.currentPage),
-      ),
-    );
+    return _appBloc.stream.map((data) => data.currentPage).distinct();
   }
 
   /// Will return the picture taken on the [TakePhotoDocumentPage].
