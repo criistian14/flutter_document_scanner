@@ -1,3 +1,8 @@
+## 1.1.1
+* Fix error when initializing the camera in the build, so now it is initialized in the initState to only call it once.
+* Prevent streams from reporting repeated data consecutively.
+* Increased default dot size from 18 to 24.
+
 ## 1.1.0
 * Added `findContoursFromExternalImage` and example to use it
 * Added `dispose` method to `DocumentScannerController` to close cameraController
