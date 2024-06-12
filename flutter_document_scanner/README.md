@@ -246,6 +246,47 @@ listed [here](https://github.com/criistian14/flutter_document_scanner/blob/maste
 The properties are
 listed [here](https://github.com/criistian14/flutter_document_scanner/blob/master/flutter_document_scanner/lib/src/utils/edit_photo_document_style.dart)
 
+---
+
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/criistian14"><img src="https://avatars.githubusercontent.com/u/31596756?v=4?s=100" width="100px;" alt="criistian14"/><br /><sub><b>criistian14</b></sub></a><br /><a href="https://github.com/criistian14/flutter_document_scanner/commits?author=criistian14" title="Code">💻</a> <a href="https://github.com/criistian14/flutter_document_scanner/commits?author=criistian14" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mvanbeusekom"><img src="https://avatars.githubusercontent.com/u/13098888?v=4?s=100" width="100px;" alt="Maurits van Beusekom"/><br /><sub><b>Maurits van Beusekom</b></sub></a><br /><a href="https://github.com/criistian14/flutter_document_scanner/commits?author=mvanbeusekom" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td align="center" size="13px" colspan="7">
+        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg">
+          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
+        </img>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://allcontributors.org/docs/en/overview) specification. Contributions of any kind welcome!
+
+
+
 
 [pub_version]: https://img.shields.io/pub/v/flutter_document_scanner.svg
 

@@ -1,0 +1,35 @@
+{
+  "projectName": "flutter_document_scanner",
+  "projectOwner": "criistian14",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "gitmoji",
+  "contributors": [
+    {
+      "login": "criistian14",
+      "name": "criistian14",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31596756?v=4",
+      "profile": "https://github.com/criistian14",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "mvanbeusekom",
+      "name": "Maurits van Beusekom",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13098888?v=4",
+      "profile": "https://github.com/mvanbeusekom",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": true
+}
