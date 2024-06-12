@@ -1,3 +1,6 @@
+## 1.1.2
+* Adds compatibility with Android Gradle Plugin 8.0, by adding a namespace to the build.gradle. (thanks [@mvanbeusekom](https://github.com/mvanbeusekom) [#11](https://github.com/criistian14/flutter_document_scanner/pull/11))
+
 ## 1.1.1
 * Fix error when initializing the camera in the build, so now it is initialized in the initState to only call it once.
 * Prevent streams from reporting repeated data consecutively.
