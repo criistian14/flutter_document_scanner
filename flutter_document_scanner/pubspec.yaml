@@ -4,8 +4,7 @@ repository: https://github.com/criistian14/flutter_document_scanner/tree/master/
 version: 1.1.2
 
 environment:
-  sdk: ">=2.17.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.5.0
 
 flutter:
   plugin:
@@ -18,10 +17,10 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  bloc: ^8.0.3
-  camera: ^0.10.5+5
-  equatable: ^2.0.3
-  flutter_bloc: ^8.0.1
+  bloc: ^8.1.4
+  camera: ^0.11.0+2
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.6
   flutter_document_scanner_android: ^1.1.1
   flutter_document_scanner_ios: ^1.0.0
   flutter_document_scanner_platform_interface: ^1.0.0
