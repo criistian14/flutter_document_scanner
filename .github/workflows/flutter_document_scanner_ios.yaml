@@ -19,8 +19,6 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       flutter_channel: stable
-      flutter_version: 3.0.0
+      flutter_version: 3.24.0
       working_directory: flutter_document_scanner_ios
       min_coverage: 80
-  env:
-    VERY_GOOD_ANALYTICS: false
