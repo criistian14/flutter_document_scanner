@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/flutter_document_scanner_ios.yaml"
-      - "src/flutter_document_scanner_ios/**"
+      - "flutter_document_scanner_ios/**"
   push:
     branches:
       - master
@@ -12,7 +12,7 @@ on:
       - stable/*
     paths:
       - ".github/workflows/flutter_document_scanner_ios.yaml"
-      - "src/flutter_document_scanner_ios/**"
+      - "flutter_document_scanner_ios/**"
 
 jobs:
   build:
@@ -20,5 +20,5 @@ jobs:
     with:
       flutter_channel: stable
       flutter_version: 3.0.0
-      working_directory: src/flutter_document_scanner_ios
+      working_directory: flutter_document_scanner_ios
       min_coverage: 80

@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/flutter_document_scanner.yaml"
-      - "src/flutter_document_scanner/**"
+      - "flutter_document_scanner/**"
   push:
     branches:
       - master
@@ -12,7 +12,7 @@ on:
       - stable/*
     paths:
       - ".github/workflows/flutter_document_scanner.yaml"
-      - "src/flutter_document_scanner/**"
+      - "flutter_document_scanner/**"
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
     with:
       flutter_channel: stable
       flutter_version: 3.0.0
-      working_directory: src/flutter_document_scanner
+      working_directory: flutter_document_scanner
       min_coverage: 80
 
   android:
@@ -28,7 +28,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: src/flutter_document_scanner/example
+        working-directory: flutter_document_scanner/example
 
     steps:
       - uses: actions/checkout@v2
@@ -66,14 +66,14 @@ jobs:
         with:
           api-level: 29
           script: flutter test integration_test
-          working-directory: src/flutter_document_scanner/example
+          working-directory: flutter_document_scanner/example
 
   ios:
     runs-on: macos-latest
 
     defaults:
       run:
-        working-directory: src/flutter_document_scanner/example
+        working-directory: flutter_document_scanner/example
 
     steps:
       - uses: actions/checkout@v2
