@@ -192,8 +192,11 @@ void main() {
         } catch (e) {
           // assert
           expect(e, isA<ContourError>());
-          expect(e.toString(),
-              'ContourError: Invalid minContourArea value: $minContourAreaExpected. It must be greater than 0.');
+          expect(
+            e.toString(),
+            'ContourError: Invalid minContourArea value: '
+            '$minContourAreaExpected. It must be greater than 0.',
+          );
           expect(
             (e as InvalidMinContourAreaError).minContourArea,
             minContourAreaExpected,

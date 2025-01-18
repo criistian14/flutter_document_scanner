@@ -141,7 +141,7 @@ void main() {
         const tMinContourArea = 100.0;
 
         expect(
-          () async => await flutterDocumentScannerPlatform.findContourPhoto(
+          () async => flutterDocumentScannerPlatform.findContourPhoto(
             byteData: tByteData,
             minContourArea: tMinContourArea,
           ),
@@ -168,7 +168,7 @@ void main() {
         );
 
         expect(
-          () async => await flutterDocumentScannerPlatform.adjustingPerspective(
+          () async => flutterDocumentScannerPlatform.adjustingPerspective(
             byteData: tByteData,
             contour: tContour,
           ),
@@ -188,7 +188,7 @@ void main() {
         const tFilterType = FilterType.natural;
 
         expect(
-          () async => await flutterDocumentScannerPlatform.applyFilter(
+          () async => flutterDocumentScannerPlatform.applyFilter(
             byteData: tByteData,
             filter: tFilterType,
           ),
