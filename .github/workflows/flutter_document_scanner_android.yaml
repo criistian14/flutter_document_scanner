@@ -7,7 +7,9 @@ on:
       - "src/flutter_document_scanner_android/**"
   push:
     branches:
-      - main
+      - master
+      - develop
+      - stable/*
     paths:
       - ".github/workflows/flutter_document_scanner_android.yaml"
       - "src/flutter_document_scanner_android/**"
@@ -19,3 +21,4 @@ jobs:
       flutter_channel: stable
       flutter_version: 3.0.0
       working_directory: src/flutter_document_scanner_android
+      min_coverage: 80

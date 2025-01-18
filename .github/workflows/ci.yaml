@@ -3,7 +3,9 @@ name: ci
 on:
   pull_request:
     branches:
-      - main
+      - master
+      - develop
+      - stable/*
 
 jobs:
   build:
