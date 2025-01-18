@@ -12,8 +12,9 @@ import 'package:flutter_document_scanner_platform_interface/src/filter_type.dart
 import 'package:flutter_document_scanner_platform_interface/src/method_channel_flutter_document_scanner.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-export 'package:flutter_document_scanner_platform_interface/src/contour.dart';
-export 'package:flutter_document_scanner_platform_interface/src/filter_type.dart';
+export 'src/contour.dart';
+export 'src/errors/errors.dart';
+export 'src/filter_type.dart';
 
 /// The interface that implementations of flutter_document_scanner
 /// must implement.
@@ -46,15 +47,10 @@ abstract class FlutterDocumentScannerPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Get the version of the opencv library
-  Future<String?> getVersionOpenCV() {
-    throw UnimplementedError('getVersionOpenCV() has not been implemented.');
-  }
-
   /// Apply filters to the image with opencv
   /// Then get the contours and return only the largest one that has four sides
   /// (this is done from native code)
-  Future<Contour?> findContourPhoto({
+  Future<Contour> findContourPhoto({
     required Uint8List byteData,
     required double minContourArea,
   }) {
@@ -63,7 +59,7 @@ abstract class FlutterDocumentScannerPlatform extends PlatformInterface {
 
   /// Based on the given [Contour.points], the perspective is created
   /// and a new image is returned [Uint8List]
-  Future<Uint8List?> adjustingPerspective({
+  Future<Uint8List> adjustingPerspective({
     required Uint8List byteData,
     required Contour contour,
   }) {
@@ -73,7 +69,7 @@ abstract class FlutterDocumentScannerPlatform extends PlatformInterface {
   }
 
   /// Apply the selected [filter] with the opencv library
-  Future<Uint8List?> applyFilter({
+  Future<Uint8List> applyFilter({
     required Uint8List byteData,
     required FilterType filter,
   }) {

@@ -6,17 +6,17 @@
 // https://opensource.org/licenses/MIT.
 
 import 'dart:math';
-import 'dart:typed_data';
 
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 /// Contour class
-class Contour extends Equatable {
+@immutable
+class Contour {
   /// Create a contour instance
   const Contour({
+    required this.points,
     this.height,
     this.width,
-    required this.points,
     this.image,
   });
 
@@ -49,13 +49,19 @@ class Contour extends Equatable {
   /// bytes of the returned image (maybe eliminated in the future)
   final Uint8List? image;
 
-  @override
-  List<Object?> get props => [
-        height,
-        width,
-        points,
-        image,
-      ];
+  /// Converts a list of points into a list of maps with 'x' and 'y' coordinates
+  ///
+  /// Each point is transformed into a `Map<String, double>` with:
+  /// - 'x': The x-coordinate.
+  /// - 'y': The y-coordinate.
+  List<Map<String, double>> get pointsAsMap => points
+      .map(
+        (e) => {
+          'x': e.x,
+          'y': e.y,
+        },
+      )
+      .toList();
 
   /// Creates a copy of this Contour but with the given fields replaced with
   /// the new values.
@@ -73,9 +79,28 @@ class Contour extends Equatable {
     );
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Contour &&
+          runtimeType == other.runtimeType &&
+          height == other.height &&
+          width == other.width &&
+          listEquals(other.points, points) &&
+          image == other.image;
+
+  @override
+  int get hashCode =>
+      height.hashCode ^ width.hashCode ^ points.hashCode ^ image.hashCode;
+
   /// Convert the class to String
   @override
   String toString() {
-    return 'Contour(height: $height, width: $width, points: $points, image: $image)';
+    return 'Contour{'
+        'height: $height, '
+        'width: $width, '
+        'points: $points, '
+        'image: $image '
+        '}';
   }
 }

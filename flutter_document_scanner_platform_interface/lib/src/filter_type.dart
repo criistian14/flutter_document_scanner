@@ -20,16 +20,16 @@ enum FilterType {
 /// Extension with utilities to FilterType
 extension FilterTypeExt on FilterType {
   /// Return value of the enum
-  int get value {
+  String get value {
     switch (this) {
       case FilterType.natural:
-        return 1;
+        return 'NATURAL_FILTER';
 
       case FilterType.gray:
-        return 2;
+        return 'GRAY_FILTER';
 
       case FilterType.eco:
-        return 3;
+        return 'ECO_FILTER';
     }
   }
 }

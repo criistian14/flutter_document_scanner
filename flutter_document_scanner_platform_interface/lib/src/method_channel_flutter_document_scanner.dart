@@ -7,6 +7,7 @@
 
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_document_scanner_platform_interface/flutter_document_scanner_platform_interface.dart';
 
 /// An implementation of [FlutterDocumentScannerPlatform]
@@ -18,10 +19,18 @@ class MethodChannelFlutterDocumentScanner
   final methodChannel = const MethodChannel('flutter_document_scanner');
 
   @override
-  Future<Contour?> findContourPhoto({
+  Future<Contour> findContourPhoto({
     required Uint8List byteData,
     required double minContourArea,
   }) async {
+    if (byteData.isEmpty) {
+      throw InvalidByteDataError(byteData);
+    }
+
+    if (minContourArea <= 0) {
+      throw InvalidMinContourAreaError(minContourArea);
+    }
+
     final contour = await methodChannel.invokeMapMethod<String, dynamic>(
       'findContourPhoto',
       <String, Object>{
@@ -30,45 +39,92 @@ class MethodChannelFlutterDocumentScanner
       },
     );
 
-    if (contour != null) {
-      return Contour.fromMap(contour);
+    if (contour == null) {
+      throw ContourNullError();
     }
 
-    return null;
+    if (!contour.containsKey('points') || contour['points'] is! List) {
+      throw InvalidContourDataError(contour);
+    }
+
+    return Contour.fromMap(contour);
   }
 
   @override
-  Future<Uint8List?> adjustingPerspective({
+  Future<Uint8List> adjustingPerspective({
     required Uint8List byteData,
     required Contour contour,
   }) async {
-    return methodChannel.invokeMethod<Uint8List>(
-      'adjustingPerspective',
-      <String, Object>{
-        'byteData': byteData,
-        'points': contour.points
-            .map(
-              (e) => {
-                'x': e.x,
-                'y': e.y,
-              },
-            )
-            .toList(),
-      },
-    ).then((value) => value);
+    if (byteData.isEmpty) {
+      throw InvalidByteDataError(byteData);
+    }
+
+    if (contour.points.length < 4) {
+      throw InsufficientContourPointsError(contour.points);
+    }
+
+    for (final point in contour.points) {
+      if (point.x.isNaN || point.y.isNaN) {
+        throw InvalidContourPointsError(contour.points, point);
+      }
+    }
+
+    try {
+      final result = await methodChannel.invokeMethod<Uint8List>(
+        'adjustingPerspective',
+        <String, Object>{
+          'byteData': byteData,
+          'points': contour.pointsAsMap,
+        },
+      );
+
+      if (result == null) {
+        throw PerspectiveAdjustmentNullError();
+      }
+
+      return result;
+    } on PerspectiveAdjustmentNullError {
+      rethrow;
+    } catch (e) {
+      throw PlatformError(
+        'Failed to adjust perspective: $e',
+      );
+    }
   }
 
   @override
-  Future<Uint8List?> applyFilter({
+  Future<Uint8List> applyFilter({
     required Uint8List byteData,
     required FilterType filter,
   }) async {
-    return methodChannel.invokeMethod<Uint8List>(
-      'applyFilter',
-      <String, Object>{
-        'byteData': byteData,
-        'filter': filter.value,
-      },
-    ).then((value) => value);
+    if (byteData.isEmpty) {
+      throw InvalidByteDataError(byteData);
+    }
+
+    try {
+      final result = await methodChannel.invokeMethod<Uint8List>(
+        'applyFilter',
+        <String, Object>{
+          'byteData': byteData,
+          'filter': filter.value,
+        },
+      );
+
+      if (result == null) {
+        throw FilterResultNullError();
+      }
+
+      return result;
+    } on FilterResultNullError {
+      rethrow;
+    } on PlatformException catch (e) {
+      if (e.code == 'UNSUPPORTED_FILTER_TYPE') {
+        throw UnsupportedFilterTypeError(filter.toString());
+      }
+
+      rethrow;
+    } catch (e) {
+      throw FilterError('Failed to apply filter: $e');
+    }
   }
 }
