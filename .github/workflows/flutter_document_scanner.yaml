@@ -22,8 +22,8 @@ jobs:
       flutter_version: 3.0.0
       working_directory: flutter_document_scanner
       min_coverage: 80
-    env:
-      VERY_GOOD_ANALYTICS: false
+  env:
+    VERY_GOOD_ANALYTICS: false
 
   android:
     runs-on: macos-latest
