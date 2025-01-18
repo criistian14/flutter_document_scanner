@@ -4,12 +4,12 @@
 Run in the terminal:
 
 ```bash
-./setup-hooks.sh
+./scripts/setup-hooks.sh
 ```
 
 ### Windows:
 Run in Command Prompt (as Administrator):
 
 ```bash
-setup-hooks.bat
+./scripts/setup-hooks.bat
 ```
