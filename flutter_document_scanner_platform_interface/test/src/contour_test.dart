@@ -40,6 +40,8 @@ void main() {
     () async {
       // arrange
       const tContour = Contour(
+        width: 50,
+        height: 20,
         points: [
           Point(10.5, 50.8),
           Point(0.2, 8),
@@ -62,6 +64,7 @@ void main() {
 
       // assert
       expect(newContour, expectedContour);
+      expect(newContour.hashCode, expectedContour.hashCode);
     },
   );
 

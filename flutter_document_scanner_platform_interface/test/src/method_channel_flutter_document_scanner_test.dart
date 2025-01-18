@@ -87,7 +87,11 @@ void main() {
     );
   }
 
-  void setUpFailure() {
+  void setUpFailure({
+    Exception? findContourPhoto,
+    Exception? adjustingPerspective,
+    Exception? applyFilter,
+  }) {
     methodChannelFlutterDocumentScanner = MethodChannelFlutterDocumentScanner();
 
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -98,13 +102,13 @@ void main() {
 
         switch (message.method) {
           case 'findContourPhoto':
-            throw Exception('Custom error');
+            throw findContourPhoto ?? Exception('Custom error');
 
           case 'adjustingPerspective':
-            throw Exception('Custom error');
+            throw adjustingPerspective ?? Exception('Custom error');
 
           case 'applyFilter':
-            throw Exception('Custom error');
+            throw applyFilter ?? Exception('Custom error');
 
           default:
             return null;
@@ -176,16 +180,24 @@ void main() {
       'Should throw InvalidMinContourAreaError when minContourArea '
       'is less than or equal to 0',
       () async {
+        // arrange
+        const minContourAreaExpected = -10.0;
+
         try {
           // act
           await methodChannelFlutterDocumentScanner.findContourPhoto(
             byteData: tByteData,
-            minContourArea: -10,
+            minContourArea: minContourAreaExpected,
           );
         } catch (e) {
           // assert
           expect(e, isA<ContourError>());
-          expect((e as InvalidMinContourAreaError).minContourArea, -10);
+          expect(e.toString(),
+              'ContourError: Invalid minContourArea value: $minContourAreaExpected. It must be greater than 0.');
+          expect(
+            (e as InvalidMinContourAreaError).minContourArea,
+            minContourAreaExpected,
+          );
         }
       },
     );
@@ -445,6 +457,7 @@ void main() {
         } catch (e) {
           // assert
           expect(e, isA<Exception>());
+          expect((e as InvalidByteDataError).byteData, Uint8List.fromList([]));
         }
       },
     );
@@ -464,6 +477,10 @@ void main() {
         } catch (e) {
           // assert
           expect(e, isA<Exception>());
+          expect(
+            (e as FilterResultNullError).toString(),
+            'FilterError: The result of applying the filter is null.',
+          );
         }
       },
     );
@@ -482,7 +499,60 @@ void main() {
           );
         } catch (e) {
           // assert
-          expect(e, isA<Exception>());
+          expect(e, isA<PlatformException>());
+        }
+      },
+    );
+
+    test(
+      'Should throw UnsupportedFilterTypeError when an unsupported '
+      'filter type is provided',
+      () async {
+        // arrange
+        setUpFailure(
+          applyFilter: PlatformException(
+            code: 'UNSUPPORTED_FILTER_TYPE',
+            message: 'Unsupported filter type.',
+          ),
+        );
+
+        try {
+          // act
+          await methodChannelFlutterDocumentScanner.applyFilter(
+            byteData: tByteData,
+            filter: tFilter,
+          );
+        } catch (e) {
+          // assert
+          expect(e, isA<FilterError>());
+          expect(
+            (e as UnsupportedFilterTypeError).filterType,
+            tFilter.toString(),
+          );
+        }
+      },
+    );
+
+    test(
+      'Should throw FilterError for a generic filter-related failure',
+      skip: true,
+      () async {
+        // arrange
+        setUpFailure();
+
+        try {
+          // act
+          await methodChannelFlutterDocumentScanner.applyFilter(
+            byteData: tByteData,
+            filter: tFilter,
+          );
+        } catch (e) {
+          // assert
+          expect(e, isA<FilterError>());
+          expect(
+            (e as FilterError).toString(),
+            'FilterError: Exception: Custom error',
+          );
         }
       },
     );
