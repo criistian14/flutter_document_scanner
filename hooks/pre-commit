@@ -1,0 +1,83 @@
+#!/bin/sh
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Cross platform projects tend to avoid non-ASCII filenames; prevent
+# them from being added to the repository. We exploit the fact that the
+# printable range starts at the space character and ends with tilde.
+if test $(git diff --cached --name-only --diff-filter=A -z $against |
+	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
+then
+	cat <<\EOF
+Error: Attempt to add a non-ASCII file name.
+
+This can cause problems if you want to work with people on other platforms.
+
+To be portable it is advisable to rename the file.
+EOF
+	exit 1
+fi
+
+# If there are whitespace errors, print the offending file names and fail.
+exec git diff-index --check --cached $against --
+
+#########
+
+# Get the list of changed files
+changed_files=$(git diff --cached --name-only --diff-filter=ACM)
+
+# If no files have been modified, exit
+if [ -z "$changed_files" ]; then
+    echo "No files have been modified."
+    exit 0
+fi
+
+# 1. Check formatting of changed Dart files
+echo "Checking code formatting..."
+for file in $changed_files; do
+    if [[ $file == *.dart ]]; then
+        dart format --set-exit-if-changed "$file"
+        if [ $? -ne 0 ]; then
+            echo "Error: The file $file is not formatted correctly."
+            exit 1
+        fi
+    fi
+done
+
+# 2. Run static analysis on changed Dart files
+echo "Running static analysis..."
+for file in $changed_files; do
+    if [[ $file == *.dart ]]; then
+        flutter analyze "$file"
+        if [ $? -ne 0 ]; then
+            echo "Error: Static analysis failed for $file."
+            exit 1
+        fi
+    fi
+done
+
+# 3. Run unit tests only if any files in the 'test/' directory have been changed
+echo "Running unit tests..."
+for file in $changed_files; do
+    if [[ $file == test/* ]]; then
+        flutter test
+        if [ $? -ne 0 ]; then
+            echo "Error: Some unit tests failed."
+            exit 1
+        fi
+        break
+    fi
+done
+
+# If all checks pass, the commit can proceed
+echo "All checks passed. Proceeding with commit."
+exit 0
