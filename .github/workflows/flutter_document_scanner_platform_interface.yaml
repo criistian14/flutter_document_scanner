@@ -11,7 +11,7 @@ on:
       - develop
       - stable/*
     paths:
-      - ".github/workflows/flutter_document_scanner_platform_interface.yaml"
+      - ".github/workflows/flutter_document_scanner_platform_interface.yaml@v1"
       - "flutter_document_scanner_platform_interface/**"
 
 jobs:
