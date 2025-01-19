@@ -1,7 +1,8 @@
 # flutter_document_scanner_platform_interface
 
+[![build](https://github.com/criistian14/flutter_document_scanner/actions/workflows/flutter_document_scanner_platform_interface.yaml/badge.svg?branch=develop)](https://github.com/criistian14/flutter_document_scanner/actions/workflows/flutter_document_scanner_platform_interface.yaml)
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
-[![Coverage](https://codecov.io/gh/criistian14/flutter_document_scanner/branch/master/graph/badge.svg?flag=flutter_document_scanner_platform_interface)](https://codecov.io/gh/criistian14/flutter_document_scanner)
+[![Coverage](https://codecov.io/gh/criistian14/flutter_document_scanner/branch/develop/graph/badge.svg?flag=flutter_document_scanner_platform_interface)](https://codecov.io/gh/criistian14/flutter_document_scanner)
 
 A common platform interface for the [`flutter_document_scanner`][pub_link] plugin.
 
