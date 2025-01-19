@@ -11,12 +11,12 @@ on:
       - develop
       - stable/*
     paths:
-      - ".github/workflows/flutter_document_scanner_platform_interface.yaml@v1"
+      - ".github/workflows/flutter_document_scanner_platform_interface.yaml"
       - "flutter_document_scanner_platform_interface/**"
 
 jobs:
   build:
-    uses: ".github/workflows/templates/flutter_package.yml"
+    uses: ".github/workflows/templates/flutter_package.yml@v1"
     with:
       flutter_channel: stable
       flutter_version: 3.24.0
