@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    uses: criistian14/flutter_document_scanner/.github/workflows/templates/flutter_package.yml@develop
+    uses: criistian14/flutter_document_scanner/.github/workflows/flutter_package.yml@develop
     with:
       flutter_channel: stable
       flutter_version: 3.24.0
