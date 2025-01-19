@@ -122,9 +122,9 @@ jobs:
         env:
           codecov_token: ${{secrets.codecov_token}}
         if: env.codecov_token != null
-        uses: actions/upload-artifact@v3
+        uses: codecov/codecov-action@v5
         with:
           name: coverage-report
-          path: ${{inputs.working_directory}}/coverage/lcov.info
+          files: ${{inputs.working_directory}}/coverage/lcov.info
           flags: ${{inputs.working_directory}}
           token: ${{secrets.codecov_token}}
