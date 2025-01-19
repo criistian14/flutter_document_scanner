@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    uses: .github/workflows/templates/flutter_package.yml
+    uses: ".github/workflows/templates/flutter_package.yml"
     with:
       flutter_channel: stable
       flutter_version: 3.24.0
