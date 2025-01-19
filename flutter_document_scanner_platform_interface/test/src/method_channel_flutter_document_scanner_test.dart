@@ -32,6 +32,10 @@ void main() {
   );
   const tFilter = FilterType.natural;
 
+  setUpAll(() {
+    methodChannelFlutterDocumentScanner = MethodChannelFlutterDocumentScanner();
+  });
+
   void setUpSuccess({
     Object? findContourPhoto,
     bool setNullFindContourPhoto = false,
@@ -40,8 +44,6 @@ void main() {
     Object? applyFilter,
     bool setNullApplyFilter = false,
   }) {
-    methodChannelFlutterDocumentScanner = MethodChannelFlutterDocumentScanner();
-
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
       methodChannelFlutterDocumentScanner.methodChannel,
@@ -92,8 +94,6 @@ void main() {
     Exception? adjustingPerspective,
     Exception? applyFilter,
   }) {
-    methodChannelFlutterDocumentScanner = MethodChannelFlutterDocumentScanner();
-
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
       methodChannelFlutterDocumentScanner.methodChannel,
