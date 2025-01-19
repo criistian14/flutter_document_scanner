@@ -16,24 +16,10 @@ on:
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1.18.0
+    uses: ./.github/templates/flutter_package.yml
     with:
       flutter_channel: stable
       flutter_version: 3.24.0
       working_directory: flutter_document_scanner_platform_interface
       min_coverage: 90
-
-  upload-coverage:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: flutter_document_scanner_platform_interface/coverage/lcov.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: flutter_document_scanner_platform_interface
-          fail_ci_if_error: true
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}
